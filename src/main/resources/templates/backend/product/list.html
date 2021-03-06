@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<div th:replace="backend/include/top::head_meta"></div>
+<title>Product</title>
+<style type="text/css">
+.divProduct {margin-top:20px;}
+</style>
+<body>
+<div id="wrap">
+    <!--  Header Start  -->
+    <div th:replace="backend/include/header::header_html"></div>
+    <!--  //Header End  -->
+    <!-- Contents Start   -->
+    <div class="container container-lg container-md con">
+        <div class="conTop">
+            <h2>Product</h2>
+            <a href="#this" class="btn05 btnSearchToggle">展开</a>
+            <a href="#this" class="btn02 btnCreate float-right">新建</a>
+        </div>
+        <div class="divSearch">
+            <div class="d-flex">
+                <div class="inputBox01">
+                    <label for="START_DATE">选择时间</label>
+                    <input type="text" value="" class="START_DATE" id="START_DATE" /> ~ <input type="text" value="" class="END_DATE" />
+                </div>
+                <div class="inputBox01">
+                    <label for="STATUS">状态</label>
+                    <input type="text" value="" class="START_DATE" id="STATUS" />
+                </div>
+            </div>
+            <p class="text-center mt-2"><a href="#this" class="btn02 btnSearch">查询</a> </p>
+        </div>
+        <div class="divProduct">
+            <table class="table01 productTable">
+                <colgroup>
+                    <col width="10%" />
+                    <col width="35%" />
+                    <col width="15%" />
+                    <col width="15%" />
+                    <col width="10%" />
+                    <col width="*" />
+                </colgroup>
+                <thead>
+                    <th>编号</th>
+                    <th>产品名</th>
+                    <th>缩略图</th>
+                    <th>产品状态</th>
+                    <th>规格数量</th>
+                    <th>操作</th>
+                </thead>
+                <tbody></tbody>
+            </table>
+            <div class="page"></div>
+        </div>
+    </div>
+    <!-- //Contents End   -->
+</div>
+<div th:replace="backend/include/popup::popup"></div>
+<div th:replace="backend/include/bottom::scripts"></div>
+<script th:src="@{/static/_scripts/ahn/product.js}" type="text/javascript"></script>
+</body>
+<script type="text/javascript">
+$(".btnCreate").unbind('click').click(function(){
+    window.location.href = "/backend/product/create";
+});
+</script>
+</html>

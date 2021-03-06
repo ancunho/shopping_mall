@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+
+    <settings>
+        <setting name="cacheEnabled" value="false" />
+        <setting name="callSettersOnNulls" value="true" />
+        <setting name="useGeneratedKeys" value="true" />
+        <setting name="defaultExecutorType" value="REUSE" />
+        <setting name="jdbcTypeForNull" value="VARCHAR" />
+    </settings>
+
+    <typeAliases>
+        <typeAlias alias="TB_COMMON_CODE"                       type="me.ahn.management.model.TB_COMMON_CODE" />
+        <typeAlias alias="TB_USER_INFO"                         type="me.ahn.management.model.TB_USER_INFO" />
+        <typeAlias alias="TB_PRODUCT"                           type="me.ahn.management.model.TB_PRODUCT" />
+        <typeAlias alias="TB_SPEC"                              type="me.ahn.management.model.TB_SPEC" />
+        <typeAlias alias="TB_CATEGORY"                          type="me.ahn.management.model.TB_CATEGORY" />
+        <typeAlias alias="TB_ORDER"                             type="me.ahn.management.model.TB_ORDER" />
+        <typeAlias alias="TB_ORDER_ITEM"                        type="me.ahn.management.model.TB_ORDER_ITEM" />
+        <typeAlias alias="TB_CART"                              type="me.ahn.management.model.TB_CART" />
+        <typeAlias alias="TB_FILE"                              type="me.ahn.management.model.TB_FILE" />
+        <typeAlias alias="TB_SHIPPING"                          type="me.ahn.management.model.TB_SHIPPING" />
+    </typeAliases>
+
+</configuration>

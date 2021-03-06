@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="AHNSTUDIO.category">
+
+    <insert id="insertTB_CATEGORY" parameterType="TB_CATEGORY" useGeneratedKeys="true" keyProperty="CATEGORY_SEQ">
+        <selectKey keyProperty="CATEGORY_SEQ" resultType="java.lang.Integer" order="AFTER">
+        SELECT LAST_INSERT_ID() AS CATEGORY_SEQ
+        </selectKey>
+        <![CDATA[
+        INSERT INTO TB_CATEGORY (
+                                PARENT_SEQ,
+                                CATEGORY_NAME,
+                                CATEGORY_TYPE,
+                                STATUS,
+                                SORT_ORDER,
+                                USE_YN,
+                                OPTION01,
+                                OPTION02,
+                                OPTION03,
+                                OPTION04,
+                                OPTION05,
+                                CREATETIME
+                                )
+                        VALUES  (
+                                #{PARENT_SEQ},
+                                #{CATEGORY_NAME},
+                                #{CATEGORY_TYPE},
+                                #{STATUS},
+                                #{SORT_ORDER},
+                                #{USE_YN},
+                                #{OPTION01},
+                                #{OPTION02},
+                                #{OPTION03},
+                                #{OPTION04},
+                                #{OPTION05},
+                                NOW()
+                                )
+        ]]>
+    </insert>
+
+    <update id="updateTB_CATEGORY" parameterType="TB_CATEGORY">
+        <![CDATA[
+        UPDATE  TB_CATEGORY
+        ]]>
+        <set>
+            <if test="PARENT_SEQ != null">PARENT_SEQ = #{PARENT_SEQ},</if>
+            <if test="CATEGORY_NAME != null">CATEGORY_NAME = #{CATEGORY_NAME},</if>
+            <if test="CATEGORY_TYPE != null">CATEGORY_TYPE = #{CATEGORY_TYPE},</if>
+            <if test="STATUS != null">STATUS = #{STATUS},</if>
+            <if test="SORT_ORDER != null">SORT_ORDER = #{SORT_ORDER},</if>
+            <if test="USE_YN != null">USE_YN = #{USE_YN},</if>
+            <if test="OPTION01 != null">OPTION01 = #{OPTION01},</if>
+            <if test="OPTION02 != null">OPTION02 = #{OPTION02},</if>
+            <if test="OPTION03 != null">OPTION03 = #{OPTION03},</if>
+            <if test="OPTION04 != null">OPTION04 = #{OPTION04},</if>
+            <if test="OPTION05 != null">OPTION05 = #{OPTION05},</if>
+            UPDATETIME = NOW()
+        </set>
+        <![CDATA[
+        WHERE   CATEGORY_SEQ = #{CATEGORY_SEQ}
+        ]]>
+    </update>
+
+    <select id="selectTB_CATEGORY" parameterType="TB_CATEGORY" resultType="TB_CATEGORY">
+        <![CDATA[
+        SELECT  T1.CATEGORY_SEQ,
+                T1.PARENT_SEQ,
+                T1.CATEGORY_NAME,
+                T1.CATEGORY_TYPE,
+                IFNULL((SELECT CODE_NAME FROM TB_COMMON_CODE T2 WHERE T2.CODE_ID = 'CATEGORY_TYPE' AND T2.CODE_TYPE = T1.CATEGORY_TYPE), '-') AS CATEGORY_TYPE_NAME,
+                T1.STATUS,
+                T1.SORT_ORDER,
+                T1.USE_YN,
+                T1.OPTION01,
+                T1.OPTION02,
+                T1.OPTION03,
+                T1.OPTION04,
+                T1.OPTION05,
+                DATE_FORMAT(T1.CREATETIME, '%Y-%m-%d %H:%i:%s') AS CREATETIME,
+                DATE_FORMAT(T1.UPDATETIME, '%Y-%m-%d %H:%i:%s') AS UPDATETIME,
+                ROW_NUMBER() OVER(ORDER BY CREATETIME DESC) AS RN
+        FROM    TB_CATEGORY T1
+        WHERE   1 = 1
+        AND     (IFNULL(#{SORT_ORDER}, '') = ''     OR T1.SORT_ORDER = #{SORT_ORDER})
+        ]]>
+    </select>
+
+
+    <select id="countTB_CATEGORYByCATEGORY_NAME" parameterType="TB_CATEGORY" resultType="java.lang.Integer">
+        <![CDATA[
+        SELECT  COUNT(1) AS CNT
+        FROM    TB_CATEGORY
+        WHERE   CATEGORY_NAME = #{CATEGORY_NAME}
+        ]]>
+    </select>
+
+    <select id="selectTB_CATEGORYByPk" parameterType="TB_CATEGORY" resultType="TB_CATEGORY">
+        <![CDATA[
+        SELECT  T1.CATEGORY_SEQ,
+                T1.PARENT_SEQ,
+                T1.CATEGORY_NAME,
+                T1.CATEGORY_TYPE,
+                IFNULL((SELECT CODE_NAME FROM TB_COMMON_CODE T2 WHERE T2.CODE_ID = 'CATEGORY_TYPE' AND T2.CODE_TYPE = T1.CATEGORY_TYPE), '-') AS CATEGORY_TYPE_NAME,
+                T1.STATUS,
+                T1.SORT_ORDER,
+                T1.USE_YN,
+                T1.OPTION01,
+                T1.OPTION02,
+                T1.OPTION03,
+                T1.OPTION04,
+                T1.OPTION05,
+                DATE_FORMAT(T1.CREATETIME, '%Y-%m-%d %H:%i:%s') AS CREATETIME,
+                DATE_FORMAT(T1.UPDATETIME, '%Y-%m-%d %H:%i:%s') AS UPDATETIME
+        FROM    TB_CATEGORY T1
+        WHERE   T1.CATEGORY_SEQ = #{CATEGORY_SEQ}
+        ]]>
+    </select>
+
+    <select id="selectTB_CATEGORYByPkForSet" parameterType="java.lang.Integer" resultType="TB_CATEGORY">
+        <![CDATA[
+        SELECT  T1.CATEGORY_SEQ,
+                T1.PARENT_SEQ,
+                T1.CATEGORY_NAME,
+                T1.CATEGORY_TYPE,
+                IFNULL((SELECT CODE_NAME FROM TB_COMMON_CODE T2 WHERE T2.CODE_ID = 'CATEGORY_TYPE' AND T2.CODE_TYPE = T1.CATEGORY_TYPE), '-') AS CATEGORY_TYPE_NAME,
+                T1.STATUS,
+                T1.SORT_ORDER,
+                T1.USE_YN,
+                T1.OPTION01,
+                T1.OPTION02,
+                T1.OPTION03,
+                T1.OPTION04,
+                T1.OPTION05,
+                DATE_FORMAT(T1.CREATETIME, '%Y-%m-%d %H:%i:%s') AS CREATETIME,
+                DATE_FORMAT(T1.UPDATETIME, '%Y-%m-%d %H:%i:%s') AS UPDATETIME
+        FROM    TB_CATEGORY T1
+        WHERE   T1.CATEGORY_SEQ = #{CATEGORY_SEQ}
+        ]]>
+    </select>
+
+    <select id="selectTB_CATEGORYByPARENT_SEQ0" parameterType="TB_CATEGORY" resultType="TB_CATEGORY">
+        <![CDATA[
+        SELECT  T1.CATEGORY_SEQ,
+                T1.PARENT_SEQ,
+                T1.CATEGORY_NAME,
+                T1.CATEGORY_TYPE,
+                IFNULL((SELECT CODE_NAME FROM TB_COMMON_CODE T2 WHERE T2.CODE_ID = 'CATEGORY_TYPE' AND T2.CODE_TYPE = T1.CATEGORY_TYPE), '-') AS CATEGORY_TYPE_NAME,
+                T1.STATUS,
+                T1.SORT_ORDER,
+                T1.USE_YN,
+                T1.OPTION01,
+                T1.OPTION02,
+                T1.OPTION03,
+                T1.OPTION04,
+                T1.OPTION05,
+                DATE_FORMAT(T1.CREATETIME, '%Y-%m-%d %H:%i:%s') AS CREATETIME,
+                DATE_FORMAT(T1.UPDATETIME, '%Y-%m-%d %H:%i:%s') AS UPDATETIME,
+                ROW_NUMBER() OVER(ORDER BY CREATETIME DESC) AS RN
+        FROM    TB_CATEGORY T1
+        WHERE   T1.PARENT_SEQ = 0
+        ]]>
+    </select>
+
+    <select id="selectTB_CATEGORYByPARENT_SEQ" parameterType="TB_CATEGORY" resultType="TB_CATEGORY">
+        <![CDATA[
+        SELECT  T1.CATEGORY_SEQ,
+                T1.PARENT_SEQ,
+                T1.CATEGORY_NAME,
+                T1.CATEGORY_TYPE,
+                IFNULL((SELECT CODE_NAME FROM TB_COMMON_CODE T2 WHERE T2.CODE_ID = 'CATEGORY_TYPE' AND T2.CODE_TYPE = T1.CATEGORY_TYPE), '-') AS CATEGORY_TYPE_NAME,
+                T1.STATUS,
+                T1.SORT_ORDER,
+                T1.USE_YN,
+                T1.OPTION01,
+                T1.OPTION02,
+                T1.OPTION03,
+                T1.OPTION04,
+                T1.OPTION05,
+                DATE_FORMAT(T1.CREATETIME, '%Y-%m-%d %H:%i:%s') AS CREATETIME,
+                DATE_FORMAT(T1.UPDATETIME, '%Y-%m-%d %H:%i:%s') AS UPDATETIME,
+                ROW_NUMBER() OVER(ORDER BY CREATETIME DESC) AS RN
+        FROM    TB_CATEGORY T1
+        WHERE   T1.PARENT_SEQ = #{PARENT_SEQ}
+        ]]>
+    </select>
+
+    <select id="selectTB_CATEGORYByPARENT_SEQForSet" parameterType="java.lang.Integer" resultType="TB_CATEGORY">
+        <![CDATA[
+        SELECT  T1.CATEGORY_SEQ,
+                T1.PARENT_SEQ,
+                T1.CATEGORY_NAME,
+                T1.CATEGORY_TYPE,
+                IFNULL((SELECT CODE_NAME FROM TB_COMMON_CODE T2 WHERE T2.CODE_ID = 'CATEGORY_TYPE' AND T2.CODE_TYPE = T1.CATEGORY_TYPE), '-') AS CATEGORY_TYPE_NAME,
+                T1.STATUS,
+                T1.SORT_ORDER,
+                T1.USE_YN,
+                T1.OPTION01,
+                T1.OPTION02,
+                T1.OPTION03,
+                T1.OPTION04,
+                T1.OPTION05,
+                DATE_FORMAT(T1.CREATETIME, '%Y-%m-%d %H:%i:%s') AS CREATETIME,
+                DATE_FORMAT(T1.UPDATETIME, '%Y-%m-%d %H:%i:%s') AS UPDATETIME,
+                ROW_NUMBER() OVER(ORDER BY CREATETIME DESC) AS RN
+        FROM    TB_CATEGORY T1
+        WHERE   T1.PARENT_SEQ = #{CATEGORY_SEQ}
+        ]]>
+    </select>
+
+    <delete id="deleteTB_CATEGORYByPk" parameterType="TB_CATEGORY">
+        <![CDATA[
+        DELETE FROM TB_CATEGORY WHERE CATEGORY_SEQ = #{CATEGORY_SEQ}
+        ]]>
+    </delete>
+
+    <select id="selectTB_CATEGORYForWechat" parameterType="TB_CATEGORY" resultType="TB_CATEGORY">
+        <![CDATA[
+        SELECT  T1.CATEGORY_SEQ,
+                T1.PARENT_SEQ,
+                T1.CATEGORY_NAME,
+                T1.CATEGORY_TYPE,
+                IFNULL((SELECT CODE_NAME FROM TB_COMMON_CODE T2 WHERE T2.CODE_ID = 'CATEGORY_TYPE' AND T2.CODE_TYPE = T1.CATEGORY_TYPE), '-') AS CATEGORY_TYPE_NAME,
+                T1.STATUS,
+                T1.SORT_ORDER,
+                T1.USE_YN,
+                T1.OPTION01,
+                T1.OPTION02,
+                T1.OPTION03,
+                T1.OPTION04,
+                T1.OPTION05,
+                DATE_FORMAT(T1.CREATETIME, '%Y-%m-%d %H:%i:%s') AS CREATETIME,
+                DATE_FORMAT(T1.UPDATETIME, '%Y-%m-%d %H:%i:%s') AS UPDATETIME
+        FROM    TB_CATEGORY T1
+        WHERE   1 = 1
+        AND     (IFNULL(#{SORT_ORDER}, '') = ''     OR T1.SORT_ORDER = #{SORT_ORDER})
+        AND     (IFNULL(#{CATEGORY_TYPE}, '') = ''  OR T1.CATEGORY_TYPE = #{CATEGORY_TYPE})
+        ]]>
+    </select>
+
+
+</mapper>

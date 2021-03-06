@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="AHNSTUDIO.order">
+
+    <update id="updateTB_ORDERByORDER_NOForPAID" parameterType="TB_ORDER">
+        <![CDATA[
+        UPDATE  TB_ORDER
+        SET     STATUS = '20'
+        WHERE   ORDER_NO = #{ORDER_NO}
+        ]]>
+    </update>
+
+    <update id="updateTB_ORDERByPk" parameterType="TB_ORDER">
+        <![CDATA[
+        UPDATE  TB_ORDER
+        ]]>
+        <set>
+            <if test="USER_SEQ != null">USER_SEQ = #{USER_SEQ},</if>
+            <if test="SHIPPING_SEQ != null">SHIPPING_SEQ = #{SHIPPING_SEQ},</if>
+            <if test="PAYMENT != null">PAYMENT = #{PAYMENT},</if>
+            <if test="VIP_PAYMENT != null">VIP_PAYMENT = #{VIP_PAYMENT},</if>
+            <if test="DELIVERY_TYPE != null">DELIVERY_TYPE = #{DELIVERY_TYPE},</if>
+            <if test="DELIVERY_NO != null">DELIVERY_NO = #{DELIVERY_NO},</if>
+            <if test="PAYMENT_TYPE != null">PAYMENT_TYPE = #{PAYMENT_TYPE},</if>
+            <if test="USE_YN != null">USE_YN = #{USE_YN},</if>
+            <if test="POSTAGE != null">POSTAGE = #{POSTAGE},</if>
+            <if test="STATUS != null">STATUS = #{STATUS},</if>
+            <if test="COMMENT != null">COMMENT = #{COMMENT},</if>
+            <if test="PAYMENT_TIME != null">PAYMENT_TIME = #{PAYMENT_TIME},</if>
+            <if test="SEND_TIME != null">SEND_TIME = #{SEND_TIME},</if>
+            <if test="END_TIME != null">END_TIME = #{END_TIME},</if>
+            <if test="CLOSE_TIME != null">CLOSE_TIME = #{CLOSE_TIME},</if>
+            <if test="OPTION01 != null">OPTION01 = #{OPTION01},</if>
+            <if test="OPTION02 != null">OPTION02 = #{OPTION02},</if>
+            <if test="OPTION03 != null">OPTION03 = #{OPTION03},</if>
+            <if test="OPTION04 != null">OPTION04 = #{OPTION04},</if>
+            <if test="OPTION05 != null">OPTION05 = #{OPTION05},</if>
+            UPDATETIME = now()
+        </set>
+        <![CDATA[
+        WHERE   ORDER_SEQ = #{ORDER_SEQ}
+        ]]>
+    </update>
+
+    <select id="selectTB_ORDERByTB_ORDER" parameterType="TB_ORDER" resultType="TB_ORDER">
+        <![CDATA[
+        SELECT  T1.ORDER_SEQ
+                ,T1.ORDER_NO
+                ,T1.USER_SEQ
+                ,T1.SHIPPING_SEQ
+                ,T1.PAYMENT
+                ,T1.VIP_PAYMENT
+                ,T1.DELIVERY_TYPE
+                ,T1.DELIVERY_NO
+                ,T1.PAYMENT_TYPE
+                ,T1.USE_YN
+                ,T1.POSTAGE
+                ,T1.STATUS
+                ,(SELECT CODE_NAME FROM TB_COMMON_CODE WHERE CODE_ID = 'ORDER_STATUS_CODE' AND CODE_TYPE = T1.STATUS) AS STATUS_DESC
+                ,T1.COMMENT
+                ,T1.OPTION01
+                ,T1.OPTION02
+                ,T1.OPTION03
+                ,T1.OPTION04
+                ,T1.OPTION05
+                ,DATE_FORMAT(T1.PAYMENT_TIME, '%Y-%m-%d %H:%i:%s') AS PAYMENT_TIME
+                ,DATE_FORMAT(T1.SEND_TIME, '%Y-%-%d %H:%i:%s') AS SEND_TIME
+                ,DATE_FORMAT(T1.END_TIME, '%Y-%m-%d %H:%i:%s') AS END_TIME
+                ,DATE_FORMAT(T1.CLOSE_TIME, '%Y-%m-%d %H:%i:%s') AS CLOSE_TIME
+                ,DATE_FORMAT(T1.CREATETIME, '%Y-%m-%d %H:%i:%s') AS CREATETIME
+                ,DATE_FORMAT(T1.UPDATETIME, '%Y-%m-%d %H:%i:%s') AS UPDATETIME
+        FROM    TB_ORDER T1
+        WHERE   1 = 1
+        AND     (IFNULL(#{ORDER_SEQ},'') = '' OR T1.ORDER_SEQ = #{ORDER_SEQ})
+        AND     (IFNULL(#{START_DATE},'') = '' OR (T1.CREATETIME >= STR_TO_DATE(#{START_DATE},'%Y-%m-%d')))
+        AND 	(IFNULL(#{END_DATE}, '') = '' OR (T1.CREATETIME < STR_TO_DATE(#{END_DATE},'%Y-%m-%d') + INTERVAL 1 DAY) )
+        AND 	(IFNULL(#{STATUS},'')  = ''  OR T1.STATUS = #{STATUS})
+        ORDER BY T1.CREATETIME DESC
+        ]]>
+    </select>
+
+    <select id="selectTB_ORDERByPk" parameterType="java.lang.Integer" resultType="TB_ORDER">
+        <![CDATA[
+        SELECT  T1.ORDER_SEQ
+             ,T1.ORDER_NO
+             ,T1.USER_SEQ
+             ,T1.SHIPPING_SEQ
+             ,T1.PAYMENT
+             ,T1.VIP_PAYMENT
+             ,T1.DELIVERY_TYPE
+             ,T1.DELIVERY_NO
+             ,T1.PAYMENT_TYPE
+             ,T1.USE_YN
+             ,T1.POSTAGE
+             ,T1.STATUS
+             ,(SELECT CODE_NAME FROM TB_COMMON_CODE WHERE CODE_ID = 'ORDER_STATUS_CODE' AND CODE_TYPE = T1.STATUS) AS STATUS_DESC
+             ,T1.COMMENT
+             ,T1.OPTION01
+             ,T1.OPTION02
+             ,T1.OPTION03
+             ,T1.OPTION04
+             ,T1.OPTION05
+             ,DATE_FORMAT(T1.PAYMENT_TIME, '%Y-%m-%d %H:%i:%s') AS PAYMENT_TIME
+             ,DATE_FORMAT(T1.SEND_TIME, '%Y-%-%d %H:%i:%s') AS SEND_TIME
+             ,DATE_FORMAT(T1.END_TIME, '%Y-%m-%d %H:%i:%s') AS END_TIME
+             ,DATE_FORMAT(T1.CLOSE_TIME, '%Y-%m-%d %H:%i:%s') AS CLOSE_TIME
+             ,DATE_FORMAT(T1.CREATETIME, '%Y-%m-%d %H:%i:%s') AS CREATETIME
+             ,DATE_FORMAT(T1.UPDATETIME, '%Y-%m-%d %H:%i:%s') AS UPDATETIME
+        FROM    TB_ORDER T1
+        WHERE   T1.ORDER_SEQ = #{ORDER_SEQ}
+        ]]>
+    </select>
+
+    <select id="selectTB_ORDER_ITEMByTB_ORDER" parameterType="TB_ORDER" resultType="TB_ORDER_ITEM">
+        <![CDATA[
+        SELECT  T1.ITEM_SEQ
+                ,T1.USER_SEQ
+                ,T1.ORDER_NO
+                ,T1.PRODUCT_SEQ
+                ,T1.SPEC_SEQ
+                ,T1.ATTRIBUTE
+                ,T1.PRODUCT_NAME
+                ,T1.PRODUCT_IMAGE
+                ,T1.CURRENT_UNIT_PRICE
+                ,T1.QTY
+                ,T1.TOTAL_PRICE
+                ,T1.OPTION01
+                ,T1.OPTION02
+                ,T1.OPTION03
+                ,T1.OPTION04
+                ,T1.OPTION05
+                ,T1.CREATETIME
+                ,T1.UPDATETIME
+        FROM    TB_ORDER_ITEM T1
+        WHERE T1.ORDER_NO = #{ORDER_NO}
+        ]]>
+    </select>
+
+    <select id="selectTB_ORDER_ITEMByORDER_NO" parameterType="java.lang.String" resultType="TB_ORDER_ITEM">
+        <![CDATA[
+        SELECT  T1.ITEM_SEQ
+             ,T1.USER_SEQ
+             ,T1.ORDER_NO
+             ,T1.PRODUCT_SEQ
+             ,T1.SPEC_SEQ
+             ,T1.ATTRIBUTE
+             ,T1.PRODUCT_NAME
+             ,T1.PRODUCT_IMAGE
+             ,T1.CURRENT_UNIT_PRICE
+             ,T1.QTY
+             ,T1.TOTAL_PRICE
+             ,T1.OPTION01
+             ,T1.OPTION02
+             ,T1.OPTION03
+             ,T1.OPTION04
+             ,T1.OPTION05
+             ,T1.CREATETIME
+             ,T1.UPDATETIME
+        FROM    TB_ORDER_ITEM T1
+        WHERE T1.ORDER_NO = #{ORDER_NO}
+        ]]>
+    </select>
+
+
+    <insert id="batchInsert" parameterType="list">
+        INSERT INTO tb_order_item (ITEM_SEQ, ORDER_NO,USER_SEQ, PRODUCT_SEQ,SPEC_SEQ,
+        PRODUCT_NAME, PRODUCT_IMAGE, CURRENT_UNIT_PRICE, ATTRIBUTE
+        QTY, TOTAL_PRICE, CREATETIME,
+        UPDATETIME)
+        VALUES
+        <foreach collection="orderItemList" index="index" item="item" separator=",">
+            (
+            #{item.ITEM_SEQ},#{item.ORDER_NO},#{item.USER_SEQ},#{item.PRODUCT_SEQ},#{item.SPEC_SEQ},#{item.PRODUCT_NAME},#{item.PRODUCT_IMAGE},#{item.CURRENT_UNIT_PRICE},#{item.ATTRIBUTE},#{item.QTY},#{item.TOTAL_PRICE},now(),now()
+            )
+        </foreach>
+    </insert>
+
+    <insert id="insertTB_ORDER" parameterType="TB_ORDER">
+        <![CDATA[
+        INSERT INTO tb_order
+                    (ORDER_NO
+                    ,USER_SEQ
+                    ,SHIPPING_SEQ
+                    ,PAYMENT
+                    ,PAYMENT_TYPE
+                    ,VIP_PAYMENT
+                    ,DELIVERY_TYPE
+                    ,DELIVERY_NO
+                    ,USE_YN
+                    ,POSTAGE
+                    ,STATUS
+                    ,COMMENT
+                    ,PAYMENT_TIME
+                    ,SEND_TIME
+                    ,END_TIME
+                    ,CLOSE_TIME
+                    ,OPTION01
+                    ,OPTION02
+                    ,OPTION03
+                    ,OPTION04
+                    ,OPTION05
+                    ,CREATETIME
+                    )
+        VALUES      (
+                    #{ORDER_NO}
+                    ,#{USER_SEQ}
+                    ,#{SHIPPING_SEQ}
+                    ,#{PAYMENT}
+                    ,#{PAYMENT_TYPE}
+                    ,#{VIP_PAYMENT}
+                    ,#{DELIVERY_TYPE}
+                    ,#{DELIVERY_NO}
+                    ,#{USE_YN}
+                    ,#{POSTAGE}
+                    ,#{STATUS}
+                    ,#{COMMENT}
+                    ,#{PAYMENT_TIME}
+                    ,#{SEND_TIME}
+                    ,#{END_TIME}
+                    ,#{CLOSE_TIME}
+                    ,#{OPTION01}
+                    ,#{OPTION02}
+                    ,#{OPTION03}
+                    ,#{OPTION04}
+                    ,#{OPTION05}
+                    ,NOW()
+                    )
+        ]]>
+    </insert>
+
+    <insert id="insertTB_ORDER_ITEM" parameterType="TB_ORDER_ITEM">
+        <![CDATA[
+        INSERT INTO TB_ORDER_ITEM
+                    (
+                    ITEM_SEQ, ORDER_NO,USER_SEQ, PRODUCT_SEQ,SPEC_SEQ,
+                    PRODUCT_NAME, PRODUCT_IMAGE, CURRENT_UNIT_PRICE, ATTRIBUTE, QTY,
+                    TOTAL_PRICE, CREATETIME, UPDATETIME
+                    )
+        VALUES      (
+                        #{ITEM_SEQ}, #{ORDER_NO},#{USER_SEQ}, #{PRODUCT_SEQ},#{SPEC_SEQ},
+                        #{PRODUCT_NAME}, #{PRODUCT_IMAGE}, #{CURRENT_UNIT_PRICE}, #{ATTRIBUTE}, #{QTY},
+                        #{TOTAL_PRICE}, NOW(), NOW()
+                    )
+        ]]>
+    </insert>
+
+
+
+    <!--  Wechat  -->
+    <select id="selectTB_ORDERByTB_ORDERForWechat" parameterType="TB_ORDER" resultType="TB_ORDER">
+        <![CDATA[
+        SELECT  T1.ORDER_SEQ
+                 ,T1.ORDER_NO
+                 ,T1.USER_SEQ
+                 ,T1.SHIPPING_SEQ
+                 ,T1.PAYMENT
+                 ,T1.VIP_PAYMENT
+                 ,T1.DELIVERY_TYPE
+                 ,T1.DELIVERY_NO
+                 ,T1.PAYMENT_TYPE
+                 ,T1.USE_YN
+                 ,T1.POSTAGE
+                 ,T1.STATUS
+                 ,(SELECT CODE_NAME FROM TB_COMMON_CODE WHERE CODE_ID = 'ORDER_STATUS_CODE' AND CODE_TYPE = T1.STATUS) AS STATUS_DESC
+                 ,T1.COMMENT
+                 ,T1.OPTION01
+                 ,T1.OPTION02
+                 ,T1.OPTION03
+                 ,T1.OPTION04
+                 ,T1.OPTION05
+                 ,DATE_FORMAT(T1.PAYMENT_TIME, '%Y-%m-%d %H:%i:%s') AS PAYMENT_TIME
+                 ,DATE_FORMAT(T1.SEND_TIME, '%Y-%-%d %H:%i:%s') AS SEND_TIME
+                 ,DATE_FORMAT(T1.END_TIME, '%Y-%m-%d %H:%i:%s') AS END_TIME
+                 ,DATE_FORMAT(T1.CLOSE_TIME, '%Y-%m-%d %H:%i:%s') AS CLOSE_TIME
+                 ,DATE_FORMAT(T1.CREATETIME, '%Y-%m-%d %H:%i:%s') AS CREATETIME
+                 ,DATE_FORMAT(T1.UPDATETIME, '%Y-%m-%d %H:%i:%s') AS UPDATETIME
+        FROM    TB_ORDER T1
+        WHERE   1 = 1
+          AND   (IFNULL(#{USER_SEQ},'') = '' OR T1.USER_SEQ = #{USER_SEQ})
+          AND 	(IFNULL(#{STATUS},'')  = ''  OR T1.STATUS = #{STATUS})
+        ORDER BY T1.CREATETIME DESC
+        ]]>
+    </select>
+
+</mapper>

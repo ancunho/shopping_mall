@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<div th:replace="backend/include/top::head_meta"></div>
+<title>Login</title>
+<style type="text/css">
+html,body { height: 100%; padding: 0; margin: 0; }
+/*background:url("/static/images/bg-2.svg") center bottom no-repeat; background-size: 100% 100%;*/
+.login-wrap { height: 100%; box-sizing: border-box; }
+.login { width:530px; margin:30px auto 0 auto; padding:30px; background:#fff; border-radius: 10px;}
+.login h1 { text-align: center; font-size:2rem; margin-bottom:20px;}
+.login_form>div { margin-bottom:15px;}
+</style>
+<body>
+<div class="login_wrap">
+    <div class="login">
+        <h1>智烘（上海）商贸有限公司<br/>闵行分公司</h1>
+        <div class="login_form">
+            <div class="form-group">
+                <label for="USERNAME">用户名</label>
+                <input type="text" class="form-control" id="USERNAME" placeholder="请输入用户名" value="" />
+            </div>
+            <div class="form-group">
+                <label for="PASSWORD">密码</label>
+                <input type="password" class="form-control" id="PASSWORD" placeholder="请输入密码" value="" />
+            </div>
+        </div>
+        <button type="button" class="btn btn-primary btn-block btnLogin">Login</button>
+        <p class="mt-3 text-center">沪ICP备 2020030679号-1</p>
+    </div>
+</div>
+
+
+<script th:src="@{/static/_scripts/jquery.js}" type="text/javascript"></script>
+<script th:src="@{/static/_scripts/common.js}" type="text/javascript"></script>
+<script th:src="@{/static/_scripts/sweetalert.min.js}" type="text/javascript"></script>
+<script th:src="@{/static/_scripts/bootstrap.min.js}" type="text/javascript"></script>
+<script th:src="@{/static/_scripts/loading.js}" type="text/javascript"></script>
+</body>
+<script type="text/javascript">
+$(".btnLogin").unbind('click').click(function(){
+    var params = {
+        USERNAME: $.trim($("#USERNAME").val()),
+        PASSWORD: $.trim($("#PASSWORD").val())
+    }
+
+    if(params.USERNAME === "" || params.PASSWORD === "") {
+        swal("输入框不能为空", "", "error");
+        return;
+    }
+
+    new AjaxRequest({
+        url: '/api/user/login',
+        params: params,
+        callBack: function(res) {
+            if(res.status === 0) {
+                setWithExpiry("token", res.data.token, 1000 * 10);// 1000 * 60 * 60)
+                window.location.href = "/backend/home";
+            } else {
+                swal(res.msg, "", "error");
+            }
+        }
+    });
+});
+</script>
+</html>

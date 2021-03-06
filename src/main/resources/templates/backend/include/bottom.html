@@ -1,0 +1,27 @@
+<div th:fragment="scripts" xmlns:th="https://www.thymeleaf.org">
+    <script th:src="@{/static/_scripts/jquery.js}" type="text/javascript"></script>
+    <script th:src="@{/static/_scripts/popper.js}" type="text/javascript"></script>
+    <!--    <script th:src="@{/static/_scripts/bootstrap.bundle.min.js}" type="text/javascript"></script>-->
+    <script th:src="@{/static/_scripts/jquery-Bpopup.js}" type="text/javascript"></script>
+    <script th:src="@{/static/_scripts/sweetalert.min.js}" type="text/javascript"></script>
+    <script th:src="@{/static/_scripts/bootstrap.min.js}" type="text/javascript"></script>
+    <script th:src="@{/static/_scripts/loading.js}" type="text/javascript"></script>
+    <script th:src="@{/static/_scripts/bootstrap-datepicker.min.js}" type="text/javascript"></script>
+    <script th:src="@{/static/_scripts/select2.min.js}" type="text/javascript"></script>
+    <script th:src="@{/static/_scripts/common.js}" type="text/javascript"></script>
+    <script th:src="@{/static/_scripts/wangEditor.min.js}" type="text/javascript"></script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $(".btnLogout").unbind('click').click(function(){
+                new AjaxRequest({
+                    url: '/api/user/logout',
+                    callBack: function (res){
+                        swal("成功退出！", "", "success").then(function(){
+                            window.location.href = "/";
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+</div>

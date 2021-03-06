@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="AHNSTUDIO.shipping">
+
+    <select id="selectTB_SHIPPINGByPk" parameterType="java.lang.Integer" resultType="TB_SHIPPING">
+        <![CDATA[
+        SELECT  T1.SHIPPING_SEQ
+                 ,T1.USER_SEQ
+                 ,T1.RECEIVER_NAME
+                 ,T1.RECEIVER_PHONE
+                 ,T1.RECEIVER_MOBILE
+                 ,T1.RECEIVER_PROVINCE
+                 ,T1.RECEIVER_CITY
+                 ,T1.RECEIVER_DISTRICT
+                 ,T1.RECEIVER_ADDRESS
+                 ,T1.RECEIVER_ZIP
+                 ,T1.IS_DEFAULT
+                 ,T1.USE_YN
+                 ,T1.OPTION01
+                 ,T1.OPTION02
+                 ,T1.OPTION03
+                 ,T1.OPTION04
+                 ,T1.OPTION05
+                 ,T1.CREATETIME
+                 ,T1.UPDATETIME
+        FROM    tb_shipping T1
+        WHERE   T1.SHIPPING_SEQ = #{SHIPPING_SEQ}
+        ]]>
+    </select>
+
+    <select id="selectTB_SHIPPINGBySHIPPING_SEQAndIS_DEFAULT" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+        <![CDATA[
+        SELECT  COUNT(1)
+        FROM    tb_shipping
+        WEHRE   USER_SEQ = #{USER_SEQ}
+        AND     IS_DEFAULT = '1'
+        ]]>
+    </select>
+
+    <insert id="insertTB_SHIPPING" parameterType="TB_SHIPPING">
+        <![CDATA[
+        INSERT INTO tb_shipping
+                    ( USER_SEQ
+                    , RECEIVER_NAME
+                    , RECEIVER_PHONE
+                    , RECEIVER_MOBILE
+                    , RECEIVER_PROVINCE
+                    , RECEIVER_CITY
+                    , RECEIVER_DISTRICT
+                    , RECEIVER_ADDRESS
+                    , RECEIVER_ZIP
+                    , IS_DEFAULT
+                    , USE_YN
+                    , OPTION01
+                    , OPTION02
+                    , OPTION03
+                    , OPTION04
+                    , OPTION05
+                    , CREATETIME
+                    )
+                VALUES
+                    (
+                     #{USER_SEQ}
+                    ,#{RECEIVER_NAME}
+                    ,#{RECEIVER_PHONE}
+                    ,#{RECEIVER_MOBILE}
+                    ,#{RECEIVER_PROVINCE}
+                    ,#{RECEIVER_CITY}
+                    ,#{RECEIVER_DISTRICT}
+                    ,#{RECEIVER_ADDRESS}
+                    ,#{RECEIVER_ZIP}
+                    ,#{IS_DEFAULT}
+                    ,#{USE_YN}
+                    ,#{OPTION01}
+                    ,#{OPTION02}
+                    ,#{OPTION03}
+                    ,#{OPTION04}
+                    ,#{OPTION05}
+                    ,NOW()
+                    )
+        ]]>
+    </insert>
+
+    <select id="selectTB_SHIPPINGByUSER_SEQ" parameterType="java.lang.Integer" resultType="TB_SHIPPING">
+        <![CDATA[
+        SELECT  T1.SHIPPING_SEQ
+                ,T1.USER_SEQ
+                ,T1.RECEIVER_NAME
+                ,T1.RECEIVER_PHONE
+                ,T1.RECEIVER_MOBILE
+                ,T1.RECEIVER_PROVINCE
+                ,T1.RECEIVER_CITY
+                ,T1.RECEIVER_DISTRICT
+                ,T1.RECEIVER_ADDRESS
+                ,T1.RECEIVER_ZIP
+                ,T1.IS_DEFAULT
+                ,T1.USE_YN
+                ,T1.OPTION01
+                ,T1.OPTION02
+                ,T1.OPTION03
+                ,T1.OPTION04
+                ,T1.OPTION05
+                ,T1.CREATETIME
+                ,T1.UPDATETIME
+        FROM    tb_shipping T1
+        WHERE   T1.USER_SEQ = #{USER_SEQ}
+        ]]>
+    </select>
+
+    <select id="selectDefaultShippingByUserId" parameterType="java.lang.Integer" resultType="TB_SHIPPING">
+        <![CDATA[
+        SELECT  T1.SHIPPING_SEQ
+             ,T1.USER_SEQ
+             ,T1.RECEIVER_NAME
+             ,T1.RECEIVER_PHONE
+             ,T1.RECEIVER_MOBILE
+             ,T1.RECEIVER_PROVINCE AS RECEIVER_PROVINCE
+             ,(SELECT CODE_TYPE FROM TB_COMMON_CODE WHERE CODE_ID = 'PROVINCE_CODE' AND CODE_NAME = T1.RECEIVER_PROVINCE) AS RECEIVER_PROVINCE_CODE
+             ,T1.RECEIVER_CITY AS RECEIVER_CITY
+             ,(SELECT CODE_TYPE FROM TB_COMMON_CODE WHERE CODE_ID = 'CITY_CODE' AND CODE_NAME = T1.RECEIVER_CITY) AS RECEIVER_CITY_CODE
+             ,T1.RECEIVER_DISTRICT AS RECEIVER_DISTRICT
+             ,(SELECT CODE_TYPE FROM TB_COMMON_CODE WHERE CODE_ID = 'DISTRICT_CODE' AND CODE_NAME = T1.RECEIVER_DISTRICT) AS RECEIVER_DISTRICT_CODE
+             ,T1.RECEIVER_ADDRESS
+             ,T1.RECEIVER_ZIP
+             ,T1.IS_DEFAULT
+             ,T1.USE_YN
+             ,T1.OPTION01
+             ,T1.OPTION02
+             ,T1.OPTION03
+             ,T1.OPTION04
+             ,T1.OPTION05
+        FROM    tb_shipping T1
+        WHERE   T1.USER_SEQ = #{USER_SEQ}
+        AND     T1.IS_DEFAULT = '1'
+        ]]>
+    </select>
+
+    <update id="updateDefaultShippingByUserId" parameterType="TB_SHIPPING">
+        <![CDATA[
+            UPDATE  tb_shipping
+            SET     IS_DEFAULT = '0'
+            WHERE   USER_SEQ = #{USER_SEQ}
+        ]]>
+    </update>
+
+    <select id="selectDefaultCount" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+        <![CDATA[
+            SELECT  COUNT(1)
+            FROM    tb_shipping
+            WHERE   USER_SEQ = #{USER_SEQ}
+            AND     IS_DEFAULT = '1'
+        ]]>
+    </select>
+
+    <update id="updateTB_SHIPPING" parameterType="TB_SHIPPING">
+        <![CDATA[
+        UPDATE  tb_shipping
+        ]]>
+        <set>
+            <if test="RECEIVER_NAME != null">RECEIVER_NAME = #{RECEIVER_NAME},</if>
+            <if test="RECEIVER_PHONE != null">RECEIVER_PHONE = #{RECEIVER_PHONE},</if>
+            <if test="RECEIVER_MOBILE != null">RECEIVER_MOBILE = #{RECEIVER_MOBILE},</if>
+            <if test="RECEIVER_PROVINCE != null">RECEIVER_PROVINCE = #{RECEIVER_PROVINCE},</if>
+            <if test="RECEIVER_CITY != null">RECEIVER_CITY = #{RECEIVER_CITY},</if>
+            <if test="RECEIVER_DISTRICT != null">RECEIVER_DISTRICT = #{RECEIVER_DISTRICT},</if>
+            <if test="RECEIVER_ADDRESS != null">RECEIVER_ADDRESS = #{RECEIVER_ADDRESS},</if>
+            <if test="RECEIVER_ZIP != null">RECEIVER_ZIP = #{RECEIVER_ZIP},</if>
+            <if test="IS_DEFAULT != null">IS_DEFAULT = #{IS_DEFAULT},</if>
+            <if test="RECEIVER_PHONE != null">RECEIVER_PHONE = #{RECEIVER_PHONE},</if>
+            UPDATETIME = now()
+        </set>
+        <![CDATA[
+        WHERE   SHIPPING_SEQ = #{SHIPPING_SEQ}
+        AND     USER_SEQ = #{USER_SEQ}
+        ]]>
+    </update>
+
+    <delete id="deleteByShippingIdUserId" parameterType="TB_SHIPPING">
+        <![CDATA[
+        DELETE FROM tb_shipping
+        WHERE   SHIPPING_SEQ = #{SHIPPING_SEQ}
+        AND     USER_SEQ = #{USER_SEQ}
+        ]]>
+
+    </delete>
+
+
+
+</mapper>

@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<div th:replace="backend/include/top::head_meta"></div>
+
+<title>Settings</title>
+<style type="text/css">
+html,body { height: 100%; padding: 0; margin: 0; }
+.detail_wrap { background:#fff; border-radius: 10px; padding:30px 50px;}
+.table01 tr.tr01.active { background: #eee;}
+.table01 tbody td { padding:10px 0;}
+</style>
+<body>
+<div id="wrap">
+    <!--  Header Start  -->
+    <div th:replace="backend/include/header::header_html"></div>
+    <!--  //Header End  -->
+    <!-- Contents Start   -->
+    <div class="container container-lg container-md con">
+        <div class="conTop">
+            <h2>Category Setting</h2>
+        </div>
+        <div class="row divCategory" style="margin-top:20px;">
+            <div class="col-4">
+                <h4 class="text-center" style="margin-bottom:10px; font-weight: bold;">一级分类</h4>
+                <table class="table01 categoryTable01">
+                    <colgroup>
+                        <col width="30%" />
+                        <col width="20%" />
+                        <col width="*" />
+                    </colgroup>
+                    <thead>
+                    <th>分类名称</th>
+                    <th>类型</th>
+                    <th>操作</th>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+            <div class="col-4">
+                <h4 class="text-center" style="margin-bottom:10px; font-weight: bold;">二级分类</h4>
+                <table class="table01 categoryTable02">
+                    <colgroup>
+                        <col width="30%" />
+                        <col width="20%" />
+                        <col width="*" />
+                    </colgroup>
+                    <thead>
+                    <th>分类名称</th>
+                    <th>类型</th>
+                    <th>操作</th>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td colspan="3">请选择上级</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-4">
+                <h4 class="text-center" style="margin-bottom:10px; font-weight: bold;">三级分类</h4>
+                <table class="table01 categoryTable03">
+                    <colgroup>
+                        <col width="30%" />
+                        <col width="20%" />
+                        <col width="*" />
+                    </colgroup>
+                    <thead>
+                    <th>分类名称</th>
+                    <th>类型</th>
+                    <th>操作</th>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td colspan="3">请选择上级</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+    <!-- //Contents End   -->
+</div>
+
+<div class="detail_wrap category_create_popup" style="display:none; z-index: 999999; ">
+    <div class="detail_form">
+        <input type="hidden" value="" class="CATEGORY_SEQ" />
+        <input type="hidden" value="" class="SORT_ORDER" />
+        <div class="form-row">
+            <div class="form-group col-md-6"><label for="CATEGORY_NAME">分类名称</label><input type="text" class="form-control CATEGORY_NAME" id="CATEGORY_NAME" placeholder="请输入分类名称" value="" /></div>
+            <div class="form-group col-md-6">
+                <label for="CATEGORY_TYPE">类型</label>
+                <select class="form-control CATEGORY_TYPE" id="CATEGORY_TYPE">
+                    <option value="01">咖啡豆</option>
+                    <option value="02">售后服务</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="PARENT_SEQ">上级分类</label>
+            <select class="form-control PARENT_SEQ" id="PARENT_SEQ">
+                <option value="">无</option>
+            </select>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6 text-center" style="padding:0 30px;"><button type="button" class="btn btn-danger btn-block btnClose">关闭</button></div>
+        <div class="col-md-6 text-center" style="padding:0 30px;"><button type="button" class="btn btn-primary btn-block btnSave">保存</button></div>
+    </div>
+</div>
+<div th:replace="backend/include/popup::popup"></div>
+<div th:replace="backend/include/bottom::scripts"></div>
+</body>
+<script type="text/javascript">
+    var CategoryPopupObject = {
+        CATEGORY_SEQ: $(".category_create_popup .CATEGORY_SEQ"),
+        PARENT_SEQ: $(".category_create_popup .PARENT_SEQ"),
+        CATEGORY_NAME: $(".category_create_popup .CATEGORY_NAME"),
+        CATEGORY_TYPE: $(".category_create_popup .CATEGORY_TYPE"),
+        STATUS: $(".category_create_popup .STATUS"),
+        SORT_ORDER: $(".category_create_popup .SORT_ORDER"),
+        OPTION01: $(".category_create_popup .OPTION01"),
+        OPTION02: $(".category_create_popup .OPTION02"),
+        OPTION03: $(".category_create_popup .OPTION03"),
+        OPTION04: $(".category_create_popup .OPTION04"),
+        OPTION05: $(".category_create_popup .OPTION05")
+    };
+
+    var lfn_Init = function() {
+        var params = {
+            SORT_ORDER: ""
+        }
+        new AjaxRequest({
+            url: '/api/category/list',
+            contentType: 'application/json',
+            params: JSON.stringify(params),
+            callBack: function(res) {
+                if(res.status === 0) {
+                    var sbHTML01 = new StringBuffer();
+                    var sbHTML02 = new StringBuffer();
+                    var sbHTML03 = new StringBuffer();
+                    for(var i = 0; typeof res.data != 'undefined' && i < res.data.length; i++) {
+                        if(res.data[i].SORT_ORDER === "1") {
+                            sbHTML01.append("<tr class='tr01'>");
+                            sbHTML01.append("     <input type='hidden' value='" + res.data[i].CATEGORY_SEQ + "' class='CATEGORY_SEQ' />");
+                            sbHTML01.append("     <input type='hidden' value='" + res.data[i].PARENT_SEQ + "' class='PARENT_SEQ' />");
+                            sbHTML01.append("     <input type='hidden' value='" + res.data[i].CATEGORY_NAME + "' class='CATEGORY_NAME' />");
+                            sbHTML01.append("     <input type='hidden' value='" + res.data[i].CATEGORY_TYPE + "' class='CATEGORY_TYPE' />");
+                            sbHTML01.append("     <td>" + res.data[i].CATEGORY_NAME + "</td>");
+                            sbHTML01.append("     <td>" + res.data[i].CATEGORY_TYPE_NAME + "</td>");
+                            sbHTML01.append("     <td> <i class='bi bi-pencil-square btnEdit btn btn-sm' data-toggle='tooltip' data-triger='click' data-placement='top' title='Tooltip on top'></i> <i class='bi bi-diagram-3 btnChildren btn btn-sm'></i> <i class='bi bi-trash btnDelete btn btn-sm'></i> </td>");
+                            sbHTML01.append("</tr>");
+                        } else if (res.data[i].SORT_ORDER === "2") {
+                            sbHTML02.append("<tr class='tr01'>");
+                            sbHTML02.append("     <input type='hidden' value='" + res.data[i].CATEGORY_SEQ + "' class='CATEGORY_SEQ' />");
+                            sbHTML02.append("     <input type='hidden' value='" + res.data[i].PARENT_SEQ + "' class='PARENT_SEQ' />");
+                            sbHTML02.append("     <input type='hidden' value='" + res.data[i].CATEGORY_NAME + "' class='CATEGORY_NAME' />");
+                            sbHTML02.append("     <input type='hidden' value='" + res.data[i].CATEGORY_TYPE + "' class='CATEGORY_TYPE' />");
+                            sbHTML02.append("     <td>" + res.data[i].CATEGORY_NAME + "</td>");
+                            sbHTML02.append("     <td>" + res.data[i].CATEGORY_TYPE_NAME + "</td>");
+                            sbHTML02.append("     <td> <i class='bi bi-pencil-square btnEdit btn btn-sm' data-toggle='tooltip' data-triger='click' data-placement='top' title='Tooltip on top'></i> <i class='bi bi-diagram-3 btnChildren btn btn-sm'></i> <i class='bi bi-trash btnDelete btn btn-sm'></i> </td>");
+                            sbHTML02.append("</tr>");
+                        } else if (res.data[i].SORT_ORDER === "3") {
+                            sbHTML03.append("<tr class='tr01'>");
+                            sbHTML03.append("     <input type='hidden' value='" + res.data[i].CATEGORY_SEQ + "' class='CATEGORY_SEQ' />");
+                            sbHTML03.append("     <input type='hidden' value='" + res.data[i].PARENT_SEQ + "' class='PARENT_SEQ' />");
+                            sbHTML03.append("     <input type='hidden' value='" + res.data[i].CATEGORY_NAME + "' class='CATEGORY_NAME' />");
+                            sbHTML03.append("     <input type='hidden' value='" + res.data[i].CATEGORY_TYPE + "' class='CATEGORY_TYPE' />");
+                            sbHTML03.append("     <td>" + res.data[i].CATEGORY_NAME + "</td>");
+                            sbHTML03.append("     <td>" + res.data[i].CATEGORY_TYPE_NAME + "</td>");
+                            sbHTML03.append("     <td> <i class='bi bi-pencil-square btnEdit btn btn-sm' data-toggle='tooltip' data-triger='click' data-placement='top' title='Tooltip on top'></i> <i class='bi bi-trash btnDelete btn btn-sm'></i> </td>");
+                            sbHTML03.append("</tr>");
+                        }
+                    }
+                    sbHTML01.append("<tr>");
+                    sbHTML01.append("     <td colspan='3'><button type='button' class='btn btn-link btn-block btn-sm btnNew'>+ New</button> </td>");
+                    sbHTML01.append("</tr>");
+                    sbHTML02.append("<tr>");
+                    sbHTML02.append("     <td colspan='3'><button type='button' class='btn btn-link btn-block btn-sm btnNew'>+ New</button> </td>");
+                    sbHTML02.append("</tr>");
+                    sbHTML03.append("<tr>");
+                    sbHTML03.append("     <td colspan='3'><button type='button' class='btn btn-link btn-block btn-sm btnNew'>+ New</button> </td>");
+                    sbHTML03.append("</tr>");
+                    $(".categoryTable01 tbody").html(sbHTML01.toString());
+                    $(".categoryTable02 tbody").html(sbHTML02.toString());
+                    $(".categoryTable03 tbody").html(sbHTML03.toString());
+
+                    $(".categoryTable01 .btnNew").unbind('click').click(function(){
+                        $(".category_create_popup").bPopup({
+                            modalClose: false,
+                            closeClass: 'btnClose',
+                            onOpen: function() {
+                                lfn_ParentBySORT_ORDER_INPopup(1);
+                            }
+                        });
+                    });
+
+                    $(".categoryTable01 .btnEdit").unbind('click').click(function(){
+                        var popupData = new Object();
+                        popupData.CATEGORY_SEQ = $(this).parents('.tr01').find('.CATEGORY_SEQ').val();
+                        popupData.PARENT_SEQ = $(this).parents('.tr01').find('.PARENT_SEQ').val();
+                        popupData.CATEGORY_NAME = $(this).parents('.tr01').find('.CATEGORY_NAME').val();
+                        popupData.CATEGORY_TYPE = $(this).parents('.tr01').find('.CATEGORY_TYPE').val();
+                        console.log(popupData);
+                        $(".category_create_popup").bPopup({
+                            modalClose: false,
+                            closeClass: 'btnClose',
+                            onOpen: function() {
+                                lfn_ParentBySORT_ORDER_INPopup(1);
+                                $(".category_create_popup .CATEGORY_SEQ").val(popupData.CATEGORY_SEQ);
+                                $(".category_create_popup .PARENT_SEQ").val(popupData.PARENT_SEQ);
+                                $(".category_create_popup .CATEGORY_NAME").val(popupData.CATEGORY_NAME);
+                                $(".category_create_popup .CATEGORY_TYPE").val(popupData.CATEGORY_TYPE);
+
+                            }
+                        });
+                    });
+
+                    $(".categoryTable01 .btnChildren").unbind('click').click(function(){
+                        var params = {
+                            CATEGORY_SEQ: $(this).parents('.tr01').find('.CATEGORY_SEQ').val()
+                        };
+
+                        new AjaxRequest({
+                            url: '/api/category/deep',
+                            params: params,
+                            callBack: function(res) {
+                                console.log(res);
+                                if(res.status === 0) {
+                                    $(".categoryTable02 tr.tr01").css('color', '#eee');
+                                    $(".categoryTable02 tr.tr01 td i").css('color', '#eee');
+                                    for(var i = 0; i < res.data.length; i++) {
+                                        $(".categoryTable02 tr.tr01").each(function(idx, elem){
+                                            if(Number($(elem).find('.CATEGORY_SEQ').val()) === res.data[i]) {
+                                                $(elem).css('color', 'black').find('td i').css('color', 'black');
+                                            }
+                                        });
+                                    }
+                                }
+
+                            }
+                        });
+                    });
+
+                    $(".categoryTable01 .btnDelete").unbind('click').click(function(){
+                        var _this = $(this);
+                        swal({
+                            title: "确定要删除吗？",
+                            text: "",
+                            icon: "warning",
+                            buttons: true,
+                            dangerMode: true,
+                        }).then(function(willDelete) {
+                            if(willDelete) {
+                                var params = {
+                                    CATEGORY_SEQ: _this.parents('.tr01').find('.CATEGORY_SEQ').val()
+                                }
+
+                                new AjaxRequest({
+                                    url: '/api/category/delete',
+                                    contentType: 'application/json',
+                                    params: JSON.stringify(params),
+                                    callBack: function(res) {
+                                        if(res.status === 0) {
+                                            swal(res.msg, "", "success").then(function(){
+                                                lfn_Init();
+                                            });
+                                        } else {
+                                            swal(res.msg, "", "error");
+                                        }
+                                    }
+                                });
+                            }
+                        });
+                    });
+
+                    $(".categoryTable02 .btnNew").unbind('click').click(function(){
+                        $(".category_create_popup").bPopup({
+                            modalClose: false,
+                            closeClass: 'btnClose',
+                            onOpen: function() {
+                                lfn_ParentBySORT_ORDER_INPopup(2);
+                            }
+                        });
+                    });
+
+                    $(".categoryTable02 .btnEdit").unbind('click').click(function(){
+                        var _this = $(this);
+                        var popupData = new Object();
+                        popupData.CATEGORY_SEQ = _this.parents('.tr01').find('.CATEGORY_SEQ').val();
+                        popupData.PARENT_SEQ = _this.parents('.tr01').find('.PARENT_SEQ').val();
+                        popupData.CATEGORY_NAME = _this.parents('.tr01').find('.CATEGORY_NAME').val();
+                        popupData.CATEGORY_TYPE = _this.parents('.tr01').find('.CATEGORY_TYPE').val();
+                        $(".category_create_popup").bPopup({
+                            modalClose: false,
+                            closeClass: 'btnClose',
+                            onOpen: function() {
+                                var params = {
+                                    SORT_ORDER: 1
+                                };
+                                CategoryPopupObject.SORT_ORDER.val(2);
+
+                                new AjaxRequest({
+                                    url: '/api/category/list',
+                                    contentType: 'application/json',
+                                    params: JSON.stringify(params),
+                                    callBack: function(res) {
+                                        var sbHTML = new StringBuffer();
+                                        CategoryPopupObject.PARENT_SEQ.html('');
+                                        if (res.status === 0) {
+                                            sbHTML.append("<option value='0'>无</option>")
+                                            for(var i = 0; i < res.data.length; i++) {
+                                                sbHTML.append("<option value='" + res.data[i].CATEGORY_SEQ + "'>" + res.data[i].CATEGORY_NAME + "</option>")
+                                            }
+                                            CategoryPopupObject.PARENT_SEQ.html(sbHTML.toString());
+
+                                            CategoryPopupObject.CATEGORY_SEQ.val(popupData.CATEGORY_SEQ);
+                                            CategoryPopupObject.PARENT_SEQ.val(popupData.PARENT_SEQ);
+                                            CategoryPopupObject.CATEGORY_NAME.val(popupData.CATEGORY_NAME);
+                                            CategoryPopupObject.CATEGORY_TYPE.val(popupData.CATEGORY_TYPE);
+                                        }
+                                    }
+                                });
+
+
+
+                            }
+                        });
+                    });
+
+                    $(".categoryTable02 .btnChildren").unbind('click').click(function(){
+                        var params = {
+                            CATEGORY_SEQ: $(this).parents('.tr01').find('.CATEGORY_SEQ').val()
+                        };
+
+                        new AjaxRequest({
+                            url: '/api/category/deep',
+                            params: params,
+                            callBack: function(res) {
+                                if(res.status === 0) {
+                                    $(".categoryTable03 tr.tr01").css('color', '#eee');
+                                    $(".categoryTable03 tr.tr01 td i").css('color', '#eee');
+                                    for(var i = 0; i < res.data.length; i++) {
+                                        $(".categoryTable03 tr.tr01").each(function(idx, elem){
+                                            if(Number($(elem).find('.CATEGORY_SEQ').val()) === res.data[i]) {
+                                                $(elem).css('color', 'black').find('td i').css('color', 'black');
+                                            }
+                                        });
+                                    }
+                                }
+
+                            }
+                        });
+                    });
+
+                    $(".categoryTable02 .btnDelete").unbind('click').click(function(){
+                        var _this = $(this);
+                        swal({
+                            title: "确定要删除吗？",
+                            text: "",
+                            icon: "warning",
+                            buttons: true,
+                            dangerMode: true,
+                        }).then(function(willDelete) {
+                            if(willDelete) {
+                                var params = {
+                                    CATEGORY_SEQ: _this.parents('.tr01').find('.CATEGORY_SEQ').val()
+                                }
+
+                                new AjaxRequest({
+                                    url: '/api/category/delete',
+                                    contentType: 'application/json',
+                                    params: JSON.stringify(params),
+                                    callBack: function(res) {
+                                        if(res.status === 0) {
+                                            swal(res.msg, "", "success").then(function(){
+                                                lfn_Init();
+                                            });
+                                        } else {
+                                            swal(res.msg, "", "error");
+                                        }
+                                    }
+                                });
+                            }
+                        });
+                    });
+
+                    $(".categoryTable03 .btnNew").unbind('click').click(function(){
+                        $(".category_create_popup").bPopup({
+                            modalClose: false,
+                            closeClass: 'btnClose',
+                            onOpen: function() {
+                                lfn_ParentBySORT_ORDER_INPopup(3);
+                            }
+                        });
+                    });
+
+                    $(".categoryTable03 .btnEdit").unbind('click').click(function(){
+                        var _this = $(this);
+                        var popupData = new Object();
+                        popupData.CATEGORY_SEQ = _this.parents('.tr01').find('.CATEGORY_SEQ').val();
+                        popupData.PARENT_SEQ = _this.parents('.tr01').find('.PARENT_SEQ').val();
+                        popupData.CATEGORY_NAME = _this.parents('.tr01').find('.CATEGORY_NAME').val();
+                        popupData.CATEGORY_TYPE = _this.parents('.tr01').find('.CATEGORY_TYPE').val();
+                        $(".category_create_popup").bPopup({
+                            modalClose: false,
+                            closeClass: 'btnClose',
+                            onOpen: function() {
+                                CategoryPopupObject.SORT_ORDER.val(3);
+
+                                var params = {
+                                    SORT_ORDER: 2
+                                };
+
+                                new AjaxRequest({
+                                    url: '/api/category/list',
+                                    contentType: 'application/json',
+                                    params: JSON.stringify(params),
+                                    async: false,
+                                    callBack: function(res) {
+                                        var sbHTML = new StringBuffer();
+                                        CategoryPopupObject.PARENT_SEQ.html('');
+                                        if (res.status === 0) {
+                                            sbHTML.append("<option value='0'>无</option>")
+                                            for(var i = 0; i < res.data.length; i++) {
+                                                sbHTML.append("<option value='" + res.data[i].CATEGORY_SEQ + "'>" + res.data[i].CATEGORY_NAME + "</option>")
+                                            }
+                                            CategoryPopupObject.PARENT_SEQ.html(sbHTML.toString());
+
+                                            CategoryPopupObject.CATEGORY_SEQ.val(popupData.CATEGORY_SEQ);
+                                            CategoryPopupObject.PARENT_SEQ.val(popupData.PARENT_SEQ);
+                                            CategoryPopupObject.CATEGORY_NAME.val(popupData.CATEGORY_NAME);
+                                            CategoryPopupObject.CATEGORY_TYPE.val(popupData.CATEGORY_TYPE);
+                                        }
+                                    }
+                                });
+                            }
+                        });
+                    });
+
+                    $(".categoryTable03 .btnDelete").unbind('click').click(function(){
+                        var _this = $(this);
+                        swal({
+                            title: "确定要删除吗？",
+                            text: "",
+                            icon: "warning",
+                            buttons: true,
+                            dangerMode: true,
+                        }).then(function(willDelete) {
+                            if(willDelete) {
+                                var params = {
+                                    CATEGORY_SEQ: _this.parents('.tr01').find('.CATEGORY_SEQ').val()
+                                }
+
+                                new AjaxRequest({
+                                    url: '/api/category/delete',
+                                    contentType: 'application/json',
+                                    params: JSON.stringify(params),
+                                    callBack: function(res) {
+                                        if(res.status === 0) {
+                                            swal(res.msg, "", "success").then(function(){
+                                                lfn_Init();
+                                            });
+                                        } else {
+                                            swal(res.msg, "", "error");
+                                        }
+                                    }
+                                });
+                            }
+                        });
+                    });
+
+
+                } else {
+                    swal(res.msg, "", "error");
+                }
+            }
+        });
+    }
+
+    // Popup 新建分类 Start
+    $(document).on('click', '.category_create_popup .btnSave', function(e) {
+        var params = {
+            CATEGORY_SEQ: CategoryPopupObject.CATEGORY_SEQ.val(),
+            PARENT_SEQ: CategoryPopupObject.PARENT_SEQ.val(),
+            CATEGORY_NAME: CategoryPopupObject.CATEGORY_NAME.val(),
+            CATEGORY_TYPE: CategoryPopupObject.CATEGORY_TYPE.val(),
+            SORT_ORDER: CategoryPopupObject.SORT_ORDER.val(),
+            STATUS: CategoryPopupObject.STATUS.val()
+        }
+
+        new AjaxRequest({
+            url: '/api/category/proc',
+            params: JSON.stringify(params),
+            contentType: 'application/json',
+            callBack: function(res) {
+                if(res.status === 0) {
+                    swal(res.msg, "", "success").then(function(){
+                        $(".category_create_popup").bPopup().close();
+                        lfn_Init()
+                    });
+                } else {
+                    swal(res.msg, "", "error");
+                }
+            }
+        });
+    });
+    // Popup 新建分类 End
+
+    var lfn_ParentBySORT_ORDER_INPopup = function(sortOrder){
+        var params = {
+            SORT_ORDER: Number(sortOrder) - 1
+        };
+        CategoryPopupObject.SORT_ORDER.val(sortOrder);
+
+        new AjaxRequest({
+            url: '/api/category/list',
+            contentType: 'application/json',
+            params: JSON.stringify(params),
+            async: false,
+            callBack: function(res) {
+                var sbHTML = new StringBuffer();
+                CategoryPopupObject.PARENT_SEQ.html('');
+                if (res.status === 0) {
+                    sbHTML.append("<option value='0'>无</option>")
+                    for(var i = 0; i < res.data.length; i++) {
+                        sbHTML.append("<option value='" + res.data[i].CATEGORY_SEQ + "'>" + res.data[i].CATEGORY_NAME + "</option>")
+                    }
+                    CategoryPopupObject.PARENT_SEQ.html(sbHTML.toString());
+                    CategoryPopupObject.CATEGORY_SEQ.val('');
+                    CategoryPopupObject.CATEGORY_NAME.val('');
+                    CategoryPopupObject.CATEGORY_TYPE.val('');
+                }
+            }
+        });
+
+    }
+
+
+
+
+
+
+
+
+    //////////////////////////////////////////////////////////////
+    lfn_Init();
+    //////////////////////////////////////////////////////////////
+
+
+
+</script>
+</html>

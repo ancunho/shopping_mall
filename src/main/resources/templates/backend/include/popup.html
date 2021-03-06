@@ -1,0 +1,69 @@
+<div th:fragment="popup" xmlns:th="https://www.thymeleaf.org">
+
+    <!--  修改价格 popup Start  -->
+    <div class="popup01 editOrderPricePopup" style="display:none;">
+        <h2>修改价格</h2>
+        <input type="hidden" value="" class="ORDER_SEQ" />
+        <input type="hidden" value="" class="ORDER_NO" />
+        <input type="hidden" value="" class="STATUS" />
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label>总价(原):</label>
+                <input type="number" class="form-control PAYMENT" placeholder="原总价" value="" readonly="readonly"/>
+            </div>
+            <div class="form-group col-md-6">
+                <label style="color:#398BFD;"><strong>总价(新):</strong></label>
+                <input type="number" class="form-control VIP_PAYMENT" placeholder="请输入修改价" value="" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 text-center" style="padding:0 30px;"><button type="button" class="btn btn-danger btn-block btnClose">关闭</button></div>
+            <div class="col-md-6 text-center" style="padding:0 30px;"><button type="button" class="btn btn-primary btn-block btnSaveOrderPayment">保存</button></div>
+        </div>
+    </div>
+    <!--  //修改价格 popup End  -->
+
+    <!--  Popup02 Start  -->
+    <div class="popup02" style="display:none;">
+
+    </div>
+    <!--  //Popup02 End  -->
+
+    <!--  Popup03 Start  -->
+    <div class="popup03" style="display:none;">
+
+    </div>
+    <!--  //Popup03 End  -->
+
+    <!--  Popup04 Start  -->
+    <div class="popup04" style="display:none;">
+
+    </div>
+    <!--  //Popup04 End  -->
+
+    <!--  Popup05 Start  -->
+    <div class="popup05" style="display:none;">
+
+    </div>
+    <!--  //Popup05 End  -->
+
+    <!--  Popup06 Start  -->
+    <div class="popup06" id="" style="display:none;">
+
+    </div>
+    <!--  //Popup06 End  -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>

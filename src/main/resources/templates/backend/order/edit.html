@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<div th:replace="backend/include/top::head_meta"></div>
+<link rel="stylesheet" type="text/css" th:href="@{/static/_styles/wangEditor.min.css}" media="all">
+<link rel="stylesheet" type="text/css" th:href="@{/static/_scripts/layui/css/layui.css}" media="all">
+<title>Product</title>
+<style type="text/css">
+.divSpec { display: flex; flex-wrap: wrap;}
+.boxSpec { justify-content: flex-start; cursor: pointer; margin:0 12px 12px 0; border-radius: 10px; border:1px solid #dddddd; padding:10px 15px 15px 15px;}
+.boxSpec:hover { background:#eee; transition: 0.5s;}
+.boxSpec h3 { clear: both; overflow:hidden; line-height: 1.8rem; font-size:1.6rem; font-weight:bold; font-style: italic; }
+.boxSpec h3 span.title { text-decoration: none; display: inline-block; width:70px; font-size:0.7rem; color:#3E3F50;}
+.spec_popup { width:400px; padding:35px 50px; background: #fff; border-radius: 10px;}
+.spec_popup h2 { font-size:1.5rem; font-weight: bold; margin-bottom: 10px;}
+.btnCategoryType { padding:0 10px; margin:0 10px; line-height: 30px; color:#1b1e21; }
+.btnCategoryType:hover { text-decoration: none;}
+.btnCategoryType.active { border-bottom: 2px solid #398BFD; color:#398BFD;}
+label { border-bottom:1px dashed #398BFD; color: #9494a3; }
+</style>
+<body>
+
+<div id="wrap">
+    <!--  Header Start  -->
+    <div th:replace="backend/include/header::header_html"></div>
+    <!--  //Header End  -->
+    <!-- Contents Start   -->
+    <div class="container container-lg container-md con">
+        <input type="hidden" value="" class="ATTRIBUTE" />
+        <div class="conTop">
+            <h2>Product</h2>
+            <a href="#this" class="btn02 float-right btnList">返回列表</a>
+        </div>
+        <div class="d-flex justify-content-center containerTabGroup" style="margin:20px 0;">
+            <a href="#this" class="btnCategoryType btnCategoryType01 active text-center">咖啡类</a>
+            <a href="#this" class="btnCategoryType btnCategoryType02 text-center">售后服务类</a>
+        </div>
+        <div class="divProduct containerTab01" style="display:block">
+            <input type="hidden" th:value="${ORDER_SEQ}" class="ORDER_SEQ" />
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label>产品名</label>
+                    <input type="text" class="form-control PRODUCT_NAME" placeholder="请输入产品名" value="" />
+                </div>
+                <div class="form-group col-md-6">
+                    <label>副标题</label>
+                    <input type="text" class="form-control PRODUCT_SUBTITLE" placeholder="请输入副标题" value="" />
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <label>库存</label>
+                    <input type="text" class="form-control STOCK" placeholder="请输入库存" value="" />
+                </div>
+                <div class="form-group col-md-4">
+                    <label>状态选择</label>
+                    <select class="form-control USE_YN">
+                        <option value="1">上线</option>
+                        <option value="0">下线</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-4">
+                    <label>分类</label>
+                    <select class="form-control CATEGORY_ID">
+                        <option value="999" selected="selected">咖啡类</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>规格 &nbsp;&nbsp;<a href="#this" class="btn01 btnSpecPopup">新增规格</a></label>
+                <div class="divSpec">
+<!--                    <div class="boxSpec">-->
+<!--                        <h3><span>重量</span>6kg</h3>-->
+<!--                        <h3><span>单价</span>10元</h3>-->
+<!--                        <h3><span>打包方式</span>散装</h3>-->
+<!--                        <h3><span>发货方式</span>快递</h3>-->
+<!--                    </div>-->
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-3">
+                    <label>首页缩略图</label>
+                    <button type="button" id="mainUploadImage">上传图片</button>
+                    <div class="layui-hide iamgeViewDiv" id="mainUploadImageView" style="width:150px;">
+                        <input type="hidden" id="mainImage" value="" />
+                        <hr />
+                        <img src="" alt="上传成功后渲染" style="max-width: 100%">
+                    </div>
+                </div>
+                <div class="form-group col-md-3">
+                    <label>详细页缩略图1</label>
+                    <button type="button" id="subUploadImage">上传图片</button>
+                    <div class="layui-hide iamgeViewDiv" id="subUploadImageView" style="width:150px;">
+                        <input type="hidden" id="subImage" value="" />
+                        <hr />
+                        <img src="" alt="上传成功后渲染" style="max-width: 100%">
+                    </div>
+                </div>
+                <div class="form-group col-md-3">
+                    <label>详细页缩略图2</label>
+                    <button type="button" id="subUploadImage2">上传图片</button>
+                    <div class="layui-hide iamgeViewDiv" id="subUploadImageView2" style="width:150px;">
+                        <input type="hidden" id="subImage2" value="" />
+                        <hr />
+                        <img src="" alt="上传成功后渲染" style="max-width: 100%">
+                    </div>
+                </div>
+                <div class="form-group col-md-3">
+                    <label>详细页缩略图3</label>
+                    <button type="button" id="subUploadImage3">上传图片</button>
+                    <div class="layui-hide iamgeViewDiv" id="subUploadImageView3" style="width:150px;">
+                        <input type="hidden" id="subImage3" value="" />
+                        <hr />
+                        <img src="" alt="上传成功后渲染" style="max-width: 100%">
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>描述</label>
+                <div id="DIV_DETAIL" style="width:100%;"></div>
+                <input type="hidden" value="" class="DETAIL" />
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-3">
+                    <label>产区</label>
+                    <input type="text" class="form-control COUNTRY"placeholder="请输入产区" value="" />
+                </div>
+                <div class="form-group col-md-3">
+                    <label>品种</label>
+                    <input type="text" class="form-control VARIETY" placeholder="请输入品种" value="" />
+                </div>
+                <div class="form-group col-md-3">
+                    <label>处理法</label>
+                    <input type="text" class="form-control TREATMENT" placeholder="请输入处理法" value="" />
+                </div>
+                <div class="form-group col-md-3">
+                    <label>杯测风味</label>
+                    <input type="text" class="form-control FLAVOR" placeholder="请输入杯测风味" value="" />
+                </div>
+            </div>
+
+            <button type="button" class="btn btn-primary btn-block btnProductSave">提交</button>
+
+        </div>
+
+    </div>
+    <!-- //Contents End   -->
+</div>
+<div th:replace="backend/include/popup::popup"></div>
+<div th:replace="backend/include/bottom::scripts"></div>
+<script th:src="@{/static/_scripts/layui/layui.all.js}" type="text/javascript"></script>
+</body>
+<script type="text/javascript">
+    $(function(){
+
+
+        var ProductObject = {
+            PRODUCT_SEQ: $(".PRODUCT_SEQ"),
+            PRODUCT_NAME: $(".containerTab01 .PRODUCT_NAME"),
+            PRODUCT_SUBTITLE: $(".containerTab01 .PRODUCT_SUBTITLE"),
+            STOCK: $(".containerTab01 .STOCK"),
+            USE_YN: $(".containerTab01 .USE_YN"),
+            CATEGORY_ID: $(".containerTab01 .CATEGORY_ID"),
+            COUNTRY: $(".containerTab01 .COUNTRY"),
+            VARIETY: $(".containerTab01 .VARIETY"),
+            DETAIL: $(".containerTab01 .DETAIL"),
+            TREATMENT: $(".containerTab01 .TREATMENT"),
+            FLAVOR: $(".containerTab01 .FLAVOR"),
+            MAIN_IAMGE: $(".containerTab01 #mainImage"),
+            SUB_IMAGE: $(".containerTab01 #subImage"),
+            SUB_IMAGE2: $(".containerTab01 #subImage2"),
+            SUB_IMAGE3: $(".containerTab01 #subImage3")
+        }
+
+
+        var categoryList = new Array();
+
+        var lfn_init = function() {
+            var params = {
+                PRODUCT_SEQ: $(".PRODUCT_SEQ").val()
+            }
+            if(params.PRODUCT_SEQ !== "") {
+                $(".conTop h2").text("Product Edit");
+                new AjaxRequest({
+                    url: '/api/product/detail',
+                    async: false,
+                    params: params,
+                    callBack: function(res) {
+                        if (res.status === 0) {
+                            if (res.data.ATTRIBUTE === "01") {
+                                $(".containerTab01").css('display', 'block');
+                                $(".containerTab02").css('display', 'none');
+                                $(".containerTabGroup a").css('display','none').removeClass('active').eq(0).css('display','block').addClass('active');
+                                ProductObject.PRODUCT_NAME.val(res.data.PRODUCT_NAME);
+                                ProductObject.PRODUCT_SUBTITLE.val(res.data.PRODUCT_SUBTITLE);
+                                ProductObject.STOCK.val(res.data.STOCK);
+                                ProductObject.USE_YN.val(res.data.USE_YN);
+                                PRODUCT_ATTRIBUTE = res.data.ATTRIBUTE;
+                                lfn_CATEGORY01();
+                                ProductObject.COUNTRY.val(res.data.COUNTRY);
+                                ProductObject.VARIETY.val(res.data.VARIETY);
+                                ProductObject.TREATMENT.val(res.data.TREATMENT);
+                                ProductObject.FLAVOR.val(res.data.FLAVOR);
+                                if(res.data.MAIN_IMAGE) {
+                                    ProductObject.MAIN_IAMGE.val(res.data.MAIN_IMAGE);
+                                    layui.$('.containerTab01 #mainUploadImageView').removeClass('layui-hide').find('img').attr('src', res.data.MAIN_IMAGE);
+                                }
+                                if(res.data.SUB_IMAGE) {
+                                    ProductObject.SUB_IMAGE.val(res.data.SUB_IMAGE);
+                                    layui.$('.containerTab01 #subUploadImageView').removeClass('layui-hide').find('img').attr('src', res.data.SUB_IMAGE);
+                                }
+                                if(res.data.SUB_IMAGE2) {
+                                    ProductObject.SUB_IMAGE2.val(res.data.SUB_IMAGE2);
+                                    layui.$('.containerTab01 #subUploadImageView2').removeClass('layui-hide').find('img').attr('src', res.data.SUB_IMAGE2);
+                                }
+                                if(res.data.SUB_IMAGE3) {
+                                    ProductObject.SUB_IMAGE3.val(res.data.SUB_IMAGE3);
+                                    layui.$('.containerTab01 #subUploadImageView3').removeClass('layui-hide').find('img').attr('src', res.data.SUB_IMAGE3);
+                                }
+
+                                editor.txt.html(res.data.DETAIL);
+                                if (res.data.lstTB_SPEC.length > 0) {
+                                    for(var i = 0; i < res.data.lstTB_SPEC.length; i++) {
+                                        var sbSpec = new StringBuffer();
+                                        sbSpec.append("<div class='boxSpec'>");
+                                        sbSpec.append("     <input type='hidden' class='SPEC_SEQ' value='" + res.data.lstTB_SPEC[i].SPEC_SEQ + "' />");
+                                        sbSpec.append("     <button type='button' class='close' aria-label='关闭'><span aria-hidden='true'>&times;</span></button>");
+                                        sbSpec.append("     <h3><span class='title'>重量</span><span class='WEIGHT'>" + res.data.lstTB_SPEC[i].WEIGHT + "</span>kg</h3>");
+                                        sbSpec.append("     <h3><span class='title'>单价</span><span class='PRICE'>" + res.data.lstTB_SPEC[i].PRICE + "</span>元</h3>");
+                                        sbSpec.append("     <h3><span class='title'>打包方式</span><span class='PACKAGE_CODE'><input type='hidden' value='" + res.data.lstTB_SPEC[i].PACKAGE_CODE + "'>" + res.data.lstTB_SPEC[i].PACKAGE_CODE_NAME + "</span></h3>");
+                                        sbSpec.append("     <h3><span class='title'>发货方式</span><span class='DELIVERY_TYPE'><input type='hidden' value='" + res.data.lstTB_SPEC[i].DELIVERY_TYPE + "'>" + res.data.lstTB_SPEC[i].DELIVERY_TYPE_NAME + "</span></h3>");
+                                        sbSpec.append("</div>");
+                                        $(".divSpec").append(sbSpec.toString());
+                                    }
+                                }
+                            } else if(res.data.ATTRIBUTE === "02") {
+                                $(".containerTab01").css('display', 'none');
+                                $(".containerTab02").css('display', 'block');
+                                $(".containerTabGroup a").css('display','none').removeClass('active').eq(1).css('display','block').addClass('active');
+                                $(".CATEGORY_TYPE01").val('02');
+                                ProductObject2.PRODUCT_NAME.val(res.data.PRODUCT_NAME);
+                                ProductObject2.PRODUCT_SEQ.val(res.data.PRODUCT_SEQ);
+                                ProductObject2.PRODUCT_SUBTITLE.val(res.data.PRODUCT_SUBTITLE);
+                                ProductObject2.USE_YN.val(res.data.USE_YN);
+                                ProductObject2.PRICE.val(res.data.PRICE);
+                                ProductObject2.STOCK.val(res.data.STOCK);
+                                PRODUCT_ATTRIBUTE = res.data.ATTRIBUTE;
+                                ProductObject2.DETAIL.val(editor2.txt.html(res.data.DETAIL));
+                                ProductObject2.OPTION01.val(res.data.OPTION01);
+                                if(res.data.MAIN_IMAGE) {
+                                    ProductObject2.MAIN_IAMGE.val(res.data.MAIN_IMAGE);
+                                    layui.$('.containerTab02 #mainUploadImageViewTab02').removeClass('layui-hide').find('img').attr('src', res.data.MAIN_IMAGE);
+                                }
+                                if(res.data.SUB_IMAGE) {
+                                    ProductObject2.SUB_IMAGE.val(res.data.SUB_IMAGE);
+                                    layui.$('.containerTab02 #subUploadImageViewTab02').removeClass('layui-hide').find('img').attr('src', res.data.SUB_IMAGE);
+                                }
+                                if(res.data.SUB_IMAGE2) {
+                                    ProductObject2.SUB_IMAGE2.val(res.data.SUB_IMAGE2);
+                                    layui.$('.containerTab02 #subUploadImageView2Tab02').removeClass('layui-hide').find('img').attr('src', res.data.SUB_IMAGE2);
+                                }
+                                if(res.data.SUB_IMAGE3) {
+                                    ProductObject2.SUB_IMAGE3.val(res.data.SUB_IMAGE3);
+                                    layui.$('.containerTab02 #subUploadImageView3Tab02').removeClass('layui-hide').find('img').attr('src', res.data.SUB_IMAGE3);
+                                }
+
+                                //Category list Init Start
+                                var categoryParams = {}
+                                new AjaxRequest({
+                                    url: '/api/category/list',
+                                    params: JSON.stringify(categoryParams),
+                                    async: false,
+                                    contentType: 'application/json',
+                                    callBack: function(response) {
+                                        categoryList = response.data;
+                                        for(var i = 0; i < categoryList.length; i++) {
+                                            if(categoryList[i].SORT_ORDER === "1") {
+                                                $(".containerTab02 .CATEGORY_TYPE01").append("<option value='" + categoryList[i].CATEGORY_SEQ + "'>" + categoryList[i].CATEGORY_NAME + "</option>");
+                                            } else if (categoryList[i].SORT_ORDER === "2") {
+                                                $(".containerTab02 .CATEGORY_TYPE02").append("<option value='" + categoryList[i].CATEGORY_SEQ + "'>" + categoryList[i].CATEGORY_NAME + "</option>");
+                                            } else if (categoryList[i].SORT_ORDER === "3") {
+                                                $(".containerTab02 .CATEGORY_TYPE03").append("<option value='" + categoryList[i].CATEGORY_SEQ + "'>" + categoryList[i].CATEGORY_NAME + "</option>");
+
+                                            }
+                                        }
+
+                                        for(var i = 0; i < categoryList.length; i++) {
+                                            if(res.data.CATEGORY_ID === categoryList[i].CATEGORY_SEQ) {
+                                                if(categoryList[i].SORT_ORDER === "1") {
+                                                    $(".containerTab02 .CATEGORY_TYPE01").val(categoryList[i].CATEGORY_SEQ);
+                                                } else if(categoryList[i].SORT_ORDER === "2") {
+                                                    $(".containerTab02 .CATEGORY_TYPE02").val(categoryList[i].CATEGORY_SEQ);
+                                                    $(".containerTab02 .CATEGORY_TYPE01").val(categoryList[i].PARENT_SEQ);
+                                                } else if(categoryList[i].SORT_ORDER === "3") {
+                                                    $(".containerTab02 .CATEGORY_TYPE02").val(categoryList[i].PARENT_SEQ);
+                                                    $(".containerTab02 .CATEGORY_TYPE03").val(categoryList[i].CATEGORY_SEQ);
+                                                }
+                                            }
+
+                                        }
+                                    }
+                                });
+                                //Category list Init End
+
+                            } else {
+                                swal("数据错误！", "", "error");
+                                window.location.href = "/";
+                            }
+
+                        } else {
+                            swal(res.msg, "", "error").then(function(){
+                                window.location.href = "/backend/product/list";
+                            });
+                        }
+                    }
+                });
+            } else {
+                $(".conTop h2").text("Product Create");
+                //Category list Init Start
+                var categoryParams = {}
+                new AjaxRequest({
+                    url: '/api/category/list',
+                    params: JSON.stringify(categoryParams),
+                    async: false,
+                    contentType: 'application/json',
+                    callBack: function(response) {
+                        categoryList = response.data;
+                        for(var i = 0; i < categoryList.length; i++) {
+                            if(categoryList[i].SORT_ORDER === "1") {
+                                $(".containerTab02 .CATEGORY_TYPE01").append("<option value='" + categoryList[i].CATEGORY_SEQ + "'>" + categoryList[i].CATEGORY_NAME + "</option>");
+                            } else if (categoryList[i].SORT_ORDER === "2") {
+                                $(".containerTab02 .CATEGORY_TYPE02").append("<option value='" + categoryList[i].CATEGORY_SEQ + "'>" + categoryList[i].CATEGORY_NAME + "</option>");
+                            } else if (categoryList[i].SORT_ORDER === "3") {
+                                $(".containerTab02 .CATEGORY_TYPE03").append("<option value='" + categoryList[i].CATEGORY_SEQ + "'>" + categoryList[i].CATEGORY_NAME + "</option>");
+
+                            }
+                        }
+
+                        for(var i = 0; i < categoryList.length; i++) {
+                            if(res.data.CATEGORY_ID === categoryList[i].CATEGORY_SEQ) {
+                                if(categoryList[i].SORT_ORDER === "1") {
+                                    $(".containerTab02 .CATEGORY_TYPE01").val(categoryList[i].CATEGORY_SEQ);
+                                } else if(categoryList[i].SORT_ORDER === "2") {
+                                    $(".containerTab02 .CATEGORY_TYPE02").val(categoryList[i].CATEGORY_SEQ);
+                                    $(".containerTab02 .CATEGORY_TYPE01").val(categoryList[i].PARENT_SEQ);
+                                } else if(categoryList[i].SORT_ORDER === "3") {
+                                    $(".containerTab02 .CATEGORY_TYPE02").val(categoryList[i].PARENT_SEQ);
+                                    $(".containerTab02 .CATEGORY_TYPE03").val(categoryList[i].CATEGORY_SEQ);
+                                }
+                            }
+
+                        }
+                    }
+                });
+                //Category list Init End
+            }
+
+        }
+        lfn_init();
+
+        $(".containerTab01 .btnProductSave").unbind('click').click(function(){
+            var lstSpec = new Array();
+            $(".containerTab01 .boxSpec").each(function(idx, elem){
+                var specObj = new Object();
+                specObj.SPEC_SEQ = $(this).find('.SPEC_SEQ').val();
+                specObj.WEIGHT = $(this).find('.WEIGHT').text();
+                specObj.PRICE = $(this).find('.PRICE').text();
+                specObj.PACKAGE_CODE = $(this).find('.PACKAGE_CODE input').val();
+                specObj.DELIVERY_TYPE = $(this).find('.DELIVERY_TYPE input').val();
+                lstSpec.push(specObj);
+            });
+
+            var params = {
+                PRODUCT_SEQ: $.trim(ProductObject.PRODUCT_SEQ.val()),
+                PRODUCT_NAME: $.trim(ProductObject.PRODUCT_NAME.val()),
+                PRODUCT_SUBTITLE: $.trim(ProductObject.PRODUCT_SUBTITLE.val()),
+                CATEGORY_ID: $.trim(ProductObject.CATEGORY_ID.val()),
+                STOCK: $.trim(ProductObject.STOCK.val()),
+                ATTRIBUTE: PRODUCT_ATTRIBUTE,
+                MAIN_IMAGE: MAIN_IMAGE_TAB1.val(),
+                SUB_IMAGE: SUB_IMAGE_TAB1.val(),
+                SUB_IMAGE2: SUB_IMAGE2_TAB1.val(),
+                SUB_IMAGE3: SUB_IMAGE3_TAB1.val(),
+                USE_YN: $.trim(ProductObject.USE_YN.val()),
+                COUNTRY: $.trim(ProductObject.COUNTRY.val()),
+                VARIETY: $.trim(ProductObject.VARIETY.val()),
+                TREATMENT: $.trim(ProductObject.TREATMENT.val()),
+                FLAVOR: $.trim(ProductObject.FLAVOR.val()),
+                DETAIL: editor.txt.html(),
+                lstTB_SPEC: lstSpec
+            };
+
+            new AjaxRequest({
+                url: '/api/product/proc',
+                contentType: 'application/json',
+                params: JSON.stringify(params),
+                callBack: function(res) {
+                    if(res.status === 0) {
+                        swal(res.msg, params.PRODUCT_NAME, "success").then(function(){
+                            window.location.href = "/backend/product/list";
+                        });
+                    } else {
+                        swal(res.msg, "", "error");
+                    }
+                }
+            });
+        });
+
+        $(".btnList").unbind('click').click(function(){
+            window.location.href = "/backend/product/list";
+        });
+
+
+    });
+
+</script>
+
+
+
+
+</html>

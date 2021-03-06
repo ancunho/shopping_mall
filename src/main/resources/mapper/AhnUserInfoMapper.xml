@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="AHNSTUDIO.user">
+
+    <select id="selectTB_USER_INFO" parameterType="TB_USER_INFO" resultType="TB_USER_INFO">
+        <![CDATA[
+        SELECT  T1.USER_SEQ
+                ,IFNULL(T1.OPENID,'') AS OPENID
+                ,IFNULL(T1.UNIONID,'') AS UNIONID
+                ,T1.USERNAME AS USERNAME
+                ,T1.ROLE_NO AS ROLE_NO
+
+                ,IFNULL(T1.ROLE, '') AS ROLE
+                ,IFNULL(T1.USE_YN, '') AS USE_YN
+                ,IFNULL(T1.REALNAME, '') AS REALNAME
+                ,IFNULL(T1.COMPANY, '') AS COMPANY
+                ,IFNULL(T1.COMPANY_TYPE, '') AS COMPANY_TYPE
+
+                ,IFNULL(T1.DEVICE_SERIAL,'') AS DEVICE_SERIAL
+                ,IFNULL(T1.DEVICE_MODEL,'') AS DEVICE_MODEL
+                ,IFNULL(T1.DEVICE_COLOR,'') AS DEVICE_COLOR
+                ,IFNULL(T1.PHONE,'') AS PHONE
+                ,IFNULL(T1.EMAIL,'') AS EMAIL
+
+                ,IFNULL(T1.SEX,'') AS SEX
+                ,IFNULL(T1.BIRTHDAY,'') AS BIRTHDAY
+                ,IFNULL(T1.WECHAT,'') AS WECHAT
+                ,IFNULL(T1.QQ,'') AS QQ
+                ,IFNULL(T1.PROVINCE_CODE,'') AS PROVINCE_CODE
+
+                ,IFNULL(T1.CITY_CODE,'') AS CITY_CODE
+                ,IFNULL(T1.DISTRICT_CODE,'') AS DISTRICT_CODE
+                ,IFNULL(T1.ADDRESS,'') AS ADDRESS
+                ,T1.QUESTION AS QUESTION
+                ,T1.ANSWER AS ANSWER
+
+                ,IFNULL(T1.IMAGE_PHOTO,'') AS PHOTO
+                ,DATE_FORMAT(T1.CREATETIME, '%Y-%m-%d %H:%i:%s') AS CREATETIME
+                ,DATE_FORMAT(T1.UPDATETIME, '%Y-%m-%d %H:%i:%s') AS UPDATETIME
+                ,ROW_NUMBER() OVER(ORDER BY CREATETIME DESC) AS RN
+        FROM    TB_USER_INFO T1
+        WHERE   1 = 1
+        AND 	(IFNULL(#{USE_YN},'') = ''		OR 	T1.USE_YN = #{USE_YN})
+        ]]>
+    </select>
+
+    <select id="selectTB_USER_INFOForLogin" parameterType="TB_USER_INFO" resultType="TB_USER_INFO">
+        <![CDATA[
+        SELECT  T1.USER_SEQ, T1.OPENID, T1.UNIONID, T1.USERNAME, T1.ROLE_NO
+             ,T1.ROLE, T1.USE_YN, T1.REALNAME, T1.COMPANY, T1.COMPANY_TYPE
+             ,T1.DEVICE_SERIAL, T1.DEVICE_MODEL, T1.DEVICE_COLOR, T1.PHONE, T1.EMAIL
+             ,T1.SEX, T1.BIRTHDAY, T1.WECHAT, T1.QQ, T1.PROVINCE_CODE
+             ,T1.CITY_CODE, T1.DISTRICT_CODE, T1.ADDRESS, T1.QUESTION, T1.ANSWER
+             ,T1.IMAGE_PHOTO, T1.OPTION01, T1.OPTION02, T1.OPTION03, T1.OPTION04
+             ,T1.OPTION05
+             ,DATE_FORMAT(T1.CREATETIME, '%Y-%m-%d %H:%i:%s') AS CREATETIME
+             ,DATE_FORMAT(T1.UPDATETIME, '%Y-%m-%d %H:%i:%s') AS UPDATETIME
+        FROM    TB_USER_INFO T1
+        WHERE   T1.USE_YN = '1'
+          AND     T1.USERNAME = #{USERNAME}
+          AND     T1.PASSWORD = #{PASSWORD}
+        ]]>
+    </select>
+
+    <select id="selectTB_USER_INFOByPk" parameterType="java.lang.Integer" resultType="TB_USER_INFO">
+        <![CDATA[
+        SELECT  T1.USER_SEQ, T1.OPENID, T1.UNIONID, T1.USERNAME, T1.ROLE_NO
+             ,T1.ROLE, T1.USE_YN, T1.REALNAME, T1.COMPANY, T1.COMPANY_TYPE
+             ,T1.DEVICE_SERIAL, T1.DEVICE_MODEL, T1.DEVICE_COLOR, T1.PHONE, T1.EMAIL
+             ,T1.SEX, T1.BIRTHDAY, T1.WECHAT, T1.QQ, T1.PROVINCE_CODE
+             ,T1.CITY_CODE, T1.DISTRICT_CODE, T1.ADDRESS, T1.QUESTION, T1.ANSWER
+             ,T1.IMAGE_PHOTO, T1.OPTION01, T1.OPTION02, T1.OPTION03, T1.OPTION04
+             ,T1.OPTION05
+             ,DATE_FORMAT(T1.CREATETIME, '%Y-%m-%d %H:%i:%s') AS CREATETIME
+             ,DATE_FORMAT(T1.UPDATETIME, '%Y-%m-%d %H:%i:%s') AS UPDATETIME
+        FROM    TB_USER_INFO T1
+        WHERE   T1.USE_YN = '1'
+          AND     T1.USER_SEQ = #{USER_SEQ}
+        ]]>
+    </select>
+
+    <update id="updateTB_USER_INFO" parameterType="TB_USER_INFO">
+        <![CDATA[
+        UPDATE  TB_USER_INFO
+        ]]>
+        <set>
+            <if test="OPENID != null"> OPENID = #{OPENID}, </if>
+            <if test="UNIONID != null"> UNIONID = #{UNIONID}, </if>
+            <if test="USERNAME != null"> USERNAME = #{USERNAME}, </if>
+            <if test="ROLE_NO != null"> ROLE_NO = #{ROLE_NO}, </if>
+            <if test="ROLE != null"> ROLE = #{ROLE}, </if>
+
+            <if test="USE_YN != null"> USE_YN = #{USE_YN}, </if>
+            <if test="REALNAME != null"> REALNAME = #{REALNAME}, </if>
+            <if test="COMPANY != null"> COMPANY = #{COMPANY}, </if>
+            <if test="COMPANY_TYPE != null"> COMPANY_TYPE = #{COMPANY_TYPE}, </if>
+            <if test="DEVICE_SERIAL != null"> DEVICE_SERIAL = #{DEVICE_SERIAL}, </if>
+
+            <if test="DEVICE_MODEL != null"> DEVICE_MODEL = #{DEVICE_MODEL}, </if>
+            <if test="DEVICE_COLOR != null"> DEVICE_COLOR = #{DEVICE_COLOR}, </if>
+            <if test="PHONE != null"> PHONE = #{PHONE}, </if>
+            <if test="EMAIL != null"> EMAIL = #{EMAIL}, </if>
+            <if test="SEX != null"> SEX = #{SEX}, </if>
+
+            <if test="BIRTHDAY != null"> BIRTHDAY = #{BIRTHDAY}, </if>
+            <if test="WECHAT != null"> WECHAT = #{WECHAT}, </if>
+            <if test="QQ != null"> QQ = #{QQ}, </if>
+            <if test="PROVINCE_CODE != null"> PROVINCE_CODE = #{PROVINCE_CODE}, </if>
+            <if test="CITY_CODE != null"> CITY_CODE = #{CITY_CODE}, </if>
+
+            <if test="DISTRICT_CODE != null"> DISTRICT_CODE = #{DISTRICT_CODE}, </if>
+            <if test="ADDRESS != null"> ADDRESS = #{ADDRESS}, </if>
+            <if test="QUESTION != null"> QUESTION = #{QUESTION}, </if>
+            <if test="ANSWER != null"> ANSWER = #{ANSWER}, </if>
+            <if test="IMAGE_PHOTO != null"> IMAGE_PHOTO = #{IMAGE_PHOTO}, </if>
+
+            <if test="OPTION01 != null"> OPTION01 = #{OPTION01}, </if>
+            <if test="OPTION02 != null"> OPTION02 = #{OPTION02}, </if>
+            <if test="OPTION03 != null"> OPTION03 = #{OPTION03}, </if>
+            <if test="OPTION04 != null"> OPTION04 = #{OPTION04}, </if>
+            <if test="OPTION05 != null"> OPTION05 = #{OPTION05}, </if>
+            UPDATETIME = NOW()
+        </set>
+        <![CDATA[
+        WHERE USER_SEQ = #{USER_SEQ}
+        ]]>
+    </update>
+
+    <update id="updateTB_USER_INFOForUSE_YN" parameterType="TB_USER_INFO">
+        <![CDATA[
+        UPDATE  TB_USER_INFO T1
+        SET     T1.USE_YN = '0'
+        WHERE   T1.USER_SEQ = #{USER_SEQ}
+        ]]>
+    </update>
+
+    <delete id="deleteTB_USER_INFO" parameterType="TB_USER_INFO">
+        <![CDATA[
+        DELETE FROM TB_USER_INFO
+        WHERE  USER_SEQ = #{USER_SEQ}
+        ]]>
+    </delete>
+
+    <select id="countTB_USER_INFOByUSERNAME" parameterType="TB_USER_INFO" resultType="TB_USER_INFO">
+        <![CDATA[
+        SELECT  COUNT(1) AS ALL_COUNT
+        FROM    TB_USER_INFO T1
+        WHERE   T1.USE_YN = '1'
+        AND     T1.USERNAME = #{USERNAME}
+        ]]>
+    </select>
+
+    <select id="countTB_USER_INFOByUSERNAMERETURNInt" parameterType="TB_USER_INFO" resultType="java.lang.Integer">
+        <![CDATA[
+        SELECT  COUNT(1) AS ALL_COUNT
+        FROM    TB_USER_INFO T1
+        WHERE   T1.USE_YN = '1'
+          AND     T1.USERNAME = #{USERNAME}
+        ]]>
+    </select>
+
+    <select id="countTB_USER_INFOByEMAIL" parameterType="TB_USER_INFO" resultType="TB_USER_INFO">
+        <![CDATA[
+        SELECT  COUNT(1) AS ALL_COUNT
+        FROM    TB_USER_INFO T1
+        WHERE   T1.USE_YN = '1'
+        AND     T1.EMAIL = #{EMAIL}
+        ]]>
+    </select>
+
+    <insert id="insertTB_USER_INFO" parameterType="TB_USER_INFO">
+        <![CDATA[
+        INSERT INTO TB_USER_INFO
+                    (
+                    OPENID ,UNIONID ,USERNAME ,PASSWORD ,ROLE_NO
+                    ,ROLE ,USE_YN ,REALNAME ,COMPANY ,COMPANY_TYPE
+                    ,PHONE ,EMAIL ,SEX ,BIRTHDAY ,WECHAT
+                    ,QQ ,PROVINCE_CODE ,CITY_CODE ,DISTRICT_CODE ,ADDRESS
+                    ,QUESTION ,ANSWER ,IMAGE_PHOTO ,OPTION01 ,OPTION02
+                    ,OPTION03 ,OPTION04 ,OPTION05 ,CREATETIME
+                    )
+        VALUES
+                    (
+                    #{OPENID} ,#{UNIONID} ,#{USERNAME} ,#{PASSWORD} ,#{ROLE_NO}
+                    ,#{ROLE} ,#{USE_YN} ,#{REALNAME} ,#{COMPANY} ,#{COMPANY_TYPE}
+                    ,#{PHONE} ,#{EMAIL} ,#{SEX} ,#{BIRTHDAY} ,#{WECHAT}
+                    ,#{QQ} ,#{PROVINCE_CODE} ,#{CITY_CODE} ,#{DISTRICT_CODE} ,#{ADDRESS}
+                    ,#{QUESTION} ,#{ANSWER} ,#{IMAGE_PHOTO} ,#{OPTION01} ,#{OPTION02}
+                    ,#{OPTION03} ,#{OPTION04} ,#{OPTION05} ,NOW()
+                    )
+        ]]>
+    </insert>
+
+    <insert id="insertTB_USER_INFOForWechat" parameterType="TB_USER_INFO">
+        <![CDATA[
+        INSERT INTO TB_USER_INFO
+                    (
+                    OPENID ,UNIONID ,USERNAME ,PASSWORD ,ROLE_NO
+                    ,ROLE ,USE_YN ,REALNAME ,COMPANY ,COMPANY_TYPE
+                    ,DEVICE_SERIAL ,DEVICE_MODEL ,DEVICE_COLOR
+                    ,PHONE ,EMAIL ,SEX ,BIRTHDAY ,WECHAT
+                    ,QQ ,PROVINCE_CODE ,CITY_CODE ,DISTRICT_CODE ,ADDRESS
+                    ,QUESTION ,ANSWER ,IMAGE_PHOTO ,OPTION01 ,OPTION02
+                    ,OPTION03 ,OPTION04 ,OPTION05 ,CREATETIME
+                    )
+        VALUES
+                    (
+                    #{OPENID} ,#{UNIONID} ,#{USERNAME} ,#{PASSWORD} ,#{ROLE_NO}
+                    ,#{ROLE} ,#{USE_YN} ,#{REALNAME} ,#{COMPANY} ,#{COMPANY_TYPE}
+                    ,#{DEVICE_SERIAL} ,#{DEVICE_MODEL} ,#{DEVICE_COLOR}
+                    ,#{PHONE} ,#{EMAIL} ,#{SEX} ,#{BIRTHDAY} ,#{WECHAT}
+                    ,#{QQ} ,#{PROVINCE_CODE} ,#{CITY_CODE} ,#{DISTRICT_CODE} ,#{ADDRESS}
+                    ,#{QUESTION} ,#{ANSWER} ,#{IMAGE_PHOTO} ,#{OPTION01} ,#{OPTION02}
+                    ,#{OPTION03} ,#{OPTION04} ,#{OPTION05} ,NOW()
+                    )
+        ]]>
+    </insert>
+
+
+
+</mapper>

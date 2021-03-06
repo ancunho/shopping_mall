@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<div th:replace="backend/include/top::head_meta"></div>
+<title>Product</title>
+<style type="text/css">
+.divProduct {margin-top:20px;}
+.order-item { }
+.orderListTable p {margin-bottom: 0;}
+.orderListTable tbody td {padding: 5px 0;}
+</style>
+<body>
+<div id="wrap">
+    <!--  Header Start  -->
+    <div th:replace="backend/include/header::header_html"></div>
+    <!--  //Header End  -->
+    <!-- Contents Start   -->
+    <div class="container container-lg container-md con">
+        <div class="conTop">
+            <h2>Order</h2>
+            <a href="#this" class="btn05 btnSearchToggle">展开</a>
+        </div>
+        <div class="divSearch">
+            <div class="d-flex">
+                <div class="inputBox01">
+                    <label>选择时间</label>
+                    <input type="text" value="" class="START_DATE" /> ~ <input type="text" value="" class="END_DATE" />
+                </div>
+                <div class="inputBox01">
+                    <label>状态</label>
+                    <select class="STATUS" style="font-size:12px; display: inline-block; width:150px; height:30px;">
+                        <option value="">选择订单状态</option>
+                        <option value="10">未支付</option>
+                        <option value="20">已支付</option>
+                        <option value="40">已发货</option>
+                        <option value="50">订单完成</option>
+                    </select>
+                </div>
+            </div>
+            <p class="text-center mt-2"><a href="#this" class="btn02 btnSearch">查询</a> </p>
+        </div>
+        <div class="divProduct">
+            <table class="table01 orderListTable" style="font-size:0.9em;">
+                <colgroup>
+                    <col width="35%" />
+                    <col width="15%" />
+                    <col width="10%" />
+                    <col width="10%" />
+                    <col width="10%" />
+                    <col width="*" />
+                </colgroup>
+<!--                <thead>-->
+<!--                    <th style="text-align: left; padding-left:20px;">收货人信息</th>-->
+<!--                    <th>订单号</th>-->
+<!--                    <th>支付金额</th>-->
+<!--                    <th>订单状态</th>-->
+<!--                    <th>备注</th>-->
+<!--                    <th>操作</th>-->
+<!--                </thead>-->
+                <tbody></tbody>
+            </table>
+            <div class="page"></div>
+        </div>
+    </div>
+    <!-- //Contents End   -->
+</div>
+<div th:replace="backend/include/popup::popup"></div>
+<div th:replace="backend/include/bottom::scripts"></div>
+</body>
+<script type="text/javascript">
+    $('.START_DATE').datepicker({
+        format: "yyyy-mm-dd"
+    });
+
+    $('.END_DATE').datepicker({
+        format: "yyyy-mm-dd"
+    });
+    var bSearchToggle = false;
+    $(".btnSearchToggle").unbind('click').click(function(){
+        if (!bSearchToggle) {
+            $(".btnSearchToggle").text('收缩');
+            $(".divSearch").toggle("fast");
+            bSearchToggle = true;
+        } else {
+            $(".btnSearchToggle").text('展开');
+            $(".divSearch").toggle("fast");
+            bSearchToggle = false;
+        }
+    });
+
+
+    $(".btnSearch").unbind('click').click(function(){
+        lfn_Search(g_currentPage);
+    });
+
+    var lfn_Search = function(g_currentPage) {
+        var params = {
+            START_DATE : $(".START_DATE").val()
+            ,END_DATE : $(".END_DATE").val()
+            ,STATUS : $('.divSearch .STATUS').val()
+            ,PAGE_NUM: g_currentPage
+            ,PAGE_SIZE: 20
+        }
+
+        console.log(params);
+
+        new AjaxRequest({
+            url: "/api/order/list",
+            contentType: 'application/json',
+            params: JSON.stringify(params),
+            callBack: function(res){
+                if(res.status === 0) {
+                    var orderListData = res.data.list;
+                    var sbHTML = new StringBuffer();
+                    $(".orderListTable tbody").html('');
+                    if(orderListData.length > 0) {
+                        for(var i = 0; typeof orderListData != 'undefined' && i < orderListData.length; i++) {
+                            sbHTML.append("<tr style=' border-top: 2px dashed #3E3F50;'>");
+                            sbHTML.append("     <td colspan='6' style='text-align: left; padding-left:20px;'>");
+                            sbHTML.append("         <span style='display:inline-block; margin-right:20px;'><span>下单时间：</span>" + orderListData[i].CREATETIME + "</span>");
+                            if(orderListData[i].PAYMENT_TIME) {
+                                sbHTML.append("         <span style='display:inline-block; margin-right:20px;'><span>支付时间：</span>" + orderListData[i].PAYMENT_TIME + "</span>");
+                            }
+                            if(orderListData[i].SEND_TIME) {
+                                sbHTML.append("         <span style='display:inline-block; margin-right:20px;'><span>发货时间：</span>" + orderListData[i].SEND_TIME + "</span>");
+                            }
+                            if(orderListData[i].UPDATETIME) {
+                                sbHTML.append("         <span style='display:inline-block; margin-right:20px;'><span>内容更新时间：</span>" + orderListData[i].UPDATETIME + "</span>");
+                            }
+                            sbHTML.append("     </td>");
+
+                            sbHTML.append("</tr>");
+                            sbHTML.append("<tr>");
+                            sbHTML.append("     <input type='hidden' class='ORDER_SEQ' value='" + orderListData[i].ORDER_SEQ + "' />");
+                            sbHTML.append("     <input type='hidden' class='ORDER_NO' value='" + orderListData[i].ORDER_NO + "' />");
+                            sbHTML.append("     <input type='hidden' class='STATUS' value='" + orderListData[i].STATUS + "' />");
+                            if (orderListData[i].Shipping !== null) {
+                                sbHTML.append("     <td style='text-align: left; padding-left:20px;'><div style='text-align: left; padding-left:10px; font-weight: bold;'>收货人信息</div>"
+                                    + "<i class='bi bi-person-fill btn btn-sm'></i>" + checkEmpty(orderListData[i].Shipping.RECEIVER_NAME, "-") + " &nbsp;&nbsp;"
+                                    + "<i class='bi bi-telephone-fill btn btn-sm'></i>" + checkEmpty(orderListData[i].Shipping.RECEIVER_PHONE, "-") + "<br /> "
+                                    + "<i class='bi bi-truck btn btn-sm'></i>" + checkEmpty(orderListData[i].Shipping.RECEIVER_PROVINCE, "-") + checkEmpty(orderListData[i].Shipping.RECEIVER_CITY, "-") + checkEmpty(orderListData[i].Shipping.RECEIVER_DISTRICT, "-") + checkEmpty(orderListData[i].Shipping.RECEIVER_ADDRESS, "-") + " &nbsp;&nbsp; "
+                                    + "</td>");
+                            }
+                            sbHTML.append("     <td><p><strong>订单号</strong></p>" + orderListData[i].ORDER_NO + "</td>");
+                            sbHTML.append("     <td><p><strong>支付金额</strong></p>");
+
+                            if(orderListData[i].VIP_PAYMENT) {
+                                sbHTML.append("     <p style='text-decoration: line-through;'>" + checkEmpty(orderListData[i].PAYMENT, "-") + "元" + "</p>");
+                                sbHTML.append("     <p style='font-weight: bold;'>" + checkEmpty(orderListData[i].VIP_PAYMENT, "-") + "元" + "</p>");
+                            } else {
+                                sbHTML.append(checkEmpty(orderListData[i].PAYMENT, "-") + "元");
+                            }
+
+                            sbHTML.append("     </td>");
+                            sbHTML.append("     <td><p><strong>订单状态</strong></p>" + checkEmpty(orderListData[i].STATUS_DESC) + "</td>");
+                            sbHTML.append("     <td><p><strong>备注</strong></p>" + checkEmpty(orderListData[i].COMMENT, "-") + "</td>");
+                            sbHTML.append("     <td>");
+                            sbHTML.append("         <a href='#this' class='btn01 btnEditOrderStatus'>修改状态</a>&nbsp;&nbsp;");
+                            if (orderListData[i].STATUS === "10") {
+                                sbHTML.append("         <a href='#this' class='btn02 btnOrderEdit'>修改价格</a>");
+                            } else if (orderListData[i].STATUS === "20") {
+                                sbHTML.append("         <a href='#this' class='btn03 btnConfirmDelivery'>确认发货</a>&nbsp;&nbsp;");
+                            } else if (orderListData[i].STATUS === "40") {
+                                sbHTML.append("         <a href='#this' class='btn04 btnOrderComplete'>确认完成</a>&nbsp;&nbsp;");
+                            }
+                            sbHTML.append("     </td>");
+                            sbHTML.append("</tr>");
+                            sbHTML.append("<tr>");
+                            sbHTML.append("<td colspan='6' style='text-align: left; padding-left:20px;'>");
+                            if(orderListData[i].lstOrderItem !== null) {
+                                sbHTML.append("<ul class='d-flex justify-content-center flex-row' style='list-style: none;'>");
+                                for(var k = 0; typeof orderListData[i].lstOrderItem != 'undefined' && k < orderListData[i].lstOrderItem.length; k++) {
+                                    sbHTML.append("<li class='p-2 m-2'>");
+                                    sbHTML.append("<p style='text-align: center; width:135px;'><img style='width:100px; height:100px;' src='" + orderListData[i].lstOrderItem[k].PRODUCT_IMAGE + "' /></p>");
+                                    sbHTML.append("<p style='text-align: center;'>" + orderListData[i].lstOrderItem[k].PRODUCT_NAME + "</p>");
+                                    if (orderListData[i].lstOrderItem[k].ATTRIBUTE === "01") {
+                                        if(orderListData[i].lstOrderItem[k].tbSpec != null) {
+                                            sbHTML.append("<p style='text-align: center;'><strong>单价：</strong>" + orderListData[i].lstOrderItem[k].tbSpec.PRICE + "元" + "</p>");
+                                            sbHTML.append("<p style='text-align: center;'><strong>订购数量：</strong>" + orderListData[i].lstOrderItem[k].QTY + "</p>")
+                                        }
+                                    } else {
+                                        sbHTML.append("<p style='text-align: center;'><strong>单价：</strong>" + orderListData[i].lstOrderItem[k].CURRENT_UNIT_PRICE + "元" + "</p>");
+                                        sbHTML.append("<p style='text-align: center;'><strong>订购数量：</strong>" + orderListData[i].lstOrderItem[k].QTY + "</p>")
+                                    }
+
+                                    sbHTML.append("</li>");
+                                }
+                                sbHTML.append("</ul>");
+                            }
+                            sbHTML.append("</td>");
+                            sbHTML.append("</tr>");
+                        }
+
+                    } else {
+                        sbHTML.append("<tr><td colspan='6'>未查找订单数据！请确认搜索条件。</td></tr>")
+                    }
+                    $(".orderListTable tbody").html(sbHTML.toString());
+                } else {
+                    swal(res.msg, "", "error");
+                }
+            }
+        });
+
+    }
+
+    $(document).on('click', '.btnSaveOrderPayment', function(){
+        var editOrderPricePopup = $(".editOrderPricePopup");
+        var params = {
+            ORDER_SEQ: editOrderPricePopup.find(".ORDER_SEQ").val(),
+            ORDER_NO: editOrderPricePopup.find(".ORDER_NO").val(),
+            STATUS: editOrderPricePopup.find(".STATUS").val(),
+            // PAYMENT: editOrderPricePopup.find(".PAYMENT").val(),
+            VIP_PAYMENT: editOrderPricePopup.find(".VIP_PAYMENT").val() === "" ? 0 : editOrderPricePopup.find(".VIP_PAYMENT").val()
+        }
+
+        // console.log(params);
+        new AjaxRequest({
+            url: '/api/order/edit',
+            contentType: 'application/json',
+            params: JSON.stringify(params),
+            callBack: function(res) {
+                swal(res.msg, "", "success").then(function(){
+                    editOrderPricePopup.bPopup().close();
+                    lfn_Search();
+                });
+            }
+        });
+
+    });
+
+    $(document).on('click', '.btnOrderEdit', function(){
+        var ORDER_SEQ = $(this).parents("tr").find(".ORDER_SEQ").val();
+        var ORDER_NO = $(this).parents("tr").find(".ORDER_NO").val();
+        var STATUS = $(this).parents("tr").find(".STATUS").val();
+        var params = {
+            ORDER_SEQ: ORDER_SEQ,
+            ORDER_NO: ORDER_NO
+        }
+        var editOrderPricePopup = $(".editOrderPricePopup");
+        editOrderPricePopup.bPopup({
+            modalClose: false,
+            closeClass: 'btnClose',
+            onOpen: function() {
+                editOrderPricePopup.find('.ORDER_SEQ').val(ORDER_SEQ);
+                editOrderPricePopup.find('.ORDER_NO').val(ORDER_NO);
+                editOrderPricePopup.find('.STATUS').val(STATUS);
+                new AjaxRequest({
+                    url: '/api/order/detail',
+                    type: 'GET',
+                    params: params,
+                    callBack: function(res) {
+                        // console.log(res);
+                        editOrderPricePopup.find(".PAYMENT").val(res.data.PAYMENT);
+                        editOrderPricePopup.find(".VIP_PAYMENT").val(res.data.VIP_PAYMENT);
+                    }
+                });
+            }
+        });
+    });
+
+    lfn_Search(g_currentPage);
+</script>
+</html>

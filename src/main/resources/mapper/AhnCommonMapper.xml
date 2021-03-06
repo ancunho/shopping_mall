@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="AHNSTUDIO.common">
+
+    <select id="selectTB_COMMON_CODEByCODE_ID" parameterType="TB_COMMON_CODE" resultType="TB_COMMON_CODE">
+        <![CDATA[
+        SELECT  T1.CODE_SEQ, T1.CODE_ID, T1.CODE_TYPE, T1.CODE_NAME, T1.USE_YN,
+                T1.SORT, T1.OPTION01, T1.OPTION02, T1.OPTION03, T1.OPTION04,
+                T1.OPTION05, T1.CREATETIME, T1.UPDATETIME
+        FROM    TB_COMMON_CODE T1
+        WHERE   T1.USE_YN = '1'
+        AND     T1.CODE_ID = #{CODE_ID}
+        ]]>
+    </select>
+
+    <select id="selectTB_COMMON_CODEByOPTION01" parameterType="TB_COMMON_CODE" resultType="TB_COMMON_CODE">
+        <![CDATA[
+        SELECT  T1.CODE_SEQ, T1.CODE_ID, T1.CODE_TYPE, T1.CODE_NAME, T1.USE_YN,
+                T1.SORT, T1.OPTION01, T1.OPTION02, T1.OPTION03, T1.OPTION04,
+                T1.OPTION05, T1.CREATETIME, T1.UPDATETIME
+        FROM    TB_COMMON_CODE T1
+        WHERE   T1.USE_YN = '1'
+        AND     T1.OPTION01 = #{CODE_ID}
+        ]]>
+    </select>
+
+
+
+
+</mapper>

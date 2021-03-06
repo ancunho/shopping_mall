@@ -1,0 +1,943 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<div th:replace="backend/include/top::head_meta"></div>
+<link rel="stylesheet" type="text/css" th:href="@{/static/_styles/wangEditor.min.css}" media="all">
+<link rel="stylesheet" type="text/css" th:href="@{/static/_scripts/layui/css/layui.css}" media="all">
+<title>Product</title>
+<style type="text/css">
+.divSpec { display: flex; flex-wrap: wrap;}
+.boxSpec { justify-content: flex-start; cursor: pointer; margin:0 12px 12px 0; border-radius: 10px; border:1px solid #dddddd; padding:10px 15px 15px 15px;}
+.boxSpec:hover { background:#eee; transition: 0.5s;}
+.boxSpec h3 { clear: both; overflow:hidden; line-height: 1.8rem; font-size:1.6rem; font-weight:bold; font-style: italic; }
+.boxSpec h3 span.title { text-decoration: none; display: inline-block; width:70px; font-size:0.7rem; color:#3E3F50;}
+.spec_popup { width:400px; padding:35px 50px; background: #fff; border-radius: 10px;}
+.spec_popup h2 { font-size:1.5rem; font-weight: bold; margin-bottom: 10px;}
+.btnCategoryType { padding:0 10px; margin:0 10px; line-height: 30px; color:#1b1e21; }
+.btnCategoryType:hover { text-decoration: none;}
+.btnCategoryType.active { border-bottom: 2px solid #398BFD; color:#398BFD;}
+label { border-bottom:1px dashed #398BFD; color: #9494a3; }
+</style>
+<body>
+
+<div id="wrap">
+    <!--  Header Start  -->
+    <div th:replace="backend/include/header::header_html"></div>
+    <!--  //Header End  -->
+    <!-- Contents Start   -->
+    <div class="container container-lg container-md con">
+        <input type="hidden" value="" class="ATTRIBUTE" />
+        <div class="conTop">
+            <h2>Product</h2>
+            <a href="#this" class="btn02 float-right btnList">返回列表</a>
+        </div>
+        <div class="d-flex justify-content-center containerTabGroup" style="margin:20px 0;">
+            <a href="#this" class="btnCategoryType btnCategoryType01 active text-center">咖啡类</a>
+            <a href="#this" class="btnCategoryType btnCategoryType02 text-center">售后服务类</a>
+        </div>
+        <div class="divProduct containerTab01" style="display:block">
+            <input type="hidden" th:value="${PRODUCT_SEQ}" class="PRODUCT_SEQ" />
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label>产品名</label>
+                    <input type="text" class="form-control PRODUCT_NAME" placeholder="请输入产品名" value="" />
+                </div>
+                <div class="form-group col-md-6">
+                    <label>副标题</label>
+                    <input type="text" class="form-control PRODUCT_SUBTITLE" placeholder="请输入副标题" value="" />
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <label>库存</label>
+                    <input type="text" class="form-control STOCK" placeholder="请输入库存" value="" />
+                </div>
+                <div class="form-group col-md-4">
+                    <label>状态选择</label>
+                    <select class="form-control USE_YN">
+                        <option value="1">上线</option>
+                        <option value="0">下线</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-4">
+                    <label>分类</label>
+                    <select class="form-control CATEGORY_ID">
+                        <option value="999" selected="selected">咖啡类</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>规格 &nbsp;&nbsp;<a href="#this" class="btn01 btnSpecPopup">新增规格</a></label>
+                <div class="divSpec">
+<!--                    <div class="boxSpec">-->
+<!--                        <h3><span>重量</span>6kg</h3>-->
+<!--                        <h3><span>单价</span>10元</h3>-->
+<!--                        <h3><span>打包方式</span>散装</h3>-->
+<!--                        <h3><span>发货方式</span>快递</h3>-->
+<!--                    </div>-->
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-3">
+                    <label>首页缩略图</label>
+                    <button type="button" id="mainUploadImage">上传图片</button>
+                    <div class="layui-hide iamgeViewDiv" id="mainUploadImageView" style="width:150px;">
+                        <input type="hidden" id="mainImage" value="" />
+                        <hr />
+                        <img src="" alt="上传成功后渲染" style="max-width: 100%">
+                    </div>
+                </div>
+                <div class="form-group col-md-3">
+                    <label>详细页缩略图1</label>
+                    <button type="button" id="subUploadImage">上传图片</button>
+                    <div class="layui-hide iamgeViewDiv" id="subUploadImageView" style="width:150px;">
+                        <input type="hidden" id="subImage" value="" />
+                        <hr />
+                        <img src="" alt="上传成功后渲染" style="max-width: 100%">
+                    </div>
+                </div>
+                <div class="form-group col-md-3">
+                    <label>详细页缩略图2</label>
+                    <button type="button" id="subUploadImage2">上传图片</button>
+                    <div class="layui-hide iamgeViewDiv" id="subUploadImageView2" style="width:150px;">
+                        <input type="hidden" id="subImage2" value="" />
+                        <hr />
+                        <img src="" alt="上传成功后渲染" style="max-width: 100%">
+                    </div>
+                </div>
+                <div class="form-group col-md-3">
+                    <label>详细页缩略图3</label>
+                    <button type="button" id="subUploadImage3">上传图片</button>
+                    <div class="layui-hide iamgeViewDiv" id="subUploadImageView3" style="width:150px;">
+                        <input type="hidden" id="subImage3" value="" />
+                        <hr />
+                        <img src="" alt="上传成功后渲染" style="max-width: 100%">
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>描述</label>
+                <div id="DIV_DETAIL" style="width:100%;"></div>
+                <input type="hidden" value="" class="DETAIL" />
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-3">
+                    <label>产区</label>
+                    <input type="text" class="form-control COUNTRY"placeholder="请输入产区" value="" />
+                </div>
+                <div class="form-group col-md-3">
+                    <label>品种</label>
+                    <input type="text" class="form-control VARIETY" placeholder="请输入品种" value="" />
+                </div>
+                <div class="form-group col-md-3">
+                    <label>处理法</label>
+                    <input type="text" class="form-control TREATMENT" placeholder="请输入处理法" value="" />
+                </div>
+                <div class="form-group col-md-3">
+                    <label>杯测风味</label>
+                    <input type="text" class="form-control FLAVOR" placeholder="请输入杯测风味" value="" />
+                </div>
+            </div>
+
+            <button type="button" class="btn btn-primary btn-block btnProductSave">提交</button>
+
+        </div>
+        <div class="divProduct containerTab02" style="display: none;">
+            <input type="hidden" th:value="${PRODUCT_SEQ}" class="PRODUCT_SEQ" />
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label>产品名</label>
+                    <input type="text" class="form-control PRODUCT_NAME" placeholder="请输入产品名" value="" />
+                </div>
+                <div class="form-group col-md-4">
+                    <label>副标题</label>
+                    <input type="text" class="form-control PRODUCT_SUBTITLE" placeholder="请输入副标题" value="" />
+                </div>
+                <div class="form-group col-md-2">
+                    <label>状态选择</label>
+                    <select class="form-control USE_YN">
+                        <option value="1">上线</option>
+                        <option value="0">下线</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-2">
+                    <label>价格</label>
+                    <input type="number" class="form-control PRICE" placeholder="请输入价格" value="" />
+                </div>
+                <div class="form-group col-md-2">
+                    <label>库存</label>
+                    <input type="number" class="form-control STOCK" placeholder="请输入库存" value="" />
+                </div>
+                <div class="form-group col-md-2">
+                    <label>物流选择</label>
+                    <select class="form-control OPTION01">
+                        <option value="01">平邮</option>
+                        <option value="02">顺丰</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-2">
+                    <label>一级分类</label>
+                    <select class="form-control CATEGORY_TYPE01">
+                        <option value="">请选择分类</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-2">
+                    <label>二级分类</label>
+                    <select class="form-control CATEGORY_TYPE02">
+                        <option value="">请选择分类</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-2">
+                    <label>三级分类</label>
+                    <select class="form-control CATEGORY_TYPE03">
+                        <option value="">请选择分类</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-3">
+                    <label>首页缩略图</label>
+                    <button type="button" id="mainUploadImageTab02">上传图片</button>
+                    <div class="layui-hide iamgeViewDiv" id="mainUploadImageViewTab02" style="width:150px;">
+                        <input type="hidden" id="mainImageTab02" value="" />
+                        <hr />
+                        <img src="" alt="上传成功后渲染" style="max-width: 100%">
+                    </div>
+                </div>
+                <div class="form-group col-md-3">
+                    <label>详细页缩略图1</label>
+                    <button type="button" id="subUploadImageTab02">上传图片</button>
+                    <div class="layui-hide iamgeViewDiv" id="subUploadImageViewTab02" style="width:150px;">
+                        <input type="hidden" id="subImageTab02" value="" />
+                        <hr />
+                        <img src="" alt="上传成功后渲染" style="max-width: 100%">
+                    </div>
+                </div>
+                <div class="form-group col-md-3">
+                    <label>详细页缩略图2</label>
+                    <button type="button" id="subUploadImage2Tab02">上传图片</button>
+                    <div class="layui-hide iamgeViewDiv" id="subUploadImageView2Tab02" style="width:150px;">
+                        <input type="hidden" id="subImage2Tab02" value="" />
+                        <hr />
+                        <img src="" alt="上传成功后渲染" style="max-width: 100%">
+                    </div>
+                </div>
+                <div class="form-group col-md-3">
+                    <label>详细页缩略图3</label>
+                    <button type="button" id="subUploadImage3Tab02">上传图片</button>
+                    <div class="layui-hide iamgeViewDiv" id="subUploadImageView3Tab02" style="width:150px;">
+                        <input type="hidden" id="subImage3Tab02" value="" />
+                        <hr />
+                        <img src="" alt="上传成功后渲染" style="max-width: 100%">
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>描述</label>
+                <div class="detailValue" id="DIV_DETAIL2" style="width:100%;"></div>
+                <input type="hidden" value="" class="DETAIL" />
+            </div>
+
+            <button type="button" class="btn btn-primary btn-block btnProductSave">提交</button>
+
+        </div>
+    </div>
+    <!-- //Contents End   -->
+</div>
+<div class="spec_popup" style="display: none;">
+    <h2>请输入规格信息</h2>
+    <input type="hidden" value="" id="SPEC_SEQ" />
+    <div class="form-group"><label for="WEIGHT">重量</label><input type="number" class="form-control" id="WEIGHT" placeholder="输入重量（数字）" value="" /></div>
+    <div class="form-group"><label for="PRICE">单价</label><input type="number" class="form-control" id="PRICE" placeholder="单价(元)" value="" /></div>
+    <div class="form-group">
+        <label for="PACKAGE_CODE">打包方式</label>
+        <select class="form-control" id="PACKAGE_CODE">
+            <option value="01" selected="selected">散装</option>
+            <option value="02">整袋</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="DELIVERY_TYPE">发货方式</label>
+        <select class="form-control" id="DELIVERY_TYPE">
+            <option value="01" selected="selected">快递</option>
+            <option value="02">物流</option>
+        </select>
+    </div>
+    <div class="row">
+        <div class="col-md-6 text-center" style="padding:0 30px;"><button type="button" class="btn btn-danger btn-block btnClose">关闭</button></div>
+        <div class="col-md-6 text-center" style="padding:0 30px;"><button type="button" class="btn btn-primary btn-block btnAddSpec">保存</button></div>
+    </div>
+</div>
+<div th:replace="backend/include/popup::popup"></div>
+<div th:replace="backend/include/bottom::scripts"></div>
+<script th:src="@{/static/_scripts/layui/layui.all.js}" type="text/javascript"></script>
+</body>
+<script type="text/javascript">
+    $(function(){
+        var E = window.wangEditor;
+        var editor = new E('#DIV_DETAIL');
+        editor.customConfig.uploadImgServer = '/api/file/single/upload/url';
+        editor.customConfig.uploadFileName = 'file';
+        // editor.customConfig.uploadImgShowBase64 = true;
+        editor.customConfig.uploadImgHooks = {
+            fail: function (xhr, editor, result) {
+                swal ( "哎哟fail" ,  "好像出了问题!" ,  "error" );
+            },
+            error: function (xhr, editor) {
+                swal ( "哎哟error" ,  "好像出了问题!" ,  "error" );
+            },
+            timeout: function (xhr, editor) {
+                swal ( "哎哟timeout" ,  "超时啦!刷新重新弄！" ,  "error" )
+            },
+            customerInsert : function(insertImg, result, editor){
+                console.log(111);
+                for (var i = 0; i < result.data.length; i++) {
+                    insertImg(result.data[i]);
+                }
+            }
+        };
+        editor.create();
+
+        var editor2 = new E('#DIV_DETAIL2');
+        editor2.customConfig.uploadImgServer = '/api/file/single/upload/url';
+        editor2.customConfig.uploadFileName = 'file';
+        // editor.customConfig.uploadImgShowBase64 = true;
+        editor2.customConfig.uploadImgHooks = {
+            fail: function (xhr, editor, result) {
+                swal ( "哎哟fail" ,  "好像出了问题!" ,  "error" );
+            },
+            error: function (xhr, editor) {
+                swal ( "哎哟error" ,  "好像出了问题!" ,  "error" );
+            },
+            timeout: function (xhr, editor) {
+                swal ( "哎哟timeout" ,  "超时啦!刷新重新弄！" ,  "error" )
+            },
+            customerInsert : function(insertImg, result, editor){
+                for (var i = 0; i < result.data.length; i++) {
+                    insertImg(result.data[i]);
+                }
+            }
+        };
+        editor2.create();
+
+        var ProductObject = {
+            PRODUCT_SEQ: $(".PRODUCT_SEQ"),
+            PRODUCT_NAME: $(".containerTab01 .PRODUCT_NAME"),
+            PRODUCT_SUBTITLE: $(".containerTab01 .PRODUCT_SUBTITLE"),
+            STOCK: $(".containerTab01 .STOCK"),
+            USE_YN: $(".containerTab01 .USE_YN"),
+            CATEGORY_ID: $(".containerTab01 .CATEGORY_ID"),
+            COUNTRY: $(".containerTab01 .COUNTRY"),
+            VARIETY: $(".containerTab01 .VARIETY"),
+            DETAIL: $(".containerTab01 .DETAIL"),
+            TREATMENT: $(".containerTab01 .TREATMENT"),
+            FLAVOR: $(".containerTab01 .FLAVOR"),
+            MAIN_IAMGE: $(".containerTab01 #mainImage"),
+            SUB_IMAGE: $(".containerTab01 #subImage"),
+            SUB_IMAGE2: $(".containerTab01 #subImage2"),
+            SUB_IMAGE3: $(".containerTab01 #subImage3")
+        }
+
+        var ProductObject2 = {
+            PRODUCT_SEQ: $(".PRODUCT_SEQ"),
+            PRODUCT_NAME: $(".containerTab02 .PRODUCT_NAME"),
+            PRODUCT_SUBTITLE: $(".containerTab02 .PRODUCT_SUBTITLE"),
+            PRICE: $(".containerTab02 .PRICE"),
+            STOCK: $(".containerTab02 .STOCK"),
+            USE_YN: $(".containerTab02 .USE_YN"),
+            COUNTRY: $(".containerTab02 .COUNTRY"),
+            DETAIL: $(".containerTab02 .DETAIL"),
+            OPTION01: $(".containerTab02 .OPTION01"),
+            MAIN_IAMGE: $(".containerTab02 #mainImageTab02"),
+            SUB_IMAGE: $(".containerTab02 #subImageTab02"),
+            SUB_IMAGE2: $(".containerTab02 #subImage2Tab02"),
+            SUB_IMAGE3: $(".containerTab02 #subImage3Tab02")
+        }
+
+        var categoryList = new Array();
+
+        var lfn_init = function() {
+            var params = {
+                PRODUCT_SEQ: $(".PRODUCT_SEQ").val()
+            }
+            if(params.PRODUCT_SEQ !== "") {
+                $(".conTop h2").text("Product Edit");
+                new AjaxRequest({
+                    url: '/api/product/detail',
+                    async: false,
+                    params: params,
+                    callBack: function(res) {
+                        if (res.status === 0) {
+                            if (res.data.ATTRIBUTE === "01") {
+                                $(".containerTab01").css('display', 'block');
+                                $(".containerTab02").css('display', 'none');
+                                $(".containerTabGroup a").css('display','none').removeClass('active').eq(0).css('display','block').addClass('active');
+                                ProductObject.PRODUCT_NAME.val(res.data.PRODUCT_NAME);
+                                ProductObject.PRODUCT_SUBTITLE.val(res.data.PRODUCT_SUBTITLE);
+                                ProductObject.STOCK.val(res.data.STOCK);
+                                ProductObject.USE_YN.val(res.data.USE_YN);
+                                PRODUCT_ATTRIBUTE = res.data.ATTRIBUTE;
+                                lfn_CATEGORY01();
+                                ProductObject.COUNTRY.val(res.data.COUNTRY);
+                                ProductObject.VARIETY.val(res.data.VARIETY);
+                                ProductObject.TREATMENT.val(res.data.TREATMENT);
+                                ProductObject.FLAVOR.val(res.data.FLAVOR);
+                                if(res.data.MAIN_IMAGE) {
+                                    ProductObject.MAIN_IAMGE.val(res.data.MAIN_IMAGE);
+                                    layui.$('.containerTab01 #mainUploadImageView').removeClass('layui-hide').find('img').attr('src', res.data.MAIN_IMAGE);
+                                }
+                                if(res.data.SUB_IMAGE) {
+                                    ProductObject.SUB_IMAGE.val(res.data.SUB_IMAGE);
+                                    layui.$('.containerTab01 #subUploadImageView').removeClass('layui-hide').find('img').attr('src', res.data.SUB_IMAGE);
+                                }
+                                if(res.data.SUB_IMAGE2) {
+                                    ProductObject.SUB_IMAGE2.val(res.data.SUB_IMAGE2);
+                                    layui.$('.containerTab01 #subUploadImageView2').removeClass('layui-hide').find('img').attr('src', res.data.SUB_IMAGE2);
+                                }
+                                if(res.data.SUB_IMAGE3) {
+                                    ProductObject.SUB_IMAGE3.val(res.data.SUB_IMAGE3);
+                                    layui.$('.containerTab01 #subUploadImageView3').removeClass('layui-hide').find('img').attr('src', res.data.SUB_IMAGE3);
+                                }
+
+                                editor.txt.html(res.data.DETAIL);
+                                if (res.data.lstTB_SPEC.length > 0) {
+                                    for(var i = 0; i < res.data.lstTB_SPEC.length; i++) {
+                                        var sbSpec = new StringBuffer();
+                                        sbSpec.append("<div class='boxSpec'>");
+                                        sbSpec.append("     <input type='hidden' class='SPEC_SEQ' value='" + res.data.lstTB_SPEC[i].SPEC_SEQ + "' />");
+                                        sbSpec.append("     <button type='button' class='close' aria-label='关闭'><span aria-hidden='true'>&times;</span></button>");
+                                        sbSpec.append("     <h3><span class='title'>重量</span><span class='WEIGHT'>" + res.data.lstTB_SPEC[i].WEIGHT + "</span>kg</h3>");
+                                        sbSpec.append("     <h3><span class='title'>单价</span><span class='PRICE'>" + res.data.lstTB_SPEC[i].PRICE + "</span>元</h3>");
+                                        sbSpec.append("     <h3><span class='title'>打包方式</span><span class='PACKAGE_CODE'><input type='hidden' value='" + res.data.lstTB_SPEC[i].PACKAGE_CODE + "'>" + res.data.lstTB_SPEC[i].PACKAGE_CODE_NAME + "</span></h3>");
+                                        sbSpec.append("     <h3><span class='title'>发货方式</span><span class='DELIVERY_TYPE'><input type='hidden' value='" + res.data.lstTB_SPEC[i].DELIVERY_TYPE + "'>" + res.data.lstTB_SPEC[i].DELIVERY_TYPE_NAME + "</span></h3>");
+                                        sbSpec.append("</div>");
+                                        $(".divSpec").append(sbSpec.toString());
+                                    }
+                                }
+                            } else if(res.data.ATTRIBUTE === "02") {
+                                $(".containerTab01").css('display', 'none');
+                                $(".containerTab02").css('display', 'block');
+                                $(".containerTabGroup a").css('display','none').removeClass('active').eq(1).css('display','block').addClass('active');
+                                $(".CATEGORY_TYPE01").val('02');
+                                ProductObject2.PRODUCT_NAME.val(res.data.PRODUCT_NAME);
+                                ProductObject2.PRODUCT_SEQ.val(res.data.PRODUCT_SEQ);
+                                ProductObject2.PRODUCT_SUBTITLE.val(res.data.PRODUCT_SUBTITLE);
+                                ProductObject2.USE_YN.val(res.data.USE_YN);
+                                ProductObject2.PRICE.val(res.data.PRICE);
+                                ProductObject2.STOCK.val(res.data.STOCK);
+                                PRODUCT_ATTRIBUTE = res.data.ATTRIBUTE;
+                                ProductObject2.DETAIL.val(editor2.txt.html(res.data.DETAIL));
+                                ProductObject2.OPTION01.val(res.data.OPTION01);
+                                if(res.data.MAIN_IMAGE) {
+                                    ProductObject2.MAIN_IAMGE.val(res.data.MAIN_IMAGE);
+                                    layui.$('.containerTab02 #mainUploadImageViewTab02').removeClass('layui-hide').find('img').attr('src', res.data.MAIN_IMAGE);
+                                }
+                                if(res.data.SUB_IMAGE) {
+                                    ProductObject2.SUB_IMAGE.val(res.data.SUB_IMAGE);
+                                    layui.$('.containerTab02 #subUploadImageViewTab02').removeClass('layui-hide').find('img').attr('src', res.data.SUB_IMAGE);
+                                }
+                                if(res.data.SUB_IMAGE2) {
+                                    ProductObject2.SUB_IMAGE2.val(res.data.SUB_IMAGE2);
+                                    layui.$('.containerTab02 #subUploadImageView2Tab02').removeClass('layui-hide').find('img').attr('src', res.data.SUB_IMAGE2);
+                                }
+                                if(res.data.SUB_IMAGE3) {
+                                    ProductObject2.SUB_IMAGE3.val(res.data.SUB_IMAGE3);
+                                    layui.$('.containerTab02 #subUploadImageView3Tab02').removeClass('layui-hide').find('img').attr('src', res.data.SUB_IMAGE3);
+                                }
+
+                                //Category list Init Start
+                                var categoryParams = {}
+                                new AjaxRequest({
+                                    url: '/api/category/list',
+                                    params: JSON.stringify(categoryParams),
+                                    async: false,
+                                    contentType: 'application/json',
+                                    callBack: function(response) {
+                                        categoryList = response.data;
+                                        for(var i = 0; i < categoryList.length; i++) {
+                                            if(categoryList[i].SORT_ORDER === "1") {
+                                                $(".containerTab02 .CATEGORY_TYPE01").append("<option value='" + categoryList[i].CATEGORY_SEQ + "'>" + categoryList[i].CATEGORY_NAME + "</option>");
+                                            } else if (categoryList[i].SORT_ORDER === "2") {
+                                                $(".containerTab02 .CATEGORY_TYPE02").append("<option value='" + categoryList[i].CATEGORY_SEQ + "'>" + categoryList[i].CATEGORY_NAME + "</option>");
+                                            } else if (categoryList[i].SORT_ORDER === "3") {
+                                                $(".containerTab02 .CATEGORY_TYPE03").append("<option value='" + categoryList[i].CATEGORY_SEQ + "'>" + categoryList[i].CATEGORY_NAME + "</option>");
+
+                                            }
+                                        }
+
+                                        for(var i = 0; i < categoryList.length; i++) {
+                                            if(res.data.CATEGORY_ID === categoryList[i].CATEGORY_SEQ) {
+                                                if(categoryList[i].SORT_ORDER === "1") {
+                                                    $(".containerTab02 .CATEGORY_TYPE01").val(categoryList[i].CATEGORY_SEQ);
+                                                } else if(categoryList[i].SORT_ORDER === "2") {
+                                                    $(".containerTab02 .CATEGORY_TYPE02").val(categoryList[i].CATEGORY_SEQ);
+                                                    $(".containerTab02 .CATEGORY_TYPE01").val(categoryList[i].PARENT_SEQ);
+                                                } else if(categoryList[i].SORT_ORDER === "3") {
+                                                    $(".containerTab02 .CATEGORY_TYPE02").val(categoryList[i].PARENT_SEQ);
+                                                    $(".containerTab02 .CATEGORY_TYPE03").val(categoryList[i].CATEGORY_SEQ);
+                                                }
+                                            }
+
+                                        }
+                                    }
+                                });
+                                //Category list Init End
+
+                            } else {
+                                swal("数据错误！", "", "error");
+                                window.location.href = "/";
+                            }
+
+                        } else {
+                            swal(res.msg, "", "error").then(function(){
+                                window.location.href = "/backend/product/list";
+                            });
+                        }
+                    }
+                });
+            } else {
+                $(".conTop h2").text("Product Create");
+                //Category list Init Start
+                var categoryParams = {}
+                new AjaxRequest({
+                    url: '/api/category/list',
+                    params: JSON.stringify(categoryParams),
+                    async: false,
+                    contentType: 'application/json',
+                    callBack: function(response) {
+                        categoryList = response.data;
+                        for(var i = 0; i < categoryList.length; i++) {
+                            if(categoryList[i].SORT_ORDER === "1") {
+                                $(".containerTab02 .CATEGORY_TYPE01").append("<option value='" + categoryList[i].CATEGORY_SEQ + "'>" + categoryList[i].CATEGORY_NAME + "</option>");
+                            } else if (categoryList[i].SORT_ORDER === "2") {
+                                $(".containerTab02 .CATEGORY_TYPE02").append("<option value='" + categoryList[i].CATEGORY_SEQ + "'>" + categoryList[i].CATEGORY_NAME + "</option>");
+                            } else if (categoryList[i].SORT_ORDER === "3") {
+                                $(".containerTab02 .CATEGORY_TYPE03").append("<option value='" + categoryList[i].CATEGORY_SEQ + "'>" + categoryList[i].CATEGORY_NAME + "</option>");
+
+                            }
+                        }
+
+                        for(var i = 0; i < categoryList.length; i++) {
+                            if(res.data.CATEGORY_ID === categoryList[i].CATEGORY_SEQ) {
+                                if(categoryList[i].SORT_ORDER === "1") {
+                                    $(".containerTab02 .CATEGORY_TYPE01").val(categoryList[i].CATEGORY_SEQ);
+                                } else if(categoryList[i].SORT_ORDER === "2") {
+                                    $(".containerTab02 .CATEGORY_TYPE02").val(categoryList[i].CATEGORY_SEQ);
+                                    $(".containerTab02 .CATEGORY_TYPE01").val(categoryList[i].PARENT_SEQ);
+                                } else if(categoryList[i].SORT_ORDER === "3") {
+                                    $(".containerTab02 .CATEGORY_TYPE02").val(categoryList[i].PARENT_SEQ);
+                                    $(".containerTab02 .CATEGORY_TYPE03").val(categoryList[i].CATEGORY_SEQ);
+                                }
+                            }
+
+                        }
+                    }
+                });
+                //Category list Init End
+            }
+
+        }
+        lfn_init();
+
+        $(".containerTab01 .btnProductSave").unbind('click').click(function(){
+            var lstSpec = new Array();
+            $(".containerTab01 .boxSpec").each(function(idx, elem){
+                var specObj = new Object();
+                specObj.SPEC_SEQ = $(this).find('.SPEC_SEQ').val();
+                specObj.WEIGHT = $(this).find('.WEIGHT').text();
+                specObj.PRICE = $(this).find('.PRICE').text();
+                specObj.PACKAGE_CODE = $(this).find('.PACKAGE_CODE input').val();
+                specObj.DELIVERY_TYPE = $(this).find('.DELIVERY_TYPE input').val();
+                lstSpec.push(specObj);
+            });
+
+            var params = {
+                PRODUCT_SEQ: $.trim(ProductObject.PRODUCT_SEQ.val()),
+                PRODUCT_NAME: $.trim(ProductObject.PRODUCT_NAME.val()),
+                PRODUCT_SUBTITLE: $.trim(ProductObject.PRODUCT_SUBTITLE.val()),
+                CATEGORY_ID: $.trim(ProductObject.CATEGORY_ID.val()),
+                STOCK: $.trim(ProductObject.STOCK.val()),
+                ATTRIBUTE: PRODUCT_ATTRIBUTE,
+                MAIN_IMAGE: MAIN_IMAGE_TAB1.val(),
+                SUB_IMAGE: SUB_IMAGE_TAB1.val(),
+                SUB_IMAGE2: SUB_IMAGE2_TAB1.val(),
+                SUB_IMAGE3: SUB_IMAGE3_TAB1.val(),
+                USE_YN: $.trim(ProductObject.USE_YN.val()),
+                COUNTRY: $.trim(ProductObject.COUNTRY.val()),
+                VARIETY: $.trim(ProductObject.VARIETY.val()),
+                TREATMENT: $.trim(ProductObject.TREATMENT.val()),
+                FLAVOR: $.trim(ProductObject.FLAVOR.val()),
+                DETAIL: editor.txt.html(),
+                lstTB_SPEC: lstSpec
+            };
+
+            new AjaxRequest({
+                url: '/api/product/proc',
+                contentType: 'application/json',
+                params: JSON.stringify(params),
+                callBack: function(res) {
+                    if(res.status === 0) {
+                        swal(res.msg, params.PRODUCT_NAME, "success").then(function(){
+                            window.location.href = "/backend/product/list";
+                        });
+                    } else {
+                        swal(res.msg, "", "error");
+                    }
+                }
+            });
+        });
+
+        $(".btnList").unbind('click').click(function(){
+            window.location.href = "/backend/product/list";
+        });
+
+        var PRODUCT_ATTRIBUTE = "01";
+        $(".containerTabGroup a").each(function(idx, elem){
+            $(elem).unbind('click').click(function(e){
+                if (idx === 0) {
+                    $(".containerTab01").css('display','block');
+                    $(".containerTab02").css('display', 'none');
+                    PRODUCT_ATTRIBUTE = "01";
+                } else {
+                    $(".containerTab01").css('display', 'none');
+                    $(".containerTab02").css('display', 'block');
+                    PRODUCT_ATTRIBUTE = "02";
+                }
+                $(".containerTabGroup a").removeClass('active').eq(idx).addClass('active');
+            });
+        });
+
+        var lfn_CATEGORY01 = function(){
+            new AjaxRequest({
+                url: '/api/category/list/parent0'
+                ,callBack: function(res) {
+                    if(res.status === 0) {
+                        var sbHTML = new StringBuffer();
+                        $(".CATEGORY_TYPE01").html();
+                        sbHTML.append("<option value=''>请选择一级分类</option>")
+                        for (var i = 0; i < res.data.length; i++) {
+                            sbHTML.append("<option value='" + res.data[i].CATEGORY_SEQ + "'>" + res.data[i].CATEGORY_NAME + "</option>");
+                        }
+                        $(".CATEGORY_TYPE01").html(sbHTML.toString());
+
+                    } else {
+                        swal(res.msg, "", "error");
+                    }
+                }
+            });
+        }
+        // lfn_CATEGORY01();
+
+        $(".CATEGORY_TYPE01").unbind('change').change(function(){
+            var _this = $(this);
+            if (_this.val() === "") {
+                return;
+            }
+            var params = {
+                PARENT_SEQ: _this.val()
+            };
+
+            new AjaxRequest({
+                url: '/api/category/children',
+                params: JSON.stringify(params),
+                contentType: 'application/json',
+                callBack: function(res){
+                    if (res.status === 0) {
+                        var sbHTML = new StringBuffer();
+                        $(".CATEGORY_TYPE02").html();
+                        $(".CATEGORY_TYPE03").html();
+                        sbHTML.append("<option value=''>请选择二级分类</option>")
+                        for (var i = 0; i < res.data.length; i++) {
+                            sbHTML.append("<option value='" + res.data[i].CATEGORY_SEQ + "'>" + res.data[i].CATEGORY_NAME + "</option>");
+                        }
+                        $(".CATEGORY_TYPE02").html(sbHTML.toString());
+                    } else {
+                        swal(res.msg, "", "error");
+                    }
+                }
+            });
+        });
+
+        $(".CATEGORY_TYPE02").unbind('change').change(function(){
+            var _this = $(this);
+            if (_this.val() === "") {
+                return;
+            }
+            var params = {
+                PARENT_SEQ: _this.val()
+            };
+
+            new AjaxRequest({
+                url: '/api/category/children',
+                params: JSON.stringify(params),
+                contentType: 'application/json',
+                callBack: function(res){
+                    if (res.status === 0) {
+                        var sbHTML = new StringBuffer();
+                        $(".CATEGORY_TYPE03").html();
+                        sbHTML.append("<option value=''>请选择三级分类</option>")
+                        for (var i = 0; i < res.data.length; i++) {
+                            sbHTML.append("<option value='" + res.data[i].CATEGORY_SEQ + "'>" + res.data[i].CATEGORY_NAME + "</option>");
+                        }
+                        $(".CATEGORY_TYPE03").html(sbHTML.toString());
+                    } else {
+                        swal(res.msg, "", "error");
+                    }
+                }
+            });
+        });
+
+
+
+        $(".containerTab02 .btnProductSave").unbind('click').click(function(){
+            var CATEGORY_ID;
+            var CATEGORY_TYPE01 = $(".containerTab02 .CATEGORY_TYPE01").val()
+                ,CATEGORY_TYPE02 = $(".containerTab02 .CATEGORY_TYPE02").val()
+                ,CATEGORY_TYPE03 = $(".containerTab02 .CATEGORY_TYPE03").val();
+
+            if(CATEGORY_TYPE03 === "") {
+                if (CATEGORY_TYPE02 === "") {
+                    CATEGORY_ID = CATEGORY_TYPE01;
+                }else {
+                    CATEGORY_ID = CATEGORY_TYPE02;
+                }
+            }else {
+                CATEGORY_ID = CATEGORY_TYPE03;
+            }
+
+            var params = {
+                PRODUCT_SEQ: $.trim(ProductObject2.PRODUCT_SEQ.val()),
+                PRODUCT_NAME: $.trim(ProductObject2.PRODUCT_NAME.val()),
+                PRODUCT_SUBTITLE: $.trim(ProductObject2.PRODUCT_SUBTITLE.val()),
+                PRICE: $.trim(ProductObject2.PRICE.val()),
+                STOCK: $.trim(ProductObject2.STOCK.val()),
+                USE_YN: $.trim(ProductObject2.USE_YN.val()),
+                CATEGORY_ID: CATEGORY_ID,
+                ATTRIBUTE: PRODUCT_ATTRIBUTE,
+                COUNTRY: $.trim(ProductObject2.COUNTRY.val()),
+                // DETAIL: $.trim(ProductObject2.DETAIL.val()),
+                DETAIL: editor2.txt.html(),
+                OPTION01: $.trim(ProductObject2.OPTION01.val()),
+                MAIN_IMAGE: MAIN_IMAGE_TAB2.val(),
+                SUB_IMAGE: SUB_IMAGE_TAB2.val(),
+                SUB_IMAGE2: SUB_IMAGE2_TAB2.val(),
+                SUB_IMAGE3: SUB_IMAGE3_TAB2.val(),
+            };
+
+            new AjaxRequest({
+                url: '/api/product/proc',
+                contentType: 'application/json',
+                params: JSON.stringify(params),
+                callBack: function(res) {
+                    if(res.status === 0) {
+                        swal(res.msg, params.PRODUCT_NAME, "success").then(function(){
+                            window.location.href = "/backend/product/list";
+                        });
+                    } else {
+                        swal(res.msg, "", "error");
+                    }
+                }
+            });
+        });
+
+        var SpecNewObject = {
+            SPEC_SEQ: $(".spec_popup #SPEC_SEQ"),
+            WEIGHT: $(".spec_popup #WEIGHT"),
+            PRICE: $(".spec_popup #PRICE"),
+            PACKAGE_CODE: $(".spec_popup #PACKAGE_CODE"),
+            DELIVERY_TYPE: $(".spec_popup #DELIVERY_TYPE")
+        }
+
+        $(document).on('click', '.btnSpecPopup', function() {
+            $(".spec_popup").bPopup({
+                modalClose: false,
+                closeClass: 'btnClose',
+                onOpen: function() {
+                    SpecNewObject.SPEC_SEQ.val('');
+                    SpecNewObject.WEIGHT.val('');
+                    SpecNewObject.PRICE.val('');
+                    SpecNewObject.PACKAGE_CODE.val('01');
+                    SpecNewObject.DELIVERY_TYPE.val('01');
+                }
+            });
+        });
+
+        //Add Spec ()
+        $(document).on('click', '.btnAddSpec', function() {
+            var addObject = new Object();
+            addObject.SPEC_SEQ = SpecNewObject.SPEC_SEQ.val();
+            addObject.WEIGHT = SpecNewObject.WEIGHT.val();
+            addObject.PRICE = SpecNewObject.PRICE.val();
+            addObject.PACKAGE_CODE = SpecNewObject.PACKAGE_CODE.val();
+            addObject.DELIVERY_TYPE = SpecNewObject.DELIVERY_TYPE.val();
+
+            if(addObject.WEIGHT === "" || addObject.PRICE === "") {
+                alert("输入框值不能为空");
+                return;
+            }
+
+            var sbSpec = new StringBuffer();
+            sbSpec.append("<div class='boxSpec'>");
+            sbSpec.append("     <input type='hidden' class='SPEC_SEQ' value='' />");
+            sbSpec.append("     <button type='button' class='close' aria-label='关闭'><span aria-hidden='true'>&times;</span></button>");
+            sbSpec.append("     <h3><span class='title'>重量</span><span class='WEIGHT'>" + addObject.WEIGHT + "</span>kg</h3>");
+            sbSpec.append("     <h3><span class='title'>单价</span><span class='PRICE'>" + addObject.PRICE + "</span>元</h3>");
+            sbSpec.append("     <h3><span class='title'>打包方式</span><span class='PACKAGE_CODE'><input type='hidden' value='" + addObject.PACKAGE_CODE + "'>" + (addObject.PACKAGE_CODE === "01" ? "散装" : "整袋") + "</span></h3>");
+            sbSpec.append("     <h3><span class='title'>发货方式</span><span class='DELIVERY_TYPE'><input type='hidden' value='" + addObject.DELIVERY_TYPE + "'>" + (addObject.DELIVERY_TYPE === "01" ? "快递" : "物流") + "</span></h3>");
+            sbSpec.append("</div>");
+            $(".divSpec").append(sbSpec.toString());
+            $(".spec_popup").bPopup().close();
+        });
+
+    });
+
+</script>
+
+<script type="text/javascript" th:inline="javascript">
+
+    layui.use(['element'], function () {
+        var element = layui.element;
+        element.render();
+    });
+
+    // 초기 오브젝트 생성
+    var MAIN_IMAGE_TAB1 = $(".containerTab01 #mainImage")
+        , SUB_IMAGE_TAB1 = $(".containerTab01 #subImage")
+        , SUB_IMAGE2_TAB1 = $(".containerTab01 #subImage2")
+        , SUB_IMAGE3_TAB1 = $(".containerTab01 #subImage3");
+
+    var MAIN_IMAGE_TAB2 = $(".containerTab02 #mainImageTab02")
+        , SUB_IMAGE_TAB2 = $(".containerTab02 #subImageTab02")
+        , SUB_IMAGE2_TAB2 = $(".containerTab02 #subImage2Tab02")
+        , SUB_IMAGE3_TAB2 = $(".containerTab02 #subImage3Tab02");
+
+    layui.use(['layer', 'form', 'element'], function(){
+        var layer = layui.layer
+            ,form = layui.form
+            ,element = layui.element;
+        form.render();
+        element.render();
+
+        form.on('switch(productStatus)', function (data) {
+            var checked = data.elem.checked === true ? "1" : "0";
+            $("#status").val(checked);
+        });
+
+        // Tab01 Start
+        // Main Image Upload Start
+        //上传
+        layui.upload.render({
+            elem: '.containerTab01 #mainUploadImage'
+            ,url: '/api/file/single/upload' //改成您自己的上传接口
+            ,done: function(res){
+                layer.msg('上传成功');
+                layui.$('.containerTab01 #mainUploadImageView').removeClass('layui-hide').find('img').attr('src', res.data);
+                MAIN_IMAGE_TAB1.val(res.data);
+                console.log(MAIN_IMAGE_TAB1);
+            }
+        });
+        // Main Image Upload End
+
+        // Sub Image Upload Start
+        //上传
+        layui.upload.render({
+            elem: '.containerTab01 #subUploadImage'
+            ,url: '/api/file/single/upload' //改成您自己的上传接口
+            ,done: function(res){
+                layer.msg('上传成功');
+                layui.$('.containerTab01 #subUploadImageView').removeClass('layui-hide').find('img').attr('src', res.data);
+                SUB_IMAGE_TAB1.val(res.data);
+            }
+        });
+        // Sub Image Upload End
+
+        // Sub Image2 Upload Start
+        //上传
+        layui.upload.render({
+            elem: '.containerTab01 #subUploadImage2'
+            ,url: '/api/file/single/upload' //改成您自己的上传接口
+            ,done: function(res){
+                layer.msg('上传成功');
+                layui.$('.containerTab01 #subUploadImageView2').removeClass('layui-hide').find('img').attr('src', res.data);
+                SUB_IMAGE2_TAB1.val(res.data);
+            }
+        });
+        // Sub Image2 Upload End
+
+        // Sub Image3 Upload Start
+        //上传
+        layui.upload.render({
+            elem: '.containerTab01 #subUploadImage3'
+            ,url: '/api/file/single/upload' //改成您自己的上传接口
+            ,done: function(res){
+                layer.msg('上传成功');
+                layui.$('.containerTab01 #subUploadImageView3').removeClass('layui-hide').find('img').attr('src', res.data);
+                SUB_IMAGE3_TAB1.val(res.data);
+            }
+        });
+        // Sub Image3 Upload End
+        // Tab01 End
+
+        // Tab01 Start
+        // Main Image Upload Start
+        //上传
+        layui.upload.render({
+            elem: '.containerTab02 #mainUploadImageTab02'
+            ,url: '/api/file/single/upload' //改成您自己的上传接口
+            ,done: function(res){
+                layer.msg('上传成功');
+                layui.$('.containerTab02 #mainUploadImageViewTab02').removeClass('layui-hide').find('img').attr('src', res.data);
+                MAIN_IMAGE_TAB2.val(res.data);
+            }
+        });
+        // Main Image Upload End
+
+        // Sub Image Upload Start
+        //上传
+        layui.upload.render({
+            elem: '.containerTab02 #subUploadImageTab02'
+            ,url: '/api/file/single/upload' //改成您自己的上传接口
+            ,done: function(res){
+                layer.msg('上传成功');
+                layui.$('.containerTab02 #subUploadImageViewTab02').removeClass('layui-hide').find('img').attr('src', res.data);
+                SUB_IMAGE_TAB2.val(res.data);
+            }
+        });
+        // Sub Image Upload End
+
+        // Sub Image2 Upload Start
+        //上传
+        layui.upload.render({
+            elem: '.containerTab02 #subUploadImage2Tab02'
+            ,url: '/api/file/single/upload' //改成您自己的上传接口
+            ,done: function(res){
+                layer.msg('上传成功');
+                layui.$('.containerTab02 #subUploadImageView2Tab02').removeClass('layui-hide').find('img').attr('src', res.data);
+                SUB_IMAGE2_TAB2.val(res.data);
+            }
+        });
+        // Sub Image2 Upload End
+
+        // Sub Image3 Upload Start
+        //上传
+        layui.upload.render({
+            elem: '.containerTab02 #subUploadImage3'
+            ,url: '/api/file/single/upload' //改成您自己的上传接口
+            ,done: function(res){
+                layer.msg('上传成功');
+                layui.$('.containerTab02 #subUploadImageView3Tab02').removeClass('layui-hide').find('img').attr('src', res.data);
+                SUB_IMAGE3_TAB2.val(res.data);
+            }
+        });
+        // Sub Image3 Upload End
+        // Tab02 End
+
+    });
+
+
+</script>
+
+
+
+</html>

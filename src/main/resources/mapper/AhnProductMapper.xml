@@ -1,0 +1,376 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="AHNSTUDIO.product">
+
+    <select id="selectTB_PRODUCT" parameterType="TB_PRODUCT" resultType="TB_PRODUCT">
+        <![CDATA[
+        SELECT  PRODUCT_SEQ AS PRODUCT_SEQ
+                ,IFNULL(T1.CATEGORY_ID, '') AS CATEGORY_ID
+                ,IFNULL(T1.PRODUCT_NAME, '') AS PRODUCT_NAME
+                ,IFNULL(T1.PRODUCT_SUBTITLE, '') AS PRODUCT_SUBTITLE
+                ,IFNULL(T1.MAIN_IMAGE, '') AS MAIN_IMAGE
+
+                ,IFNULL(T1.SUB_IMAGE, '') AS SUB_IMAGE
+                ,IFNULL(T1.SUB_IMAGE2, '') AS SUB_IMAGE2
+                ,IFNULL(T1.SUB_IMAGE3, '') AS SUB_IMAGE3
+                ,(SELECT COUNT(1) FROM TB_SPEC T2 WHERE T1.PRODUCT_SEQ = T2.PRODUCT_SEQ) AS COUNT_SPEC
+                ,IFNULL(T1.DETAIL, '') AS DETAIL
+
+                ,IFNULL(T1.PRICE, '') AS PRICE
+                ,IFNULL(T1.VIP_PRICE, '') AS VIP_PRICE
+                ,IFNULL(T1.SPEC, '') AS SPEC
+                ,IFNULL(T1.STOCK, '') AS STOCK
+                ,IFNULL(T1.USE_YN, '') AS USE_YN
+
+                ,IFNULL(T1.STATUS, '') AS STATUS
+                ,IFNULL(T1.COUNTRY, '') AS COUNTRY
+                ,IFNULL(T1.CITY, '') AS CITY
+                ,IFNULL(T1.VARIETY, '') AS VARIETY
+                ,IFNULL(T1.TREATMENT, '') AS TREATMENT
+
+                ,IFNULL(T1.FLAVOR, '') AS FLAVOR
+                ,IFNULL(T1.OPTION01, '') AS OPTION01
+                ,IFNULL(T1.OPTION02, '') AS OPTION02
+                ,IFNULL(T1.OPTION03, '') AS OPTION03
+                ,IFNULL(T1.OPTION04, '') AS OPTION04
+
+                ,IFNULL(T1.OPTION05, '') AS OPTION05
+                ,DATE_FORMAT(T1.CREATETIME, '%Y-%m-%d %H:%i:%s') AS CREATETIME
+                ,DATE_FORMAT(T1.UPDATETIME, '%Y-%m-%d %H:%i:%s') AS UPDATETIME
+                ,ROW_NUMBER() OVER(ORDER BY CREATETIME DESC) AS RN
+        FROM    TB_PRODUCT T1
+        WHERE   1 = 1
+        AND 	(IFNULL(#{USE_YN},'') = ''		OR 	T1.USE_YN = #{USE_YN})
+        ]]>
+    </select>
+
+    <select id="selectTB_PRODUCTByPk" parameterType="TB_PRODUCT" resultType="TB_PRODUCT">
+        <![CDATA[
+        SELECT  PRODUCT_SEQ AS PRODUCT_SEQ
+                ,IFNULL(T1.CATEGORY_ID, '') AS CATEGORY_ID
+                ,IFNULL(T1.PRODUCT_NAME, '') AS PRODUCT_NAME
+                ,IFNULL(T1.PRODUCT_SUBTITLE, '') AS PRODUCT_SUBTITLE
+                ,IFNULL(T1.MAIN_IMAGE, '') AS MAIN_IMAGE
+
+                ,IFNULL(T1.SUB_IMAGE, '') AS SUB_IMAGE
+                ,IFNULL(T1.SUB_IMAGE2, '') AS SUB_IMAGE2
+                ,IFNULL(T1.SUB_IMAGE3, '') AS SUB_IMAGE3
+                ,IFNULL(T1.ATTRIBUTE, '') AS ATTRIBUTE
+                ,IFNULL(T1.DETAIL, '') AS DETAIL
+
+                ,IFNULL(T1.PRICE, '') AS PRICE
+                ,IFNULL(T1.VIP_PRICE, '') AS VIP_PRICE
+                ,IFNULL(T1.SPEC, '') AS SPEC
+                ,IFNULL(T1.STOCK, '') AS STOCK
+                ,IFNULL(T1.USE_YN, '') AS USE_YN
+
+                ,IFNULL(T1.STATUS, '') AS STATUS
+                ,IFNULL(T1.COUNTRY, '') AS COUNTRY
+                ,IFNULL(T1.CITY, '') AS CITY
+                ,IFNULL(T1.VARIETY, '') AS VARIETY
+                ,IFNULL(T1.TREATMENT, '') AS TREATMENT
+
+                ,IFNULL(T1.FLAVOR, '') AS FLAVOR
+                ,IFNULL(T1.OPTION01, '') AS OPTION01
+                ,IFNULL(T1.OPTION02, '') AS OPTION02
+                ,IFNULL(T1.OPTION03, '') AS OPTION03
+                ,IFNULL(T1.OPTION04, '') AS OPTION04
+
+                ,IFNULL(T1.OPTION05, '') AS OPTION05
+                ,DATE_FORMAT(T1.CREATETIME, '%Y-%m-%d %H:%i:%s') AS CREATETIME
+                ,DATE_FORMAT(T1.UPDATETIME, '%Y-%m-%d %H:%i:%s') AS UPDATETIME
+        FROM    TB_PRODUCT T1
+        WHERE   T1.PRODUCT_SEQ = #{PRODUCT_SEQ}
+        ]]>
+    </select>
+
+    <insert id="insertTB_PRODUCT" parameterType="TB_PRODUCT" useGeneratedKeys="true" keyProperty="PRODUCT_SEQ">
+        <selectKey keyProperty="PRODUCT_SEQ" resultType="java.lang.Integer" order="AFTER">
+            SELECT LAST_INSERT_ID() AS PRODUCT_SEQ
+        </selectKey>
+        <![CDATA[
+        INSERT INTO TB_PRODUCT (
+                                CATEGORY_ID, PRODUCT_NAME, PRODUCT_SUBTITLE, MAIN_IMAGE,
+                                SUB_IMAGE, SUB_IMAGE2, SUB_IMAGE3, ATTRIBUTE, DETAIL,
+                                PRICE, VIP_PRICE, SPEC, STOCK, USE_YN,
+                                STATUS, COUNTRY, CITY, VARIETY, TREATMENT,
+                                FLAVOR, OPTION01, OPTION02, OPTION03, OPTION04,
+                                OPTION05, CREATETIME
+                                )
+                        VALUES (
+                                #{CATEGORY_ID}, #{PRODUCT_NAME}, #{PRODUCT_SUBTITLE}, #{MAIN_IMAGE},
+                                #{SUB_IMAGE}, #{SUB_IMAGE2}, #{SUB_IMAGE3}, #{ATTRIBUTE}, #{DETAIL},
+                                #{PRICE}, #{VIP_PRICE}, #{SPEC}, #{STOCK}, #{USE_YN},
+                                #{STATUS}, #{COUNTRY}, #{CITY}, #{VARIETY}, #{TREATMENT},
+                                #{FLAVOR}, #{OPTION01}, #{OPTION02}, #{OPTION03}, #{OPTION04},
+                                #{OPTION05}, NOW()
+                               )
+        ]]>
+    </insert>
+
+    <update id="updateTB_PRODUCT" parameterType="TB_PRODUCT">
+        <![CDATA[
+        UPDATE TB_PRODUCT
+        ]]>
+        <set>
+            <if test="PRODUCT_SEQ != null">PRODUCT_SEQ = #{PRODUCT_SEQ},</if>
+            <if test="CATEGORY_ID != null">CATEGORY_ID = #{CATEGORY_ID},</if>
+            <if test="PRODUCT_NAME != null">PRODUCT_NAME = #{PRODUCT_NAME},</if>
+            <if test="PRODUCT_SUBTITLE != null">PRODUCT_SUBTITLE = #{PRODUCT_SUBTITLE},</if>
+            <if test="MAIN_IMAGE != null">MAIN_IMAGE = #{MAIN_IMAGE},</if>
+
+            <if test="SUB_IMAGE != null">SUB_IMAGE = #{SUB_IMAGE},</if>
+            <if test="SUB_IMAGE2 != null">SUB_IMAGE2 = #{SUB_IMAGE2},</if>
+            <if test="SUB_IMAGE3 != null">SUB_IMAGE3 = #{SUB_IMAGE3},</if>
+            <if test="ATTRIBUTE != null">ATTRIBUTE = #{ATTRIBUTE},</if>
+            <if test="DETAIL != null">DETAIL = #{DETAIL},</if>
+
+            <if test="PRICE != null">PRICE = #{PRICE},</if>
+            <if test="VIP_PRICE != null">VIP_PRICE = #{VIP_PRICE},</if>
+            <if test="SPEC != null">SPEC = #{SPEC},</if>
+            <if test="STOCK != null">STOCK = #{STOCK},</if>
+            <if test="USE_YN != null">USE_YN = #{USE_YN},</if>
+
+            <if test="STATUS != null">STATUS = #{STATUS},</if>
+            <if test="COUNTRY != null">COUNTRY = #{COUNTRY},</if>
+            <if test="CITY != null">CITY = #{CITY},</if>
+            <if test="VARIETY != null">VARIETY = #{VARIETY},</if>
+            <if test="TREATMENT != null">TREATMENT = #{TREATMENT},</if>
+
+            <if test="FLAVOR != null">FLAVOR = #{FLAVOR},</if>
+            <if test="OPTION01 != null">OPTION01 = #{OPTION01},</if>
+            <if test="OPTION02 != null">OPTION02 = #{OPTION02},</if>
+            <if test="OPTION03 != null">OPTION03 = #{OPTION03},</if>
+            <if test="OPTION04 != null">OPTION04 = #{OPTION04},</if>
+
+            <if test="OPTION05 != null">OPTION05 = #{OPTION05},</if>
+            <if test="CREATETIME != null">CREATETIME = #{CREATETIME},</if>
+            UPDATETIME = NOW()
+        </set>
+        <![CDATA[
+        WHERE PRODUCT_SEQ = #{PRODUCT_SEQ}
+        ]]>
+    </update>
+
+    <insert id="insertTB_SPEC" parameterType="TB_SPEC">
+        <![CDATA[
+        INSERT INTO TB_SPEC (
+                                SPEC_SEQ, PRODUCT_SEQ, PRODUCT_NAME, PRICE, VIP_PRICE,
+                                WEIGHT, STOCK, DELIVERY_PRICE, DELIVERY_TYPE, PACKAGE_CODE,
+                                USE_YN, STATUS, AREA, COUNTRY, OPTION01,
+                                OPTION02, OPTION03, OPTION04, OPTION05, CREATETIME
+                                )
+                        VALUES (
+                               #{SPEC_SEQ}, #{PRODUCT_SEQ}, #{PRODUCT_NAME}, #{PRICE}, #{VIP_PRICE},
+                               #{WEIGHT}, #{STOCK}, #{DELIVERY_PRICE}, #{DELIVERY_TYPE}, #{PACKAGE_CODE},
+                               #{USE_YN}, #{STATUS}, #{AREA}, #{COUNTRY}, #{OPTION01},
+                               #{OPTION02}, #{OPTION03}, #{OPTION04}, #{OPTION05}, NOW()
+                               )
+        ]]>
+    </insert>
+
+    <update id="updateTB_SPECByPk" parameterType="TB_SPEC">
+        <![CDATA[
+        UPDATE  TB_SPEC
+        ]]>
+        <set>
+            <if test="SPEC_SEQ != null">SPEC_SEQ = #{SPEC_SEQ},</if>
+            <if test="PRODUCT_SEQ != null">PRODUCT_SEQ = #{PRODUCT_SEQ},</if>
+            <if test="PRODUCT_NAME != null">PRODUCT_NAME = #{PRODUCT_NAME},</if>
+            <if test="PRICE != null">PRICE = #{PRICE},</if>
+            <if test="VIP_PRICE != null">VIP_PRICE = #{VIP_PRICE},</if>
+            <if test="WEIGHT != null">WEIGHT = #{WEIGHT},</if>
+            <if test="STOCK != null">STOCK = #{STOCK},</if>
+            <if test="DELIVERY_PRICE != null">DELIVERY_PRICE = #{DELIVERY_PRICE},</if>
+            <if test="DELIVERY_TYPE != null">DELIVERY_TYPE = #{DELIVERY_TYPE},</if>
+            <if test="PACKAGE_CODE != null">PACKAGE_CODE = #{PACKAGE_CODE},</if>
+            <if test="USE_YN != null">USE_YN = #{USE_YN},</if>
+            <if test="STATUS != null">STATUS = #{STATUS},</if>
+            <if test="AREA != null">AREA = #{AREA},</if>
+            <if test="COUNTRY != null">COUNTRY = #{COUNTRY},</if>
+            <if test="OPTION01 != null">OPTION01 = #{OPTION01},</if>
+            <if test="OPTION02 != null">OPTION02 = #{OPTION02},</if>
+            <if test="OPTION03 != null">OPTION03 = #{OPTION03},</if>
+            <if test="OPTION04 != null">OPTION04 = #{OPTION04},</if>
+            <if test="OPTION05 != null">OPTION05 = #{OPTION05},</if>
+            <if test="UPDATETIME != null">UPDATETIME = #{UPDATETIME},</if>
+        </set>
+        <![CDATA[
+        WHERE SPEC_SEQ = #{SPEC_SEQ}
+        ]]>
+    </update>
+
+    <select id="selectTB_SPECByPk" parameterType="java.lang.Integer" resultType="TB_SPEC">
+        <![CDATA[
+        SELECT  T1.SPEC_SEQ
+                 ,T1.PRODUCT_SEQ
+                 ,T1.PRODUCT_NAME
+                 ,T1.PRICE
+                 ,T1.VIP_PRICE
+                 ,T1.WEIGHT
+                 , T1.STOCK
+                 ,T1.DELIVERY_PRICE
+                 ,T1.DELIVERY_TYPE
+                 ,T1.PACKAGE_CODE
+                 ,T1.USE_YN
+                 ,T1.STATUS
+                 ,T1.AREA
+                 ,T1.COUNTRY
+                 ,T1.OPTION01
+                 ,(SELECT CODE_NAME FROM TB_COMMON_CODE T2 WHERE T2.CODE_ID = 'PACKAGE_CODE' AND T2.CODE_TYPE = T1.PACKAGE_CODE) AS PACKAGE_CODE_NAME
+                 ,(SELECT CODE_NAME FROM TB_COMMON_CODE T2 WHERE T2.CODE_ID = 'DELIVERY_CODE' AND T2.CODE_TYPE = T1.DELIVERY_TYPE) AS DELIVERY_TYPE_NAME
+                 ,T1.OPTION02
+                 ,T1.OPTION03
+                 ,T1.OPTION04
+                 ,T1.OPTION05
+                 ,DATE_FORMAT(T1.CREATETIME, '%Y-%m-%d %H:%i:%s') AS CREATETIME
+        FROM    TB_SPEC T1
+        WHERE   T1.SPEC_SEQ = #{SPEC_SEQ}
+        ]]>
+    </select>
+
+    <select id="selectTB_SPECByPRODUCT_SEQ" parameterType="TB_PRODUCT" resultType="TB_SPEC">
+        <![CDATA[
+        SELECT  T1.SPEC_SEQ
+                ,T1.PRODUCT_SEQ
+                ,T1.PRODUCT_NAME
+                ,T1.PRICE
+                ,T1.VIP_PRICE
+                ,T1.WEIGHT
+                , T1.STOCK
+                ,T1.DELIVERY_PRICE
+                ,T1.DELIVERY_TYPE
+                ,T1.PACKAGE_CODE
+                ,T1.USE_YN
+                ,T1.STATUS
+                ,T1.AREA
+                ,T1.COUNTRY
+                ,T1.OPTION01
+                ,(SELECT CODE_NAME FROM TB_COMMON_CODE T2 WHERE T2.CODE_ID = 'PACKAGE_CODE' AND T2.CODE_TYPE = T1.PACKAGE_CODE) AS PACKAGE_CODE_NAME
+                ,(SELECT CODE_NAME FROM TB_COMMON_CODE T2 WHERE T2.CODE_ID = 'DELIVERY_CODE' AND T2.CODE_TYPE = T1.DELIVERY_TYPE) AS DELIVERY_TYPE_NAME
+                ,T1.OPTION02
+                ,T1.OPTION03
+                ,T1.OPTION04
+                ,T1.OPTION05
+                ,DATE_FORMAT(T1.CREATETIME, '%Y-%m-%d %H:%i:%s') AS CREATETIME
+        FROM    TB_SPEC T1
+        WHERE   T1.PRODUCT_SEQ = #{PRODUCT_SEQ}
+        ]]>
+    </select>
+
+    <select id="selectTB_PRODUCTForWechat" parameterType="TB_PRODUCT" resultType="TB_PRODUCT">
+        <![CDATA[
+        SELECT  PRODUCT_SEQ AS PRODUCT_SEQ
+                 ,IFNULL(T1.CATEGORY_ID, '') AS CATEGORY_ID
+                 ,IFNULL(T1.PRODUCT_NAME, '') AS PRODUCT_NAME
+                 ,IFNULL(T1.PRODUCT_SUBTITLE, '') AS PRODUCT_SUBTITLE
+                 ,IFNULL(T1.MAIN_IMAGE, '') AS MAIN_IMAGE
+
+                 ,IFNULL(T1.SUB_IMAGE, '') AS SUB_IMAGE
+                 ,IFNULL(T1.SUB_IMAGE2, '') AS SUB_IMAGE2
+                 ,IFNULL(T1.SUB_IMAGE3, '') AS SUB_IMAGE3
+                 ,(SELECT COUNT(1) FROM TB_SPEC T2 WHERE T1.PRODUCT_SEQ = T2.PRODUCT_SEQ) AS COUNT_SPEC
+                 ,IFNULL(T1.DETAIL, '') AS DETAIL
+                 ,IFNULL(T1.ATTRIBUTE, '') AS ATTRIBUTE
+
+                 ,IFNULL(T1.PRICE, '') AS PRICE
+                 ,IFNULL(T1.VIP_PRICE, '') AS VIP_PRICE
+                 ,IFNULL(T1.SPEC, '') AS SPEC
+                 ,IFNULL(T1.STOCK, '') AS STOCK
+                 ,IFNULL(T1.USE_YN, '') AS USE_YN
+
+                 ,IFNULL(T1.STATUS, '') AS STATUS
+                 ,IFNULL(T1.COUNTRY, '') AS COUNTRY
+                 ,IFNULL(T1.CITY, '') AS CITY
+                 ,IFNULL(T1.VARIETY, '') AS VARIETY
+                 ,IFNULL(T1.TREATMENT, '') AS TREATMENT
+
+                 ,IFNULL(T1.FLAVOR, '') AS FLAVOR
+                 ,IFNULL(T1.OPTION01, '') AS OPTION01
+                 ,IFNULL(T1.OPTION02, '') AS OPTION02
+                 ,IFNULL(T1.OPTION03, '') AS OPTION03
+                 ,IFNULL(T1.OPTION04, '') AS OPTION04
+
+                 ,IFNULL(T1.OPTION05, '') AS OPTION05
+                 ,DATE_FORMAT(T1.CREATETIME, '%Y-%m-%d %H:%i:%s') AS CREATETIME
+                 ,DATE_FORMAT(T1.UPDATETIME, '%Y-%m-%d %H:%i:%s') AS UPDATETIME
+                 ,ROW_NUMBER() OVER(ORDER BY CREATETIME DESC) AS RN
+        FROM    TB_PRODUCT T1
+        WHERE   1 = 1
+        AND 	T1.USE_YN = '1'
+        AND 	(IFNULL(#{CATEGORY_ID},'') = ''		OR 	T1.CATEGORY_ID = #{CATEGORY_ID})
+        AND 	(IFNULL(#{ATTRIBUTE},'') = ''		OR 	T1.ATTRIBUTE = #{ATTRIBUTE})
+        ]]>
+    </select>
+
+    <select id="selectTB_PRODUCTByPkForWechat" parameterType="TB_PRODUCT" resultType="TB_PRODUCT">
+        <![CDATA[
+        SELECT  PRODUCT_SEQ AS PRODUCT_SEQ
+                 ,IFNULL(T1.CATEGORY_ID, '') AS CATEGORY_ID
+                 ,IFNULL(T1.PRODUCT_NAME, '') AS PRODUCT_NAME
+                 ,IFNULL(T1.PRODUCT_SUBTITLE, '') AS PRODUCT_SUBTITLE
+                 ,IFNULL(T1.MAIN_IMAGE, '') AS MAIN_IMAGE
+
+                 ,IFNULL(T1.SUB_IMAGE, '') AS SUB_IMAGE
+                 ,IFNULL(T1.SUB_IMAGE2, '') AS SUB_IMAGE2
+                 ,IFNULL(T1.SUB_IMAGE3, '') AS SUB_IMAGE3
+                 ,IFNULL(T1.ATTRIBUTE, '') AS ATTRIBUTE
+                 ,IFNULL(T1.DETAIL, '') AS DETAIL
+
+                 ,IFNULL(T1.PRICE, '') AS PRICE
+                 ,IFNULL(T1.VIP_PRICE, '') AS VIP_PRICE
+                 ,IFNULL(T1.SPEC, '') AS SPEC
+                 ,IFNULL(T1.STOCK, '') AS STOCK
+                 ,IFNULL(T1.USE_YN, '') AS USE_YN
+
+                 ,IFNULL(T1.STATUS, '') AS STATUS
+                 ,IFNULL(T1.COUNTRY, '') AS COUNTRY
+                 ,IFNULL(T1.CITY, '') AS CITY
+                 ,IFNULL(T1.VARIETY, '') AS VARIETY
+                 ,IFNULL(T1.TREATMENT, '') AS TREATMENT
+
+                 ,IFNULL(T1.FLAVOR, '') AS FLAVOR
+                 ,IFNULL(T1.OPTION01, '') AS OPTION01
+                 ,IFNULL(T1.OPTION02, '') AS OPTION02
+                 ,IFNULL(T1.OPTION03, '') AS OPTION03
+                 ,IFNULL(T1.OPTION04, '') AS OPTION04
+
+                 ,IFNULL(T1.OPTION05, '') AS OPTION05
+                 ,DATE_FORMAT(T1.CREATETIME, '%Y-%m-%d %H:%i:%s') AS CREATETIME
+                 ,DATE_FORMAT(T1.UPDATETIME, '%Y-%m-%d %H:%i:%s') AS UPDATETIME
+        FROM    TB_PRODUCT T1
+        WHERE   T1.PRODUCT_SEQ = #{PRODUCT_SEQ}
+        ]]>
+    </select>
+
+    <select id="selectTB_SPECByPRODUCT_SEQForWechat" parameterType="TB_PRODUCT" resultType="TB_SPEC">
+        <![CDATA[
+        SELECT  T1.SPEC_SEQ
+             ,T1.PRODUCT_SEQ
+             ,T1.PRODUCT_NAME
+             ,T1.PRICE
+             ,T1.VIP_PRICE
+             ,T1.WEIGHT
+             , T1.STOCK
+             ,T1.DELIVERY_PRICE
+             ,T1.DELIVERY_TYPE
+             ,T1.PACKAGE_CODE
+             ,T1.USE_YN
+             ,T1.STATUS
+             ,T1.AREA
+             ,T1.COUNTRY
+             ,T1.OPTION01
+             ,(SELECT CODE_NAME FROM TB_COMMON_CODE T2 WHERE T2.CODE_ID = 'PACKAGE_CODE' AND T2.CODE_TYPE = T1.PACKAGE_CODE) AS PACKAGE_CODE_NAME
+             ,(SELECT CODE_NAME FROM TB_COMMON_CODE T2 WHERE T2.CODE_ID = 'DELIVERY_CODE' AND T2.CODE_TYPE = T1.DELIVERY_TYPE) AS DELIVERY_TYPE_NAME
+             ,T1.OPTION02
+             ,T1.OPTION03
+             ,T1.OPTION04
+             ,T1.OPTION05
+             ,DATE_FORMAT(T1.CREATETIME, '%Y-%m-%d %H:%i:%s') AS CREATETIME
+        FROM    TB_SPEC T1
+        WHERE   T1.PRODUCT_SEQ = #{PRODUCT_SEQ}
+        ]]>
+    </select>
+
+
+</mapper>
