@@ -31,7 +31,7 @@ input {outline: none;}
 /* Button Style */
 .btn01, .btn02, .btn03, .btn04, .btn05 {text-decoration: none; font-size:0.9em; line-height:1; border-radius: 5px; padding:8px 16px; color:#fff;}
 .btn01 { background:#3E3F50;}
-.btn02 { background:#398BFD;}
+.btn02 { background:#398BFD; border:1px solid #398BFD;}
 .btn03 { background:#F74459;}
 .btn04 { background:#7495DD;}
 .btn05 { background:#fff; border:1px solid #A0A3B0; color:#A0A3B0;}
@@ -51,6 +51,8 @@ input {outline: none;}
 .popup01 { width:500px; padding:35px; background: #fff; border-radius: 10px;}
 .popup01 h2 { font-size:1.5rem; font-weight: bold; margin-bottom: 10px;}
 
+
+.float-right.btn02 { margin-right:10px;}
 
 
 

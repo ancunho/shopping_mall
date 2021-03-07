@@ -58,6 +58,7 @@ var lfn_Search = function(g_currentPage) {
                         sbHTML.append("     <td>未知</td>");
                     }
                     sbHTML.append("     <td>" + productData[i].COUNT_SPEC + "</td>");
+                    sbHTML.append("     <td>" + productData[i].ATTRIBUTE_NAME + "</td>");
                     sbHTML.append("     <td><a href='#this' class='btn02 btnDetail'>查看</a>");
                     sbHTML.append("      </td>");
                     sbHTML.append("</tr>");

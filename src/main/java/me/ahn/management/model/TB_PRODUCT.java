@@ -40,6 +40,9 @@ public class TB_PRODUCT {
     @JsonProperty("ATTRIBUTE")
     private String ATTRIBUTE;
 
+    @JsonProperty("ATTRIBUTE_NAME")
+    private String ATTRIBUTE_NAME;
+
     @JsonProperty("DETAIL")
     private String DETAIL;
 
