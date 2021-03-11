@@ -179,7 +179,7 @@ label { border-bottom:1px dashed #398BFD; color: #9494a3; }
                 PRODUCT_SEQ: $(".PRODUCT_SEQ").val()
             }
             if(params.PRODUCT_SEQ !== "") {
-                $(".conTop h2").text("Product Edit");
+                $(".conTop h2").text("产品编辑");
                 new AjaxRequest({
                     url: '/api/product/detail',
                     async: false,

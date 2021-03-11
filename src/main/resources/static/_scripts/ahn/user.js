@@ -53,6 +53,9 @@ var lfn_Search = function(g_currentPage) {
                     sbHTML.append("     <td>" + userData[i].DEVICE_MODEL + "</td>");
                     sbHTML.append("     <td>" + userData[i].DEVICE_COLOR + "</td>");
                     sbHTML.append("     <td><a href='#this' class='btn02 btnDetail'>查看</a>");
+                    if(parseInt(userData[i].ORDER_COUNT) >= 1) {
+                        sbHTML.append("     <a href='#this' class='btn01 btnOrderByUserSeq'>订单列表</a>");
+                    }
                     if(userData[i].USE_YN === "1") {
                         sbHTML.append("     <a href='#this' class='btn03 btnNoActivy'>取消激活</a> ");
                     } else {
@@ -263,6 +266,31 @@ $(document).on('click', '.btnNoActivy', function(e) {
             if(res.status === 0) {
                 swal("状态更新成功！", "", "success").then(function(){
                     lfn_Search(g_currentPage);
+                });
+            } else {
+                swal(res.msg, "", "error");
+            }
+        }
+    });
+});
+
+//订单详情popup
+$(document).on('click', '.btnOrderByUserSeq', function(){
+    var params = {
+        USER_SEQ:  $(this).parents('.tr01').find('.USER_SEQ').val()
+    };
+
+    new AjaxRequest({
+        url: '/api/user/order_list_by_user',
+        params: params,
+        callBack: function(res) {
+            if(res.status === 0) {
+                $(".OrderInfoByUserPopup").bPopup({
+                    modalClose: false,
+                    closeClass: 'btnClose',
+                    onOpen: function() {
+                        console.log(res.data);
+                    }
                 });
             } else {
                 swal(res.msg, "", "error");

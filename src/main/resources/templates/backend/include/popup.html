@@ -23,15 +23,43 @@
     </div>
     <!--  //修改价格 popup End  -->
 
-    <!--  Popup02 Start  -->
-    <div class="popup02" style="display:none;">
-
+    <!--  用户列表页-根据用户查询订单Popup Start  -->
+    <div class="popup02 OrderInfoByUserPopup" style="display:none;">
+        <h2>订单列表</h2>
+        <table class="table01">
+            <colgroup>
+                <col width="" />
+                <col width="" />
+                <col width="" />
+                <col width="" />
+            </colgroup>
+            <thead>
+                <tr>
+                    <th>下单</th>
+                </tr>
+            </thead>
+        </table>
+        <div class="row">
+            <div class="col-md-6 text-center" style="padding:0 30px;"><button type="button" class="btn btn-danger btn-block btnClose">关闭</button></div>
+        </div>
     </div>
-    <!--  //Popup02 End  -->
+    <!--  //用户列表页-根据用户查询订单Popup End  -->
 
     <!--  Popup03 Start  -->
-    <div class="popup03" style="display:none;">
-
+    <div class="popup03 DeliveryConfirmPopup" style="display:none;">
+        <input type="hidden" value="" class="ORDER_SEQ" />
+        <input type="hidden" value="" class="ORDER_NO" />
+        <input type="hidden" value="" class="STATUS" />
+        <h2>快递单号</h2>
+        <div class="form-row">
+            <div class="form-group col-md-12">
+                <input type="text" class="form-control DELIVERY_NO" placeholder="请输入快递单号" value="" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 text-center" style="padding:0 30px;"><button type="button" class="btn btn-danger btn-block btnClose">关闭</button></div>
+            <div class="col-md-6 text-center" style="padding:0 30px;"><button type="button" class="btn btn-primary btn-block btnSaveConfirmDelivery">保存</button></div>
+        </div>
     </div>
     <!--  //Popup03 End  -->
 

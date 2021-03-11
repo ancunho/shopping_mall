@@ -34,6 +34,8 @@
                 ,T1.QUESTION AS QUESTION
                 ,T1.ANSWER AS ANSWER
 
+                ,(SELECT COUNT(1) FROM TB_ORDER WHERE USER_SEQ = T1.USER_SEQ) AS ORDER_COUNT
+
                 ,IFNULL(T1.IMAGE_PHOTO,'') AS PHOTO
                 ,DATE_FORMAT(T1.CREATETIME, '%Y-%m-%d %H:%i:%s') AS CREATETIME
                 ,DATE_FORMAT(T1.UPDATETIME, '%Y-%m-%d %H:%i:%s') AS UPDATETIME
@@ -215,6 +217,39 @@
                     )
         ]]>
     </insert>
+
+    <select id="selectTB_ORDERByUSER_SEQ" parameterType="TB_USER_INFO" resultType="java.util.HashMap">
+        <![CDATA[
+        SELECT  T1.ORDER_SEQ
+             ,T1.ORDER_NO
+             ,T1.USER_SEQ
+             ,T1.SHIPPING_SEQ
+             ,T1.PAYMENT
+             ,T1.VIP_PAYMENT
+             ,T1.DELIVERY_TYPE
+             ,T1.DELIVERY_NO
+             ,T1.PAYMENT_TYPE
+             ,T1.USE_YN
+             ,T1.POSTAGE
+             ,T1.STATUS
+             ,(SELECT CODE_NAME FROM TB_COMMON_CODE WHERE CODE_ID = 'ORDER_STATUS_CODE' AND CODE_TYPE = T1.STATUS) AS STATUS_DESC
+             ,T1.COMMENT
+             ,T1.OPTION01
+             ,T1.OPTION02
+             ,T1.OPTION03
+             ,T1.OPTION04
+             ,T1.OPTION05
+             ,DATE_FORMAT(T1.PAYMENT_TIME, '%Y-%m-%d %H:%i:%s') AS PAYMENT_TIME
+             ,DATE_FORMAT(T1.SEND_TIME, '%Y-%-%d %H:%i:%s') AS SEND_TIME
+             ,DATE_FORMAT(T1.END_TIME, '%Y-%m-%d %H:%i:%s') AS END_TIME
+             ,DATE_FORMAT(T1.CLOSE_TIME, '%Y-%m-%d %H:%i:%s') AS CLOSE_TIME
+             ,DATE_FORMAT(T1.CREATETIME, '%Y-%m-%d %H:%i:%s') AS CREATETIME
+             ,DATE_FORMAT(T1.UPDATETIME, '%Y-%m-%d %H:%i:%s') AS UPDATETIME
+        FROM    TB_ORDER T1
+        WHERE   T1.USER_SEQ = #{USER_SEQ}
+        ORDER BY T1.CREATETIME DESC
+        ]]>
+    </select>
 
 
 

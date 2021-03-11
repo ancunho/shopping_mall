@@ -282,4 +282,14 @@
         ]]>
     </select>
 
+    <update id="updateTB_ORDERForDELIVERY_NO" parameterType="TB_ORDER">
+        <![CDATA[
+        UPDATE  TB_ORDER
+        SET     DELIVERY_NO = #{DELIVERY_NO}
+                ,STATUS = 40
+                ,SEND_TIME = NOW()
+        WHERE   ORDER_SEQ = #{ORDER_SEQ}
+        ]]>
+    </update>
+
 </mapper>

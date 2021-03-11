@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Service
@@ -76,6 +77,10 @@ public class UserInfoServiceImpl implements UserInfoService {
         return sqlSession.selectOne("AHNSTUDIO.user.countTB_USER_INFOByUSERNAMERETURNInt", tbUserInfo);
     }
 
+    public List<Map<String, Object>> selectTB_ORDERByUSER_SEQ(TB_USER_INFO tbUserInfo) throws Exception {
+        List<Map<String, Object>> lstTB_ORDER = sqlSession.selectList("AHNSTUDIO.user.selectTB_ORDERByUSER_SEQ", tbUserInfo);
+        return lstTB_ORDER;
+    }
 
 
 }

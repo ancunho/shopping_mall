@@ -21,4 +21,6 @@ public interface OrderService {
     public void updateTB_ORDERByPk(TB_ORDER tbOrder) throws Exception;
 
     public List<TB_ORDER> selectTB_ORDERByTB_ORDERForWechat(TB_ORDER tbOrder) throws Exception;
+
+    public void updateTB_ORDERForDELIVERY_NO(TB_ORDER tbOrder) throws Exception;
 }

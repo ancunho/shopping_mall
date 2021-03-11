@@ -1,90 +1,149 @@
-"2021/03/07-22:50 [main] INFO  me.ahn.management.ManagementApplication- Starting ManagementApplication on DESKTOP-D88F0GM with PID 9840 (D:\project\ahn\management\target\classes started by Administrator in D:\project\ahn\management)
-""2021/03/07-22:50 [main] INFO  me.ahn.management.ManagementApplication- No active profile set, falling back to default profiles: default
-""2021/03/07-22:50 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner- No MyBatis mapper was found in '[me.ahn.management]' package. Please check your configuration.
-""2021/03/07-22:50 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer- Tomcat initialized with port(s): 443 (https) 80 (http)
-""2021/03/07-22:50 [main] INFO  org.apache.catalina.core.StandardService- Starting service [Tomcat]
-""2021/03/07-22:50 [main] INFO  org.apache.catalina.core.StandardEngine- Starting Servlet engine: [Apache Tomcat/9.0.35]
-""2021/03/07-22:50 [main] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/]- Initializing Spring embedded WebApplicationContext
-""2021/03/07-22:50 [main] INFO  org.springframework.web.context.ContextLoader- Root WebApplicationContext: initialization completed in 2971 ms
-""2021/03/07-22:50 [main] INFO  com.zaxxer.hikari.HikariDataSource- HikariPool-1 - Starting...
-""2021/03/07-22:50 [main] WARN  com.zaxxer.hikari.util.DriverDataSource- Registered driver with driverClassName=com.mysql.jdbc.Driver was not found, trying direct instantiation.
-""2021/03/07-22:50 [main] INFO  com.zaxxer.hikari.HikariDataSource- HikariPool-1 - Start completed.
-""2021/03/07-22:50 [main] INFO  me.ahn.management.config.DatabaseConfig- datasource:>>>>>>HikariDataSource (HikariPool-1)
-""2021/03/07-22:51 [main] INFO  org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor- Initializing ExecutorService 'applicationTaskExecutor'
-""2021/03/07-22:51 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer- Tomcat started on port(s): 443 (https) 80 (http) with context path ''
-""2021/03/07-22:51 [main] INFO  me.ahn.management.ManagementApplication- Started ManagementApplication in 7.979 seconds (JVM running for 10.655)
-""2021/03/07-22:51 [https-jsse-nio-443-exec-10] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/]- Initializing Spring DispatcherServlet 'dispatcherServlet'
-""2021/03/07-22:51 [https-jsse-nio-443-exec-10] INFO  org.springframework.web.servlet.DispatcherServlet- Initializing Servlet 'dispatcherServlet'
-""2021/03/07-22:51 [https-jsse-nio-443-exec-10] INFO  org.springframework.web.servlet.DispatcherServlet- Completed initialization in 28 ms
-""2021/03/07-22:51 [https-jsse-nio-443-exec-1] WARN  org.springframework.web.servlet.PageNotFound- No mapping for GET /favicon.ico
-""2021/03/07-22:51 [https-jsse-nio-443-exec-6] INFO  me.ahn.management.util.TokenUtil- 正在创建Token的用户>>>>>>>>>>TB_USER_INFO(USER_SEQ=4, OPENID=null, UNIONID=null, USERNAME=asdf, PASSWORD=null, ROLE_NO=01, ROLE=ROLE_USER, USE_YN=1, REALNAME=sadf, COMPANY=, COMPANY_TYPE=, DEVICE_SERIAL=null, DEVICE_MODEL=null, DEVICE_COLOR=null, PHONE=, EMAIL=, SEX=, BIRTHDAY=, WECHAT=null, QQ=null, PROVINCE_CODE=null, CITY_CODE=null, DISTRICT_CODE=null, ADDRESS=null, QUESTION=null, ANSWER=null, IMAGE_PHOTO=null, OPTION01=null, OPTION02=null, OPTION03=null, OPTION04=null, OPTION05=null, CREATETIME=2021-01-08 14:35:09, UPDATETIME=null, START_DATE=, END_DATE=, RN=0, PAGE_NO=0, START_ROW_POSITION=0, PAGE_ROW_COUNT=0, ALL_COUNT=0, PAGE_NUM=0, PAGE_SIZE=15, ERR_CD=, ERR_MSG=, SESSION_ID=, IP_ADDR=, USER_AGENT=, REFERER=)
-""2021/03/07-22:51 [https-jsse-nio-443-exec-6] INFO  me.ahn.management.util.TokenUtil-  用户[4] 创建Token>>>>>>>>>>eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJST0xFIjoiUk9MRV9VU0VSIiwiYXVkIjoiNCIsIlVTRVJOQU1FIjoiYXNkZiIsImV4cCI6MTYxNTEzMjI3MH0.Ium1-35K5A4Q8mlkAqTB9-QlEdEz8PuT6fz9LFwPJ-g
-""2021/03/07-22:57 [https-jsse-nio-443-exec-1] INFO  me.ahn.management.util.TokenUtil- 校验token错误
-""2021/03/07-22:57 [https-jsse-nio-443-exec-1] ERROR org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/].[dispatcherServlet]- Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception [Request processing failed; nested exception is java.lang.RuntimeException: token不存在或已失效，请重新获取token] with root cause
-"java.lang.RuntimeException: token不存在或已失效，请重新获取token
-	at me.ahn.management.common.AuthenticationInterceptor.preHandle(AuthenticationInterceptor.java:59)
-	at org.springframework.web.servlet.HandlerExecutionChain.applyPreHandle(HandlerExecutionChain.java:141)
-	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1035)
-	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:943)
-	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1006)
-	at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:909)
-	at javax.servlet.http.HttpServlet.service(HttpServlet.java:660)
-	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:883)
-	at javax.servlet.http.HttpServlet.service(HttpServlet.java:741)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:231)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
-	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
-	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
-	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
-	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
-	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:202)
-	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:96)
-	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:666)
-	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:139)
-	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:92)
-	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
-	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:343)
-	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:373)
-	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:65)
-	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:868)
-	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1590)
-	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)
-	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
-	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
-	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
-	at java.lang.Thread.run(Thread.java:748)
-"2021/03/07-22:57 [https-jsse-nio-443-exec-8] INFO  me.ahn.management.util.TokenUtil- 正在创建Token的用户>>>>>>>>>>TB_USER_INFO(USER_SEQ=4, OPENID=null, UNIONID=null, USERNAME=asdf, PASSWORD=null, ROLE_NO=01, ROLE=ROLE_USER, USE_YN=1, REALNAME=sadf, COMPANY=, COMPANY_TYPE=, DEVICE_SERIAL=null, DEVICE_MODEL=null, DEVICE_COLOR=null, PHONE=, EMAIL=, SEX=, BIRTHDAY=, WECHAT=null, QQ=null, PROVINCE_CODE=null, CITY_CODE=null, DISTRICT_CODE=null, ADDRESS=null, QUESTION=null, ANSWER=null, IMAGE_PHOTO=null, OPTION01=null, OPTION02=null, OPTION03=null, OPTION04=null, OPTION05=null, CREATETIME=2021-01-08 14:35:09, UPDATETIME=null, START_DATE=, END_DATE=, RN=0, PAGE_NO=0, START_ROW_POSITION=0, PAGE_ROW_COUNT=0, ALL_COUNT=0, PAGE_NUM=0, PAGE_SIZE=15, ERR_CD=, ERR_MSG=, SESSION_ID=, IP_ADDR=, USER_AGENT=, REFERER=)
-""2021/03/07-22:57 [https-jsse-nio-443-exec-8] INFO  me.ahn.management.util.TokenUtil-  用户[4] 创建Token>>>>>>>>>>eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJST0xFIjoiUk9MRV9VU0VSIiwiYXVkIjoiNCIsIlVTRVJOQU1FIjoiYXNkZiIsImV4cCI6MTYxNTEzMjY0MX0.vHUvnx1K1Ld74WexTjav0SkoGjnCWsCf67ZPqQnwuEs
-""2021/03/07-23:25 [main] INFO  me.ahn.management.ManagementApplication- Starting ManagementApplication on DESKTOP-D88F0GM with PID 10932 (D:\project\ahn\management\target\classes started by Administrator in D:\project\ahn\management)
-""2021/03/07-23:25 [main] INFO  me.ahn.management.ManagementApplication- No active profile set, falling back to default profiles: default
-""2021/03/07-23:25 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner- No MyBatis mapper was found in '[me.ahn.management]' package. Please check your configuration.
-""2021/03/07-23:25 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer- Tomcat initialized with port(s): 443 (https) 80 (http)
-""2021/03/07-23:25 [main] INFO  org.apache.catalina.core.StandardService- Starting service [Tomcat]
-""2021/03/07-23:25 [main] INFO  org.apache.catalina.core.StandardEngine- Starting Servlet engine: [Apache Tomcat/9.0.35]
-""2021/03/07-23:25 [main] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/]- Initializing Spring embedded WebApplicationContext
-""2021/03/07-23:25 [main] INFO  org.springframework.web.context.ContextLoader- Root WebApplicationContext: initialization completed in 1493 ms
-""2021/03/07-23:25 [main] INFO  com.zaxxer.hikari.HikariDataSource- HikariPool-1 - Starting...
-""2021/03/07-23:25 [main] WARN  com.zaxxer.hikari.util.DriverDataSource- Registered driver with driverClassName=com.mysql.jdbc.Driver was not found, trying direct instantiation.
-""2021/03/07-23:25 [main] INFO  com.zaxxer.hikari.HikariDataSource- HikariPool-1 - Start completed.
-""2021/03/07-23:25 [main] INFO  me.ahn.management.config.DatabaseConfig- datasource:>>>>>>HikariDataSource (HikariPool-1)
-""2021/03/07-23:25 [main] INFO  org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor- Initializing ExecutorService 'applicationTaskExecutor'
-""2021/03/07-23:25 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer- Tomcat started on port(s): 443 (https) 80 (http) with context path ''
-""2021/03/07-23:25 [main] INFO  me.ahn.management.ManagementApplication- Started ManagementApplication in 4.111 seconds (JVM running for 5.46)
-""2021/03/07-23:25 [https-jsse-nio-443-exec-6] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/]- Initializing Spring DispatcherServlet 'dispatcherServlet'
-""2021/03/07-23:25 [https-jsse-nio-443-exec-6] INFO  org.springframework.web.servlet.DispatcherServlet- Initializing Servlet 'dispatcherServlet'
-""2021/03/07-23:25 [https-jsse-nio-443-exec-6] INFO  org.springframework.web.servlet.DispatcherServlet- Completed initialization in 9 ms
-""2021/03/07-23:25 [https-jsse-nio-443-exec-1] INFO  me.ahn.management.util.TokenUtil- 正在创建Token的用户>>>>>>>>>>TB_USER_INFO(USER_SEQ=4, OPENID=null, UNIONID=null, USERNAME=asdf, PASSWORD=null, ROLE_NO=01, ROLE=ROLE_USER, USE_YN=1, REALNAME=sadf, COMPANY=, COMPANY_TYPE=, DEVICE_SERIAL=null, DEVICE_MODEL=null, DEVICE_COLOR=null, PHONE=, EMAIL=, SEX=, BIRTHDAY=, WECHAT=null, QQ=null, PROVINCE_CODE=null, CITY_CODE=null, DISTRICT_CODE=null, ADDRESS=null, QUESTION=null, ANSWER=null, IMAGE_PHOTO=null, OPTION01=null, OPTION02=null, OPTION03=null, OPTION04=null, OPTION05=null, CREATETIME=2021-01-08 14:35:09, UPDATETIME=null, START_DATE=, END_DATE=, RN=0, PAGE_NO=0, START_ROW_POSITION=0, PAGE_ROW_COUNT=0, ALL_COUNT=0, PAGE_NUM=0, PAGE_SIZE=15, ERR_CD=, ERR_MSG=, SESSION_ID=, IP_ADDR=, USER_AGENT=, REFERER=)
-""2021/03/07-23:25 [https-jsse-nio-443-exec-1] INFO  me.ahn.management.util.TokenUtil-  用户[4] 创建Token>>>>>>>>>>eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJST0xFIjoiUk9MRV9VU0VSIiwiYXVkIjoiNCIsIlVTRVJOQU1FIjoiYXNkZiIsImV4cCI6MTYxNTEzNDMyNH0.naRhxh-Wp66HIl-BhE4ClzIX0QTFlrfnNgNLEhpmQQU
-""2021/03/07-23:50 [https-jsse-nio-443-exec-2] WARN  org.springframework.web.servlet.PageNotFound- No mapping for POST /api/spec/getSpecListByProductId
+"2021/03/11-21:44 [main] INFO  me.ahn.management.ManagementApplication- Starting ManagementApplication on DESKTOP-D88F0GM with PID 892 (D:\project\ahn\management\target\classes started by Administrator in D:\project\ahn\management)
+""2021/03/11-21:44 [main] INFO  me.ahn.management.ManagementApplication- No active profile set, falling back to default profiles: default
+""2021/03/11-21:44 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner- No MyBatis mapper was found in '[me.ahn.management]' package. Please check your configuration.
+""2021/03/11-21:44 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer- Tomcat initialized with port(s): 443 (https) 80 (http)
+""2021/03/11-21:44 [main] INFO  org.apache.catalina.core.StandardService- Starting service [Tomcat]
+""2021/03/11-21:44 [main] INFO  org.apache.catalina.core.StandardEngine- Starting Servlet engine: [Apache Tomcat/9.0.35]
+""2021/03/11-21:44 [main] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/]- Initializing Spring embedded WebApplicationContext
+""2021/03/11-21:44 [main] INFO  org.springframework.web.context.ContextLoader- Root WebApplicationContext: initialization completed in 1488 ms
+""2021/03/11-21:44 [main] INFO  com.zaxxer.hikari.HikariDataSource- HikariPool-1 - Starting...
+""2021/03/11-21:44 [main] WARN  com.zaxxer.hikari.util.DriverDataSource- Registered driver with driverClassName=com.mysql.jdbc.Driver was not found, trying direct instantiation.
+""2021/03/11-21:44 [main] INFO  com.zaxxer.hikari.HikariDataSource- HikariPool-1 - Start completed.
+""2021/03/11-21:44 [main] INFO  me.ahn.management.config.DatabaseConfig- datasource:>>>>>>HikariDataSource (HikariPool-1)
+""2021/03/11-21:44 [main] INFO  org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor- Initializing ExecutorService 'applicationTaskExecutor'
+""2021/03/11-21:44 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer- Tomcat started on port(s): 443 (https) 80 (http) with context path ''
+""2021/03/11-21:44 [main] INFO  me.ahn.management.ManagementApplication- Started ManagementApplication in 4.552 seconds (JVM running for 6.322)
+""2021/03/11-21:46 [https-jsse-nio-443-exec-1] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/]- Initializing Spring DispatcherServlet 'dispatcherServlet'
+""2021/03/11-21:46 [https-jsse-nio-443-exec-1] INFO  org.springframework.web.servlet.DispatcherServlet- Initializing Servlet 'dispatcherServlet'
+""2021/03/11-21:46 [https-jsse-nio-443-exec-1] INFO  org.springframework.web.servlet.DispatcherServlet- Completed initialization in 7 ms
+""2021/03/11-21:46 [https-jsse-nio-443-exec-9] WARN  org.springframework.web.servlet.PageNotFound- No mapping for GET /favicon.ico
+""2021/03/11-21:46 [https-jsse-nio-443-exec-5] INFO  me.ahn.management.util.TokenUtil- 正在创建Token的用户>>>>>>>>>>TB_USER_INFO(USER_SEQ=4, OPENID=null, UNIONID=null, USERNAME=asdf, PASSWORD=null, ROLE_NO=01, ROLE=ROLE_USER, USE_YN=1, REALNAME=sadf, COMPANY=, COMPANY_TYPE=, DEVICE_SERIAL=null, DEVICE_MODEL=null, DEVICE_COLOR=null, PHONE=, EMAIL=, SEX=, BIRTHDAY=, WECHAT=null, QQ=null, PROVINCE_CODE=null, CITY_CODE=null, DISTRICT_CODE=null, ADDRESS=null, QUESTION=null, ANSWER=null, IMAGE_PHOTO=null, OPTION01=null, OPTION02=null, OPTION03=null, OPTION04=null, OPTION05=null, CREATETIME=2021-01-08 14:35:09, UPDATETIME=null, START_DATE=, END_DATE=, RN=0, PAGE_NO=0, START_ROW_POSITION=0, PAGE_ROW_COUNT=0, ALL_COUNT=0, PAGE_NUM=0, PAGE_SIZE=15, ERR_CD=, ERR_MSG=, SESSION_ID=, IP_ADDR=, USER_AGENT=, REFERER=)
+""2021/03/11-21:46 [https-jsse-nio-443-exec-5] INFO  me.ahn.management.util.TokenUtil-  用户[4] 创建Token>>>>>>>>>>eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJST0xFIjoiUk9MRV9VU0VSIiwiYXVkIjoiNCIsIlVTRVJOQU1FIjoiYXNkZiIsImV4cCI6MTYxNTQ3Mzk2N30.Q15Jk5MOOj6Iw8QifjUFKPaxmTcz6N_Mi0BiTFx-vQg
+""2021/03/11-21:56 [main] INFO  me.ahn.management.ManagementApplication- Starting ManagementApplication on DESKTOP-D88F0GM with PID 12412 (D:\project\ahn\management\target\classes started by Administrator in D:\project\ahn\management)
+""2021/03/11-21:56 [main] INFO  me.ahn.management.ManagementApplication- No active profile set, falling back to default profiles: default
+""2021/03/11-21:56 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner- No MyBatis mapper was found in '[me.ahn.management]' package. Please check your configuration.
+""2021/03/11-21:56 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer- Tomcat initialized with port(s): 443 (https) 80 (http)
+""2021/03/11-21:56 [main] INFO  org.apache.catalina.core.StandardService- Starting service [Tomcat]
+""2021/03/11-21:56 [main] INFO  org.apache.catalina.core.StandardEngine- Starting Servlet engine: [Apache Tomcat/9.0.35]
+""2021/03/11-21:56 [main] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/]- Initializing Spring embedded WebApplicationContext
+""2021/03/11-21:56 [main] INFO  org.springframework.web.context.ContextLoader- Root WebApplicationContext: initialization completed in 1269 ms
+""2021/03/11-21:56 [main] INFO  com.zaxxer.hikari.HikariDataSource- HikariPool-1 - Starting...
+""2021/03/11-21:56 [main] WARN  com.zaxxer.hikari.util.DriverDataSource- Registered driver with driverClassName=com.mysql.jdbc.Driver was not found, trying direct instantiation.
+""2021/03/11-21:56 [main] INFO  com.zaxxer.hikari.HikariDataSource- HikariPool-1 - Start completed.
+""2021/03/11-21:56 [main] INFO  me.ahn.management.config.DatabaseConfig- datasource:>>>>>>HikariDataSource (HikariPool-1)
+""2021/03/11-21:56 [main] INFO  org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor- Initializing ExecutorService 'applicationTaskExecutor'
+""2021/03/11-21:56 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer- Tomcat started on port(s): 443 (https) 80 (http) with context path ''
+""2021/03/11-21:56 [main] INFO  me.ahn.management.ManagementApplication- Started ManagementApplication in 3.685 seconds (JVM running for 5.125)
+""2021/03/11-21:57 [https-jsse-nio-443-exec-5] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/]- Initializing Spring DispatcherServlet 'dispatcherServlet'
+""2021/03/11-21:57 [https-jsse-nio-443-exec-5] INFO  org.springframework.web.servlet.DispatcherServlet- Initializing Servlet 'dispatcherServlet'
+""2021/03/11-21:57 [https-jsse-nio-443-exec-5] INFO  org.springframework.web.servlet.DispatcherServlet- Completed initialization in 5 ms
+""2021/03/11-21:57 [https-jsse-nio-443-exec-10] INFO  me.ahn.management.util.TokenUtil- 正在创建Token的用户>>>>>>>>>>TB_USER_INFO(USER_SEQ=4, OPENID=null, UNIONID=null, USERNAME=asdf, PASSWORD=null, ROLE_NO=01, ROLE=ROLE_USER, USE_YN=1, REALNAME=sadf, COMPANY=, COMPANY_TYPE=, DEVICE_SERIAL=null, DEVICE_MODEL=null, DEVICE_COLOR=null, PHONE=, EMAIL=, SEX=, BIRTHDAY=, WECHAT=null, QQ=null, PROVINCE_CODE=null, CITY_CODE=null, DISTRICT_CODE=null, ADDRESS=null, QUESTION=null, ANSWER=null, IMAGE_PHOTO=null, OPTION01=null, OPTION02=null, OPTION03=null, OPTION04=null, OPTION05=null, CREATETIME=2021-01-08 14:35:09, UPDATETIME=null, ORDER_COUNT=null, START_DATE=, END_DATE=, RN=0, PAGE_NO=0, START_ROW_POSITION=0, PAGE_ROW_COUNT=0, ALL_COUNT=0, PAGE_NUM=0, PAGE_SIZE=15, ERR_CD=, ERR_MSG=, SESSION_ID=, IP_ADDR=, USER_AGENT=, REFERER=)
+""2021/03/11-21:57 [https-jsse-nio-443-exec-10] INFO  me.ahn.management.util.TokenUtil-  用户[4] 创建Token>>>>>>>>>>eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJST0xFIjoiUk9MRV9VU0VSIiwiYXVkIjoiNCIsIlVTRVJOQU1FIjoiYXNkZiIsImV4cCI6MTYxNTQ3NDY0NH0.c1aTHBl0Y7wcjmFJF_xRP7XLr-U-d6fNPfYx6EnvtIw
+""2021/03/11-22:15 [main] INFO  me.ahn.management.ManagementApplication- Starting ManagementApplication on DESKTOP-D88F0GM with PID 9936 (D:\project\ahn\management\target\classes started by Administrator in D:\project\ahn\management)
+""2021/03/11-22:15 [main] INFO  me.ahn.management.ManagementApplication- No active profile set, falling back to default profiles: default
+""2021/03/11-22:15 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner- No MyBatis mapper was found in '[me.ahn.management]' package. Please check your configuration.
+""2021/03/11-22:15 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer- Tomcat initialized with port(s): 443 (https) 80 (http)
+""2021/03/11-22:15 [main] INFO  org.apache.catalina.core.StandardService- Starting service [Tomcat]
+""2021/03/11-22:15 [main] INFO  org.apache.catalina.core.StandardEngine- Starting Servlet engine: [Apache Tomcat/9.0.35]
+""2021/03/11-22:15 [main] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/]- Initializing Spring embedded WebApplicationContext
+""2021/03/11-22:15 [main] INFO  org.springframework.web.context.ContextLoader- Root WebApplicationContext: initialization completed in 1269 ms
+""2021/03/11-22:15 [main] INFO  com.zaxxer.hikari.HikariDataSource- HikariPool-1 - Starting...
+""2021/03/11-22:15 [main] WARN  com.zaxxer.hikari.util.DriverDataSource- Registered driver with driverClassName=com.mysql.jdbc.Driver was not found, trying direct instantiation.
+""2021/03/11-22:15 [main] INFO  com.zaxxer.hikari.HikariDataSource- HikariPool-1 - Start completed.
+""2021/03/11-22:15 [main] INFO  me.ahn.management.config.DatabaseConfig- datasource:>>>>>>HikariDataSource (HikariPool-1)
+""2021/03/11-22:15 [main] INFO  org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor- Initializing ExecutorService 'applicationTaskExecutor'
+""2021/03/11-22:15 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer- Tomcat started on port(s): 443 (https) 80 (http) with context path ''
+""2021/03/11-22:15 [main] INFO  me.ahn.management.ManagementApplication- Started ManagementApplication in 3.891 seconds (JVM running for 5.516)
+""2021/03/11-22:15 [https-jsse-nio-443-exec-5] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/]- Initializing Spring DispatcherServlet 'dispatcherServlet'
+""2021/03/11-22:15 [https-jsse-nio-443-exec-5] INFO  org.springframework.web.servlet.DispatcherServlet- Initializing Servlet 'dispatcherServlet'
+""2021/03/11-22:15 [https-jsse-nio-443-exec-5] INFO  org.springframework.web.servlet.DispatcherServlet- Completed initialization in 5 ms
+""2021/03/11-22:15 [https-jsse-nio-443-exec-8] INFO  me.ahn.management.util.TokenUtil- 正在创建Token的用户>>>>>>>>>>TB_USER_INFO(USER_SEQ=4, OPENID=null, UNIONID=null, USERNAME=asdf, PASSWORD=null, ROLE_NO=01, ROLE=ROLE_USER, USE_YN=1, REALNAME=sadf, COMPANY=, COMPANY_TYPE=, DEVICE_SERIAL=null, DEVICE_MODEL=null, DEVICE_COLOR=null, PHONE=, EMAIL=, SEX=, BIRTHDAY=, WECHAT=null, QQ=null, PROVINCE_CODE=null, CITY_CODE=null, DISTRICT_CODE=null, ADDRESS=null, QUESTION=null, ANSWER=null, IMAGE_PHOTO=null, OPTION01=null, OPTION02=null, OPTION03=null, OPTION04=null, OPTION05=null, CREATETIME=2021-01-08 14:35:09, UPDATETIME=2021-03-11 22:03:33, ORDER_COUNT=null, START_DATE=, END_DATE=, RN=0, PAGE_NO=0, START_ROW_POSITION=0, PAGE_ROW_COUNT=0, ALL_COUNT=0, PAGE_NUM=0, PAGE_SIZE=15, ERR_CD=, ERR_MSG=, SESSION_ID=, IP_ADDR=, USER_AGENT=, REFERER=)
+""2021/03/11-22:15 [https-jsse-nio-443-exec-8] INFO  me.ahn.management.util.TokenUtil-  用户[4] 创建Token>>>>>>>>>>eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJST0xFIjoiUk9MRV9VU0VSIiwiYXVkIjoiNCIsIlVTRVJOQU1FIjoiYXNkZiIsImV4cCI6MTYxNTQ3NTc1OX0.qY-QWNlrKGbHlHKWJMUHyrSLYZgZXUpsOXODLzqCZk8
+""2021/03/11-22:17 [main] INFO  me.ahn.management.ManagementApplication- Starting ManagementApplication on DESKTOP-D88F0GM with PID 5928 (D:\project\ahn\management\target\classes started by Administrator in D:\project\ahn\management)
+""2021/03/11-22:17 [main] INFO  me.ahn.management.ManagementApplication- No active profile set, falling back to default profiles: default
+""2021/03/11-22:17 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner- No MyBatis mapper was found in '[me.ahn.management]' package. Please check your configuration.
+""2021/03/11-22:17 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer- Tomcat initialized with port(s): 443 (https) 80 (http)
+""2021/03/11-22:17 [main] INFO  org.apache.catalina.core.StandardService- Starting service [Tomcat]
+""2021/03/11-22:17 [main] INFO  org.apache.catalina.core.StandardEngine- Starting Servlet engine: [Apache Tomcat/9.0.35]
+""2021/03/11-22:17 [main] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/]- Initializing Spring embedded WebApplicationContext
+""2021/03/11-22:17 [main] INFO  org.springframework.web.context.ContextLoader- Root WebApplicationContext: initialization completed in 1285 ms
+""2021/03/11-22:17 [main] INFO  com.zaxxer.hikari.HikariDataSource- HikariPool-1 - Starting...
+""2021/03/11-22:17 [main] WARN  com.zaxxer.hikari.util.DriverDataSource- Registered driver with driverClassName=com.mysql.jdbc.Driver was not found, trying direct instantiation.
+""2021/03/11-22:17 [main] INFO  com.zaxxer.hikari.HikariDataSource- HikariPool-1 - Start completed.
+""2021/03/11-22:17 [main] INFO  me.ahn.management.config.DatabaseConfig- datasource:>>>>>>HikariDataSource (HikariPool-1)
+""2021/03/11-22:17 [main] INFO  org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor- Initializing ExecutorService 'applicationTaskExecutor'
+""2021/03/11-22:17 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer- Tomcat started on port(s): 443 (https) 80 (http) with context path ''
+""2021/03/11-22:17 [main] INFO  me.ahn.management.ManagementApplication- Started ManagementApplication in 3.821 seconds (JVM running for 5.232)
+""2021/03/11-22:17 [https-jsse-nio-443-exec-5] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/]- Initializing Spring DispatcherServlet 'dispatcherServlet'
+""2021/03/11-22:17 [https-jsse-nio-443-exec-5] INFO  org.springframework.web.servlet.DispatcherServlet- Initializing Servlet 'dispatcherServlet'
+""2021/03/11-22:17 [https-jsse-nio-443-exec-5] INFO  org.springframework.web.servlet.DispatcherServlet- Completed initialization in 5 ms
+""2021/03/11-22:17 [https-jsse-nio-443-exec-7] INFO  me.ahn.management.util.TokenUtil- 正在创建Token的用户>>>>>>>>>>TB_USER_INFO(USER_SEQ=4, OPENID=null, UNIONID=null, USERNAME=asdf, PASSWORD=null, ROLE_NO=01, ROLE=ROLE_USER, USE_YN=1, REALNAME=sadf, COMPANY=, COMPANY_TYPE=, DEVICE_SERIAL=null, DEVICE_MODEL=null, DEVICE_COLOR=null, PHONE=, EMAIL=, SEX=, BIRTHDAY=, WECHAT=null, QQ=null, PROVINCE_CODE=null, CITY_CODE=null, DISTRICT_CODE=null, ADDRESS=null, QUESTION=null, ANSWER=null, IMAGE_PHOTO=null, OPTION01=null, OPTION02=null, OPTION03=null, OPTION04=null, OPTION05=null, CREATETIME=2021-01-08 14:35:09, UPDATETIME=2021-03-11 22:03:33, ORDER_COUNT=null, START_DATE=, END_DATE=, RN=0, PAGE_NO=0, START_ROW_POSITION=0, PAGE_ROW_COUNT=0, ALL_COUNT=0, PAGE_NUM=0, PAGE_SIZE=15, ERR_CD=, ERR_MSG=, SESSION_ID=, IP_ADDR=, USER_AGENT=, REFERER=)
+""2021/03/11-22:17 [https-jsse-nio-443-exec-7] INFO  me.ahn.management.util.TokenUtil-  用户[4] 创建Token>>>>>>>>>>eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJST0xFIjoiUk9MRV9VU0VSIiwiYXVkIjoiNCIsIlVTRVJOQU1FIjoiYXNkZiIsImV4cCI6MTYxNTQ3NTg0M30.aZMK4eCRoPRfVN_iTI1_6gnMURBLVSu8o1mD1C_4TAU
+""2021/03/11-23:11 [main] INFO  me.ahn.management.ManagementApplication- Starting ManagementApplication on DESKTOP-D88F0GM with PID 9572 (D:\project\ahn\management\target\classes started by Administrator in D:\project\ahn\management)
+""2021/03/11-23:11 [main] INFO  me.ahn.management.ManagementApplication- No active profile set, falling back to default profiles: default
+""2021/03/11-23:11 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner- No MyBatis mapper was found in '[me.ahn.management]' package. Please check your configuration.
+""2021/03/11-23:11 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer- Tomcat initialized with port(s): 443 (https) 80 (http)
+""2021/03/11-23:11 [main] INFO  org.apache.catalina.core.StandardService- Starting service [Tomcat]
+""2021/03/11-23:11 [main] INFO  org.apache.catalina.core.StandardEngine- Starting Servlet engine: [Apache Tomcat/9.0.35]
+""2021/03/11-23:11 [main] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/]- Initializing Spring embedded WebApplicationContext
+""2021/03/11-23:11 [main] INFO  org.springframework.web.context.ContextLoader- Root WebApplicationContext: initialization completed in 1349 ms
+""2021/03/11-23:11 [main] INFO  com.zaxxer.hikari.HikariDataSource- HikariPool-1 - Starting...
+""2021/03/11-23:11 [main] WARN  com.zaxxer.hikari.util.DriverDataSource- Registered driver with driverClassName=com.mysql.jdbc.Driver was not found, trying direct instantiation.
+""2021/03/11-23:11 [main] INFO  com.zaxxer.hikari.HikariDataSource- HikariPool-1 - Start completed.
+""2021/03/11-23:11 [main] INFO  me.ahn.management.config.DatabaseConfig- datasource:>>>>>>HikariDataSource (HikariPool-1)
+""2021/03/11-23:11 [main] INFO  org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor- Initializing ExecutorService 'applicationTaskExecutor'
+""2021/03/11-23:11 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer- Tomcat started on port(s): 443 (https) 80 (http) with context path ''
+""2021/03/11-23:11 [main] INFO  me.ahn.management.ManagementApplication- Started ManagementApplication in 3.84 seconds (JVM running for 5.259)
+""2021/03/11-23:11 [https-jsse-nio-443-exec-7] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/]- Initializing Spring DispatcherServlet 'dispatcherServlet'
+""2021/03/11-23:11 [https-jsse-nio-443-exec-7] INFO  org.springframework.web.servlet.DispatcherServlet- Initializing Servlet 'dispatcherServlet'
+""2021/03/11-23:11 [https-jsse-nio-443-exec-7] INFO  org.springframework.web.servlet.DispatcherServlet- Completed initialization in 5 ms
+""2021/03/11-23:11 [https-jsse-nio-443-exec-9] INFO  me.ahn.management.util.TokenUtil- 正在创建Token的用户>>>>>>>>>>TB_USER_INFO(USER_SEQ=4, OPENID=null, UNIONID=null, USERNAME=asdf, PASSWORD=null, ROLE_NO=01, ROLE=ROLE_USER, USE_YN=1, REALNAME=sadf, COMPANY=, COMPANY_TYPE=, DEVICE_SERIAL=null, DEVICE_MODEL=null, DEVICE_COLOR=null, PHONE=, EMAIL=, SEX=, BIRTHDAY=, WECHAT=null, QQ=null, PROVINCE_CODE=null, CITY_CODE=null, DISTRICT_CODE=null, ADDRESS=null, QUESTION=null, ANSWER=null, IMAGE_PHOTO=null, OPTION01=null, OPTION02=null, OPTION03=null, OPTION04=null, OPTION05=null, CREATETIME=2021-01-08 14:35:09, UPDATETIME=2021-03-11 22:03:33, ORDER_COUNT=null, START_DATE=, END_DATE=, RN=0, PAGE_NO=0, START_ROW_POSITION=0, PAGE_ROW_COUNT=0, ALL_COUNT=0, PAGE_NUM=0, PAGE_SIZE=15, ERR_CD=, ERR_MSG=, SESSION_ID=, IP_ADDR=, USER_AGENT=, REFERER=)
+""2021/03/11-23:11 [https-jsse-nio-443-exec-9] INFO  me.ahn.management.util.TokenUtil-  用户[4] 创建Token>>>>>>>>>>eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJST0xFIjoiUk9MRV9VU0VSIiwiYXVkIjoiNCIsIlVTRVJOQU1FIjoiYXNkZiIsImV4cCI6MTYxNTQ3OTExMH0.YxPxdy6lLExuq2w-dg8tdWVWPL8FCIR60oDv5xP9Gtg
+""2021/03/11-23:25 [main] INFO  me.ahn.management.ManagementApplication- Starting ManagementApplication on DESKTOP-D88F0GM with PID 9244 (D:\project\ahn\management\target\classes started by Administrator in D:\project\ahn\management)
+""2021/03/11-23:25 [main] INFO  me.ahn.management.ManagementApplication- No active profile set, falling back to default profiles: default
+""2021/03/11-23:26 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner- No MyBatis mapper was found in '[me.ahn.management]' package. Please check your configuration.
+""2021/03/11-23:26 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer- Tomcat initialized with port(s): 443 (https) 80 (http)
+""2021/03/11-23:26 [main] INFO  org.apache.catalina.core.StandardService- Starting service [Tomcat]
+""2021/03/11-23:26 [main] INFO  org.apache.catalina.core.StandardEngine- Starting Servlet engine: [Apache Tomcat/9.0.35]
+""2021/03/11-23:26 [main] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/]- Initializing Spring embedded WebApplicationContext
+""2021/03/11-23:26 [main] INFO  org.springframework.web.context.ContextLoader- Root WebApplicationContext: initialization completed in 1749 ms
+""2021/03/11-23:26 [main] INFO  com.zaxxer.hikari.HikariDataSource- HikariPool-1 - Starting...
+""2021/03/11-23:26 [main] WARN  com.zaxxer.hikari.util.DriverDataSource- Registered driver with driverClassName=com.mysql.jdbc.Driver was not found, trying direct instantiation.
+""2021/03/11-23:26 [main] INFO  com.zaxxer.hikari.HikariDataSource- HikariPool-1 - Start completed.
+""2021/03/11-23:26 [main] INFO  me.ahn.management.config.DatabaseConfig- datasource:>>>>>>HikariDataSource (HikariPool-1)
+""2021/03/11-23:26 [main] INFO  org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor- Initializing ExecutorService 'applicationTaskExecutor'
+""2021/03/11-23:26 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer- Tomcat started on port(s): 443 (https) 80 (http) with context path ''
+""2021/03/11-23:26 [main] INFO  me.ahn.management.ManagementApplication- Started ManagementApplication in 4.403 seconds (JVM running for 5.944)
+""2021/03/11-23:26 [https-jsse-nio-443-exec-5] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/]- Initializing Spring DispatcherServlet 'dispatcherServlet'
+""2021/03/11-23:26 [https-jsse-nio-443-exec-5] INFO  org.springframework.web.servlet.DispatcherServlet- Initializing Servlet 'dispatcherServlet'
+""2021/03/11-23:26 [https-jsse-nio-443-exec-5] INFO  org.springframework.web.servlet.DispatcherServlet- Completed initialization in 5 ms
+""2021/03/11-23:26 [https-jsse-nio-443-exec-6] INFO  me.ahn.management.util.TokenUtil- 正在创建Token的用户>>>>>>>>>>TB_USER_INFO(USER_SEQ=4, OPENID=null, UNIONID=null, USERNAME=asdf, PASSWORD=null, ROLE_NO=01, ROLE=ROLE_USER, USE_YN=1, REALNAME=sadf, COMPANY=, COMPANY_TYPE=, DEVICE_SERIAL=null, DEVICE_MODEL=null, DEVICE_COLOR=null, PHONE=, EMAIL=, SEX=, BIRTHDAY=, WECHAT=null, QQ=null, PROVINCE_CODE=null, CITY_CODE=null, DISTRICT_CODE=null, ADDRESS=null, QUESTION=null, ANSWER=null, IMAGE_PHOTO=null, OPTION01=null, OPTION02=null, OPTION03=null, OPTION04=null, OPTION05=null, CREATETIME=2021-01-08 14:35:09, UPDATETIME=2021-03-11 22:03:33, ORDER_COUNT=null, START_DATE=, END_DATE=, RN=0, PAGE_NO=0, START_ROW_POSITION=0, PAGE_ROW_COUNT=0, ALL_COUNT=0, PAGE_NUM=0, PAGE_SIZE=15, ERR_CD=, ERR_MSG=, SESSION_ID=, IP_ADDR=, USER_AGENT=, REFERER=)
+""2021/03/11-23:26 [https-jsse-nio-443-exec-6] INFO  me.ahn.management.util.TokenUtil-  用户[4] 创建Token>>>>>>>>>>eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJST0xFIjoiUk9MRV9VU0VSIiwiYXVkIjoiNCIsIlVTRVJOQU1FIjoiYXNkZiIsImV4cCI6MTYxNTQ3OTk3Mn0.uDGlfg-WEkSAslW1sGCiOliUONmittctM5gA0bNwUgA
+""2021/03/11-23:49 [main] INFO  me.ahn.management.ManagementApplication- Starting ManagementApplication on DESKTOP-D88F0GM with PID 10560 (D:\project\ahn\management\target\classes started by Administrator in D:\project\ahn\management)
+""2021/03/11-23:49 [main] INFO  me.ahn.management.ManagementApplication- No active profile set, falling back to default profiles: default
+""2021/03/11-23:49 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner- No MyBatis mapper was found in '[me.ahn.management]' package. Please check your configuration.
+""2021/03/11-23:49 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer- Tomcat initialized with port(s): 443 (https) 80 (http)
+""2021/03/11-23:49 [main] INFO  org.apache.catalina.core.StandardService- Starting service [Tomcat]
+""2021/03/11-23:49 [main] INFO  org.apache.catalina.core.StandardEngine- Starting Servlet engine: [Apache Tomcat/9.0.35]
+""2021/03/11-23:49 [main] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/]- Initializing Spring embedded WebApplicationContext
+""2021/03/11-23:49 [main] INFO  org.springframework.web.context.ContextLoader- Root WebApplicationContext: initialization completed in 1303 ms
+""2021/03/11-23:49 [main] INFO  com.zaxxer.hikari.HikariDataSource- HikariPool-1 - Starting...
+""2021/03/11-23:49 [main] WARN  com.zaxxer.hikari.util.DriverDataSource- Registered driver with driverClassName=com.mysql.jdbc.Driver was not found, trying direct instantiation.
+""2021/03/11-23:49 [main] INFO  com.zaxxer.hikari.HikariDataSource- HikariPool-1 - Start completed.
+""2021/03/11-23:49 [main] INFO  me.ahn.management.config.DatabaseConfig- datasource:>>>>>>HikariDataSource (HikariPool-1)
+""2021/03/11-23:49 [main] INFO  org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor- Initializing ExecutorService 'applicationTaskExecutor'
+""2021/03/11-23:49 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer- Tomcat started on port(s): 443 (https) 80 (http) with context path ''
+""2021/03/11-23:49 [main] INFO  me.ahn.management.ManagementApplication- Started ManagementApplication in 3.998 seconds (JVM running for 5.368)
+""2021/03/11-23:49 [https-jsse-nio-443-exec-5] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/]- Initializing Spring DispatcherServlet 'dispatcherServlet'
+""2021/03/11-23:49 [https-jsse-nio-443-exec-5] INFO  org.springframework.web.servlet.DispatcherServlet- Initializing Servlet 'dispatcherServlet'
+""2021/03/11-23:49 [https-jsse-nio-443-exec-5] INFO  org.springframework.web.servlet.DispatcherServlet- Completed initialization in 6 ms
+""2021/03/11-23:49 [https-jsse-nio-443-exec-4] INFO  me.ahn.management.util.TokenUtil- 正在创建Token的用户>>>>>>>>>>TB_USER_INFO(USER_SEQ=4, OPENID=null, UNIONID=null, USERNAME=asdf, PASSWORD=null, ROLE_NO=01, ROLE=ROLE_USER, USE_YN=1, REALNAME=sadf, COMPANY=, COMPANY_TYPE=, DEVICE_SERIAL=null, DEVICE_MODEL=null, DEVICE_COLOR=null, PHONE=, EMAIL=, SEX=, BIRTHDAY=, WECHAT=null, QQ=null, PROVINCE_CODE=null, CITY_CODE=null, DISTRICT_CODE=null, ADDRESS=null, QUESTION=null, ANSWER=null, IMAGE_PHOTO=null, OPTION01=null, OPTION02=null, OPTION03=null, OPTION04=null, OPTION05=null, CREATETIME=2021-01-08 14:35:09, UPDATETIME=2021-03-11 22:03:33, ORDER_COUNT=null, START_DATE=, END_DATE=, RN=0, PAGE_NO=0, START_ROW_POSITION=0, PAGE_ROW_COUNT=0, ALL_COUNT=0, PAGE_NUM=0, PAGE_SIZE=15, ERR_CD=, ERR_MSG=, SESSION_ID=, IP_ADDR=, USER_AGENT=, REFERER=)
+""2021/03/11-23:49 [https-jsse-nio-443-exec-4] INFO  me.ahn.management.util.TokenUtil-  用户[4] 创建Token>>>>>>>>>>eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJST0xFIjoiUk9MRV9VU0VSIiwiYXVkIjoiNCIsIlVTRVJOQU1FIjoiYXNkZiIsImV4cCI6MTYxNTQ4MTM4Nn0.r_XVmELpDFWEtD-FiquuTzP3_y1GBiichClqZFV2uak
+""2021/03/11-23:49 [https-jsse-nio-443-exec-7] WARN  org.springframework.web.servlet.mvc.support.DefaultHandlerExceptionResolver- Resolved [org.springframework.web.HttpMediaTypeNotSupportedException: Content type 'application/x-www-form-urlencoded;charset=UTF-8' not supported]
+""2021/03/11-23:50 [https-jsse-nio-443-exec-8] INFO  me.ahn.management.util.TokenUtil- 正在创建Token的用户>>>>>>>>>>TB_USER_INFO(USER_SEQ=4, OPENID=null, UNIONID=null, USERNAME=asdf, PASSWORD=null, ROLE_NO=01, ROLE=ROLE_USER, USE_YN=1, REALNAME=sadf, COMPANY=, COMPANY_TYPE=, DEVICE_SERIAL=null, DEVICE_MODEL=null, DEVICE_COLOR=null, PHONE=, EMAIL=, SEX=, BIRTHDAY=, WECHAT=null, QQ=null, PROVINCE_CODE=null, CITY_CODE=null, DISTRICT_CODE=null, ADDRESS=null, QUESTION=null, ANSWER=null, IMAGE_PHOTO=null, OPTION01=null, OPTION02=null, OPTION03=null, OPTION04=null, OPTION05=null, CREATETIME=2021-01-08 14:35:09, UPDATETIME=2021-03-11 22:03:33, ORDER_COUNT=null, START_DATE=, END_DATE=, RN=0, PAGE_NO=0, START_ROW_POSITION=0, PAGE_ROW_COUNT=0, ALL_COUNT=0, PAGE_NUM=0, PAGE_SIZE=15, ERR_CD=, ERR_MSG=, SESSION_ID=, IP_ADDR=, USER_AGENT=, REFERER=)
+""2021/03/11-23:50 [https-jsse-nio-443-exec-8] INFO  me.ahn.management.util.TokenUtil-  用户[4] 创建Token>>>>>>>>>>eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJST0xFIjoiUk9MRV9VU0VSIiwiYXVkIjoiNCIsIlVTRVJOQU1FIjoiYXNkZiIsImV4cCI6MTYxNTQ4MTQyOH0.vJXx2ezG9McBbV8zd6jMwJa_QpgHUsE2TUIPp1zVF8g
+""2021/03/11-23:50 [https-jsse-nio-443-exec-9] WARN  org.springframework.web.servlet.mvc.support.DefaultHandlerExceptionResolver- Resolved [org.springframework.web.HttpMediaTypeNotSupportedException: Content type 'application/x-www-form-urlencoded;charset=UTF-8' not supported]
+""2021/03/11-23:51 [https-jsse-nio-443-exec-4] INFO  me.ahn.management.util.TokenUtil- 正在创建Token的用户>>>>>>>>>>TB_USER_INFO(USER_SEQ=4, OPENID=null, UNIONID=null, USERNAME=asdf, PASSWORD=null, ROLE_NO=01, ROLE=ROLE_USER, USE_YN=1, REALNAME=sadf, COMPANY=, COMPANY_TYPE=, DEVICE_SERIAL=null, DEVICE_MODEL=null, DEVICE_COLOR=null, PHONE=, EMAIL=, SEX=, BIRTHDAY=, WECHAT=null, QQ=null, PROVINCE_CODE=null, CITY_CODE=null, DISTRICT_CODE=null, ADDRESS=null, QUESTION=null, ANSWER=null, IMAGE_PHOTO=null, OPTION01=null, OPTION02=null, OPTION03=null, OPTION04=null, OPTION05=null, CREATETIME=2021-01-08 14:35:09, UPDATETIME=2021-03-11 22:03:33, ORDER_COUNT=null, START_DATE=, END_DATE=, RN=0, PAGE_NO=0, START_ROW_POSITION=0, PAGE_ROW_COUNT=0, ALL_COUNT=0, PAGE_NUM=0, PAGE_SIZE=15, ERR_CD=, ERR_MSG=, SESSION_ID=, IP_ADDR=, USER_AGENT=, REFERER=)
+""2021/03/11-23:51 [https-jsse-nio-443-exec-4] INFO  me.ahn.management.util.TokenUtil-  用户[4] 创建Token>>>>>>>>>>eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJST0xFIjoiUk9MRV9VU0VSIiwiYXVkIjoiNCIsIlVTRVJOQU1FIjoiYXNkZiIsImV4cCI6MTYxNTQ4MTQ5NX0.0qPJ3Iuids65WH8EW--b7v1NArDCzUj1IrXQyd-O7fo
+""2021/03/11-23:51 [https-jsse-nio-443-exec-8] WARN  org.springframework.web.servlet.mvc.support.DefaultHandlerExceptionResolver- Resolved [org.springframework.web.HttpMediaTypeNotSupportedException: Content type 'application/x-www-form-urlencoded;charset=UTF-8' not supported]
 "

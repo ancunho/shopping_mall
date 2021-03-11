@@ -3,6 +3,9 @@ package me.ahn.management.service;
 import com.github.pagehelper.PageInfo;
 import me.ahn.management.model.TB_USER_INFO;
 
+import java.util.List;
+import java.util.Map;
+
 public interface UserInfoService {
 
     public TB_USER_INFO login(String USERNAME, String PASSWORD) throws Exception;
@@ -15,5 +18,7 @@ public interface UserInfoService {
     public void insertTB_USER_INFO(TB_USER_INFO tbUserInfo) throws Exception;
     public void insertTB_USER_INFOForWechat(TB_USER_INFO tbUserInfo) throws Exception;
     public Integer countTB_USER_INFOByUSERNAMERETURNInt(TB_USER_INFO tbUserInfo) throws Exception;
+
+    public List<Map<String, Object>> selectTB_ORDERByUSER_SEQ(TB_USER_INFO tbUserInfo) throws Exception;
 
 }

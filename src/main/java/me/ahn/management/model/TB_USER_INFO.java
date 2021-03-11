@@ -113,6 +113,9 @@ public class TB_USER_INFO {
     @JsonProperty("UPDATETIME")
     private String UPDATETIME;
 
+    @JsonProperty("ORDER_COUNT")
+    private String ORDER_COUNT;
+
 
     /**
      * 공통코드

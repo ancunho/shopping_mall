@@ -262,4 +262,10 @@ public class OrderServiceImpl implements OrderService {
         return sqlSession.selectList("AHNSTUDIO.order.selectTB_ORDERByTB_ORDERForWechat", tbOrder);
     }
 
+    @Transactional
+    public void updateTB_ORDERForDELIVERY_NO(TB_ORDER tbOrder) throws Exception {
+        sqlSession.update("AHNSTUDIO.order.updateTB_ORDERForDELIVERY_NO", tbOrder);
+    }
+
+
 }

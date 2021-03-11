@@ -197,7 +197,23 @@ public class UserInfoController {
             e.printStackTrace();
             return ServerResponse.createByErrorMessage(Const.Message.SAVE_ERROR);
         }
+    }
 
+    @UserLoginToken
+    @RequestMapping(value = "order_list_by_user", method = RequestMethod.POST)
+    public ServerResponse selectTB_ORDERByUSER_SEQ(HttpServletRequest request) {
+        Box box = HttpUtility.getBox(request);
+        TB_USER_INFO tbUserInfo = new TB_USER_INFO();
+        box.copyToEntity(tbUserInfo);
+
+        try {
+
+            List<Map<String, Object>> lstTB_ORDER = userInfoService.selectTB_ORDERByUSER_SEQ(tbUserInfo);
+            return ServerResponse.createBySuccess(lstTB_ORDER);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ServerResponse.createByErrorMessage(Const.Message.SAVE_ERROR);
+        }
     }
 
 }

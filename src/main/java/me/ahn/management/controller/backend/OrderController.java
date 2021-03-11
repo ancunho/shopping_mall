@@ -106,7 +106,7 @@ public class OrderController {
      * Backend - edit
      */
     @UserLoginToken
-    @RequestMapping(value = "edit", method = RequestMethod.POST)
+    @RequestMapping(value = "edit_payment", method = RequestMethod.POST)
     public ServerResponse updateTB_ORDER(HttpServletRequest request, @RequestBody TB_ORDER tbOrder) {
         try {
             if (tbOrder.getORDER_SEQ() == null) {
@@ -122,6 +122,26 @@ public class OrderController {
             }
 
             orderService.updateTB_ORDERByPk(tbOrder);
+            return ServerResponse.createBySuccessMessage(Const.Message.UPDATE_OK);
+        } catch(Exception e) {
+            e.printStackTrace();
+            return ServerResponse.createByErrorMessage(Const.Message.UPDATE_ERROR);
+        }
+    }
+
+    @UserLoginToken
+    @RequestMapping(value = "edit_delivery", method = RequestMethod.POST)
+    public ServerResponse updateTB_ORDERForDELIVERY_NO(HttpServletRequest request, @RequestBody TB_ORDER tbOrder) {
+        try {
+            if (tbOrder.getORDER_SEQ() == null || "".equals(tbOrder.getDELIVERY_NO())) {
+                return ServerResponse.createByErrorMessage(Const.Message.PARAMETER_ERROR);
+            }
+
+            if("50".equals(tbOrder.getSTATUS()) || "70".equals(tbOrder.getSTATUS()) ) {
+                return ServerResponse.createByErrorMessage("当前的订单状态下不能快递单号，请确认！");
+            }
+
+            orderService.updateTB_ORDERForDELIVERY_NO(tbOrder);
             return ServerResponse.createBySuccessMessage(Const.Message.UPDATE_OK);
         } catch(Exception e) {
             e.printStackTrace();

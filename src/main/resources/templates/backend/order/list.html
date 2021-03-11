@@ -6,7 +6,7 @@
 .divProduct {margin-top:20px;}
 .order-item { }
 .orderListTable p {margin-bottom: 0;}
-.orderListTable tbody td {padding: 5px 0;}
+.orderListTable tbody td {padding: 10px 0;}
 </style>
 <body>
 <div id="wrap">
@@ -16,7 +16,7 @@
     <!-- Contents Start   -->
     <div class="container container-lg container-md con">
         <div class="conTop">
-            <h2>Order</h2>
+            <h2>订单列表</h2>
             <a href="#this" class="btn05 btnSearchToggle">展开</a>
         </div>
         <div class="divSearch">
@@ -39,6 +39,7 @@
             <p class="text-center mt-2"><a href="#this" class="btn02 btnSearch">查询</a> </p>
         </div>
         <div class="divProduct">
+            <div class="page"></div>
             <table class="table01 orderListTable" style="font-size:0.9em;">
                 <colgroup>
                     <col width="35%" />
@@ -88,6 +89,28 @@
     });
 
 
+    var lfn_Pagination = function(res) {
+        var sbPaging = new StringBuffer();
+        $(".page").html('');
+        if (res.data) {
+            sbPaging.append("<ul>");
+            res.data.navigatepageNums.map(function(currentValue, index, arr) {
+                if(res.data.pageNum === currentValue) {
+                    sbPaging.append("   <li class='on'><a href='#this' class=''>" + currentValue + "</a> </li>");
+                } else {
+                    sbPaging.append("   <li><a href='#this' class=''>" + currentValue + "</a> </li>");
+                }
+            });
+
+            sbPaging.append("</ul>");
+            $(".page").html(sbPaging.toString());
+        }
+    }
+
+    $(document).on('click', '.page ul li a', function(e){
+        lfn_Search(e.target.innerText);
+    });
+
     $(".btnSearch").unbind('click').click(function(){
         lfn_Search(g_currentPage);
     });
@@ -101,7 +124,7 @@
             ,PAGE_SIZE: 20
         }
 
-        console.log(params);
+        // console.log(params);
 
         new AjaxRequest({
             url: "/api/order/list",
@@ -140,8 +163,8 @@
                                     + "<i class='bi bi-truck btn btn-sm'></i>" + checkEmpty(orderListData[i].Shipping.RECEIVER_PROVINCE, "-") + checkEmpty(orderListData[i].Shipping.RECEIVER_CITY, "-") + checkEmpty(orderListData[i].Shipping.RECEIVER_DISTRICT, "-") + checkEmpty(orderListData[i].Shipping.RECEIVER_ADDRESS, "-") + " &nbsp;&nbsp; "
                                     + "</td>");
                             }
-                            sbHTML.append("     <td><p><strong>订单号</strong></p>" + orderListData[i].ORDER_NO + "</td>");
-                            sbHTML.append("     <td><p><strong>支付金额</strong></p>");
+                            sbHTML.append("     <td><p><strong style='line-height: 2'>订单号</strong></p>" + orderListData[i].ORDER_NO + "</td>");
+                            sbHTML.append("     <td><p><strong style='line-height: 2'>支付金额</strong></p>");
 
                             if(orderListData[i].VIP_PAYMENT) {
                                 sbHTML.append("     <p style='text-decoration: line-through;'>" + checkEmpty(orderListData[i].PAYMENT, "-") + "元" + "</p>");
@@ -151,16 +174,16 @@
                             }
 
                             sbHTML.append("     </td>");
-                            sbHTML.append("     <td><p><strong>订单状态</strong></p>" + checkEmpty(orderListData[i].STATUS_DESC) + "</td>");
-                            sbHTML.append("     <td><p><strong>备注</strong></p>" + checkEmpty(orderListData[i].COMMENT, "-") + "</td>");
+                            sbHTML.append("     <td><p><strong style='line-height: 2'>订单状态</strong></p>" + checkEmpty(orderListData[i].STATUS_DESC) + "</td>");
+                            sbHTML.append("     <td><p><strong style='line-height: 2'>备注</strong></p>" + checkEmpty(orderListData[i].COMMENT, "-") + "</td>");
                             sbHTML.append("     <td>");
                             sbHTML.append("         <a href='#this' class='btn01 btnEditOrderStatus'>修改状态</a>&nbsp;&nbsp;");
                             if (orderListData[i].STATUS === "10") {
                                 sbHTML.append("         <a href='#this' class='btn02 btnOrderEdit'>修改价格</a>");
                             } else if (orderListData[i].STATUS === "20") {
-                                sbHTML.append("         <a href='#this' class='btn03 btnConfirmDelivery'>确认发货</a>&nbsp;&nbsp;");
+                                sbHTML.append("         <a href='#this' class='btn03 btnOpenConfirmDeliveryPopup'>确认发货</a>&nbsp;&nbsp;");
                             } else if (orderListData[i].STATUS === "40") {
-                                sbHTML.append("         <a href='#this' class='btn04 btnOrderComplete'>确认完成</a>&nbsp;&nbsp;");
+                                sbHTML.append("         <a href='#this' class='btn06 btnOrderComplete'>确认完成</a>&nbsp;&nbsp;");
                             }
                             sbHTML.append("     </td>");
                             sbHTML.append("</tr>");
@@ -194,6 +217,7 @@
                         sbHTML.append("<tr><td colspan='6'>未查找订单数据！请确认搜索条件。</td></tr>")
                     }
                     $(".orderListTable tbody").html(sbHTML.toString());
+                    lfn_Pagination(res);
                 } else {
                     swal(res.msg, "", "error");
                 }
@@ -214,7 +238,7 @@
 
         // console.log(params);
         new AjaxRequest({
-            url: '/api/order/edit',
+            url: '/api/order/edit_payment',
             contentType: 'application/json',
             params: JSON.stringify(params),
             callBack: function(res) {
@@ -255,6 +279,55 @@
                 });
             }
         });
+    });
+
+    $(document).on('click', '.btnOpenConfirmDeliveryPopup', function(){
+        var ORDER_SEQ = $(this).parents("tr").find(".ORDER_SEQ").val();
+        var ORDER_NO = $(this).parents("tr").find(".ORDER_NO").val();
+        var STATUS = $(this).parents("tr").find(".STATUS").val();
+
+        var DeliveryConfirmPopup = $(".DeliveryConfirmPopup");
+        DeliveryConfirmPopup.bPopup({
+            modalClose: false,
+            closeClass: 'btnClose',
+            onOpen: function(){
+                DeliveryConfirmPopup.find('.ORDER_SEQ').val(ORDER_SEQ);
+                DeliveryConfirmPopup.find('.ORDER_NO').val(ORDER_NO);
+                DeliveryConfirmPopup.find('.STATUS').val(STATUS);
+            }
+        });
+    });
+
+    $(document).on('click', '.btnSaveConfirmDelivery', function(){
+
+        var DeliveryConfirmPopup = $(".DeliveryConfirmPopup");
+        var params = {
+            ORDER_SEQ: DeliveryConfirmPopup.find(".ORDER_SEQ").val(),
+            ORDER_NO: DeliveryConfirmPopup.find(".ORDER_NO").val(),
+            STATUS: DeliveryConfirmPopup.find(".STATUS").val(),
+            DELIVERY_NO: DeliveryConfirmPopup.find('.DELIVERY_NO').val()
+        }
+
+        if ($.trim(params.DELIVERY_NO) === "") {
+            swal("快递单号不能为空", "", "error");
+            return;
+        }
+        if($.trim(params.ORDER_SEQ) === "" || $.trim(params.ORDER_NO) === "") {
+            swal("参数错误", "", "error");
+            return;
+        }
+
+        new AjaxRequest({
+            url: '/api/order/edit_delivery',
+            type: 'POST',
+            contentType: 'application/json',
+            params: JSON.stringify(params),
+            callBack: function(res) {
+                console.log(res);
+            }
+        });
+
+
     });
 
     lfn_Search(g_currentPage);
