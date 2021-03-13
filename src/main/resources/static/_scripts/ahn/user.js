@@ -11,11 +11,11 @@ $('.END_DATE').datepicker({
 var bSearchToggle = false;
 $(".btnSearchToggle").unbind('click').click(function(){
     if (!bSearchToggle) {
-        $(".btnSearchToggle").text('收缩');
+        $(".btnSearchToggle").text('展开');
         $(".divSearch").toggle("fast");
         bSearchToggle = true;
     } else {
-        $(".btnSearchToggle").text('展开');
+        $(".btnSearchToggle").text('收缩');
         $(".divSearch").toggle("fast");
         bSearchToggle = false;
     }
@@ -27,15 +27,19 @@ $(".btnSearch").unbind('click').click(function(){
 });
 var lfn_Search = function(g_currentPage) {
     var params = {
-        START_DATE : $(".START_DATE").val()
-        ,END_DATE : $(".END_DATE").val()
+        START_DATE : $(".divSearch .START_DATE").val()
+        ,END_DATE : $(".divSearch .END_DATE").val()
+        ,USE_YN : $(".divSearch .USE_YN").val()
+        ,COMPANY : $.trim($(".divSearch .COMPANY").val())
+        ,DEVICE_SERIAL : $.trim($(".divSearch .DEVICE_SERIAL").val())
         ,PAGE_NUM: g_currentPage
-        ,PAGE_SIZE: 15
+        ,PAGE_SIZE:  $(".divSearch .PAGE_SIZE").val()
     }
 
     new AjaxRequest({
         url: "/api/user/list",
-        params: params,
+        contentType: 'application/json',
+        params: JSON.stringify(params),
         callBack: function(res){
             if(res.status === 0) {
                 var userData = res.data.list;
@@ -318,6 +322,7 @@ var lfn_Pagination = function(res) {
 }
 
 $(document).on('click', '.page ul li a', function(e){
+    console.log(e.target.innerText);
     lfn_Search(e.target.innerText);
 });
 

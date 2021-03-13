@@ -9,11 +9,11 @@ $('.END_DATE').datepicker({
 var bSearchToggle = false;
 $(".btnSearchToggle").unbind('click').click(function(){
     if (!bSearchToggle) {
-        $(".btnSearchToggle").text('收缩');
+        $(".btnSearchToggle").text('展开');
         $(".divSearch").toggle("fast");
         bSearchToggle = true;
     } else {
-        $(".btnSearchToggle").text('展开');
+        $(".btnSearchToggle").text('收缩');
         $(".divSearch").toggle("fast");
         bSearchToggle = false;
     }
@@ -25,18 +25,22 @@ $(".btnSearch").unbind('click').click(function(){
 });
 
 var lfn_Search = function(g_currentPage) {
+    //LIST_ATTRIBUTE ATTRIBUTE
     var params = {
-        START_DATE : $(".START_DATE").val()
-        ,END_DATE : $(".END_DATE").val()
+        PRODUCT_NAME: $.trim($(".divSearch  .PRODUCT_NAME").val())
+        ,USE_YN: $(".divSearch .USE_YN").val()
+        ,ATTRIBUTE: $(".divSearch .ATTRIBUTE").val() === "00" ? ($(".LIST_ATTRIBUTE").val() === "" ? "" : $(".LIST_ATTRIBUTE").val()) : $(".divSearch .ATTRIBUTE").val()
         ,PAGE_NUM: g_currentPage
-        ,PAGE_SIZE: 15
+        ,PAGE_SIZE: $(".divSearch .PAGE_SIZE").val()
     }
 
     new AjaxRequest({
         url: "/api/product/list",
-        params: params,
+        contentType: "application/json",
+        params: JSON.stringify(params),
         callBack: function(res){
             if(res.status === 0) {
+                $(".LIST_ATTRIBUTE").val("");
                 var productData = res.data.list;
                 var sbHTML = new StringBuffer();
                 $(".productTable tbody").html('');

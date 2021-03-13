@@ -43,6 +43,8 @@
         FROM    TB_PRODUCT T1
         WHERE   1 = 1
         AND 	(IFNULL(#{USE_YN},'') = ''		OR 	T1.USE_YN = #{USE_YN})
+        AND 	(IFNULL(#{ATTRIBUTE},'') = ''		OR 	T1.ATTRIBUTE = #{ATTRIBUTE})
+        AND 	(IFNULL(#{PRODUCT_NAME},'') = '' OR 	T1.PRODUCT_NAME LIKE CONCAT('%',#{PRODUCT_NAME},'%'))
         ]]>
     </select>
 

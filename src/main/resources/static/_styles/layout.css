@@ -39,12 +39,13 @@ input {outline: none;}
 .con { background:#fff; box-shadow: 0 0.6em 0.7em rgba(0,0,0,0.1); margin:20px auto 50px auto;  padding:10px 35px 35px 35px; border-radius: 30px; max-width: 1400px!important;}
 .conTop { overflow:hidden; height:100%; margin-top:20px;}
 .conTop h2 { float:left; line-height:1.5; color:#398BFD; font-weight:bold;display: inline-block; border-bottom:2px solid #398BFD; font-size:14px; padding:0 15px 6px 15px; }
-.conTop a.btnSearchToggle { float:right; }
-.divSearch { display: none; padding:30px; border-bottom:1px solid #F74459;}
-.inputBox01 { color:#3E3F50; margin-left:30px;}
+.btnSearchToggle {  margin:10px auto 0 auto; color:#8D8D8D; cursor: pointer; text-align: center; line-height: 2; border:1px solid #e1e1e1; border-radius:3px; }
+.divSearch { margin-top:20px; padding:30px 30px 20px 30px; border-bottom:1px solid #eee;box-shadow: 0 0.2em 1em 0.2em rgba(0,0,0,0.1);  }
+.inputBox01 { color:#3E3F50; margin-right:20px;}
 .inputBox01 label { display: inline-block; padding:0 10px; text-align: center; font-size:0.9rem; color:#3E3F50;}
-.inputBox01 input  { font-size:12px; line-height:25px; padding:0 8px; border:1px solid #ddd; border-radius:5px; color:#3E3F50; width:130px;}
-.inputBox01 select  { font-size:12px; line-height:25px; padding:0 8px; border:1px solid #ddd; border-radius:5px; color:#3E3F50; width:130px;}
+.inputBox01 input  { font-size:12px; line-height:25px; padding:0 8px; border:1px solid #ddd; border-radius:5px; color:#3E3F50; width:100px;}
+.inputBox01 select  { font-size:12px; line-height:25px; padding:0 8px; border:1px solid #ddd; border-radius:5px; color:#3E3F50; width:100px;}
+.inputBox01 select option {display:inline-block; height:30px;}
 .datepicker table th, .datepicker table td { color:#3E3F50; }
 .divUser { margin-top:20px;}
 .table01 { width:100%; border-top:2px solid #EFF2F7;}
@@ -64,8 +65,8 @@ input {outline: none;}
 .btn03:hover { opacity: 0.9; color:#fff; transition: 0.5s; -webkit-transition: 0.5s; -moz-transition: 0.5s; text-decoration: none;}
 .btn04:hover { opacity: 0.9; color:#fff; transition: 0.5s; -webkit-transition: 0.5s; -moz-transition: 0.5s; text-decoration: none;}
 .btn05:hover { opacity: 0.9; color:#3E3F50; border:1px solid #3E3F50; transition: 0.5s; -webkit-transition: 0.5s; -moz-transition: 0.5s; text-decoration: none;}
-.btn06:hover { opacity: 0.9; color:#3E3F50; border:1px solid #3E3F50; transition: 0.5s; -webkit-transition: 0.5s; -moz-transition: 0.5s; text-decoration: none;}
-
+.btn06:hover { opacity: 0.9; color:#3E3F50; background: #e8ab04; border:1px solid #e8ab04; transition: 0.5s; -webkit-transition: 0.5s; -moz-transition: 0.5s; text-decoration: none;}
+.btnSearch {border:1px solid #e2e6ea; font-size: 0.9rem;}
 /* Paging Style */
 .page ul { margin:15px 0; overflow:hidden; height:100%; display: flex; justify-content: center;}
 .page ul li { display:inline-block;}

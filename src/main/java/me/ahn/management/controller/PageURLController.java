@@ -5,6 +5,8 @@ import me.ahn.management.annotation.PassToken;
 import me.ahn.management.annotation.UserLoginToken;
 import me.ahn.management.common.PageConstants;
 import me.ahn.management.model.TB_USER_INFO;
+import me.ahn.management.util.Box;
+import me.ahn.management.util.HttpUtility;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.jws.WebParam;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 @Slf4j
@@ -45,12 +48,6 @@ public class PageURLController {
     @PassToken
     @RequestMapping(value = PageConstants.URL_BACKEND_LOGIN)
     public String to_login_page(HttpSession session) {
-//        TB_USER_INFO currentUser = (TB_USER_INFO) session.getAttribute("currentUser");
-//        if (currentUser != null) {
-//            return "redirect:" + PageConstants.URL_BACKEND_HOME;
-//        } else {
-//            return PageConstants.TEMPLATE_BACKEND_LOGIN;
-//        }
         return PageConstants.TEMPLATE_BACKEND_LOGIN;
     }
 
@@ -101,11 +98,13 @@ public class PageURLController {
      */
     @UserLoginToken
     @RequestMapping(value = PageConstants.URL_BACKEND_PRODUCT_LIST)
-    public String to_product_list(HttpSession session, Model model) {
+    public String to_product_list(HttpSession session, HttpServletRequest request, Model model) {
+        Box box = HttpUtility.getBox(request);
         TB_USER_INFO currentUser = (TB_USER_INFO) session.getAttribute("currentUser");
         if(currentUser == null) {
             return "redirect:" + PageConstants.URL_BACKEND_LOGIN;
         }
+        model.addAttribute("ATTRIBUTE", box.get("ATTRIBUTE"));
         model.addAttribute("activeURL", PageConstants.TEMPLATE_BACKEND_PRODUCT_LIST);
         return PageConstants.TEMPLATE_BACKEND_PRODUCT_LIST;
     }

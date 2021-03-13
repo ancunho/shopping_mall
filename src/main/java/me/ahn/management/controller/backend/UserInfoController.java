@@ -17,10 +17,7 @@ import me.ahn.management.util.MD5Util;
 import me.ahn.management.util.TokenUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -158,14 +155,10 @@ public class UserInfoController {
 
     @UserLoginToken
     @RequestMapping(value = "list", method = RequestMethod.POST)
-    public ServerResponse selectTB_USER_INFO(HttpServletRequest request,
-                                             @RequestParam(value = "PAGE_NUM", defaultValue = "1") int PAGE_NUM,
-                                             @RequestParam(value = "PAGE_SIZE", defaultValue = "10") int PAGE_SIZE) {
-        Box box = HttpUtility.getBox(request);
-        TB_USER_INFO tbUserInfo = new TB_USER_INFO();
-        box.copyToEntity(tbUserInfo);
-        tbUserInfo.setPAGE_NUM(PAGE_NUM);
-        tbUserInfo.setPAGE_SIZE(PAGE_SIZE);
+    public ServerResponse selectTB_USER_INFO(HttpServletRequest request, @RequestBody TB_USER_INFO tbUserInfo) {
+//        Box box = HttpUtility.getBox(request);
+//        box.copyToEntity(tbUserInfo);
+        System.out.println(">>>>>>|||||" + tbUserInfo.toString());
 
         try {
             PageInfo pageResult = userInfoService.selectTB_USER_INFO(tbUserInfo);

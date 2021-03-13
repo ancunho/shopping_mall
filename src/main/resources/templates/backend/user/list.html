@@ -15,20 +15,42 @@ html,body { height: 100%; padding: 0; margin: 0; }
     <div class="container container-lg container-md con">
         <div class="conTop">
             <h2>客户列表</h2>
-            <a href="#this" class="btn05 btnSearchToggle">展开</a>
+<!--            <a href="#this" class="btn05 btnSearchToggle">收缩</a>-->
         </div>
+        <div class="btnSearchToggle">收缩</div>
         <div class="divSearch">
-            <div class="d-flex">
+            <div class="d-flex justify-content-center">
+<!--                <div class="inputBox01">-->
+<!--                    <label for="START_DATE">选择时间</label>-->
+<!--                    <input type="text" value="" class="START_DATE" id="START_DATE" /> ~ <input type="text" value="" class="END_DATE" />-->
+<!--                </div>-->
                 <div class="inputBox01">
-                    <label for="START_DATE">选择时间</label>
-                    <input type="text" value="" class="START_DATE" id="START_DATE" /> ~ <input type="text" value="" class="END_DATE" />
+                    <label>状态</label>
+                    <select class="USE_YN" style="font-size:12px; display: inline-block; width:120px; height:30px;">
+                        <option value="">客户状态</option>
+                        <option value="0">未激活</option>
+                        <option value="1">已激活</option>
+                    </select>
                 </div>
                 <div class="inputBox01">
-                    <label for="STATUS">状态</label>
-                    <input type="text" value="" class="START_DATE" id="STATUS" />
+                    <label>客户名</label>
+                    <input type="text" value="" class="COMPANY" style="width:150px;" />
+                </div>
+                <div class="inputBox01">
+                    <label>设备序列号</label>
+                    <input type="text" value="" class="DEVICE_SERIAL" style="width:150px;" />
+                </div>
+                <div class="inputBox01">
+                    <label>页面展示数量</label>
+                    <select class="PAGE_SIZE" style="font-size:12px; display: inline-block; width:80px; height:30px;">
+                        <option value="15">默认</option>
+                        <option value="10">10个</option>
+                        <option value="20">20个</option>
+                        <option value="30">30个</option>
+                    </select>
                 </div>
             </div>
-            <p class="text-center mt-2"><a href="#this" class="btn02 btnSearch">查询</a> </p>
+            <p class="text-center mt-3"><a href="#this" class="btn btn-light btnSearch">高级查询</a> </p>
         </div>
         <div class="divUser">
             <div class="page"></div>

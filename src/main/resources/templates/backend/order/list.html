@@ -17,8 +17,9 @@
     <div class="container container-lg container-md con">
         <div class="conTop">
             <h2>订单列表</h2>
-            <a href="#this" class="btn05 btnSearchToggle">展开</a>
+<!--            <a href="#this" class="btn05 btnSearchToggle">展开</a>-->
         </div>
+        <div class="btnSearchToggle">收缩</div>
         <div class="divSearch">
             <div class="d-flex">
                 <div class="inputBox01">
@@ -36,7 +37,7 @@
                     </select>
                 </div>
             </div>
-            <p class="text-center mt-2"><a href="#this" class="btn02 btnSearch">查询</a> </p>
+            <p class="text-center mt-2"><a href="#this" class="btn btn-light btnSearch">高级查询</a> </p>
         </div>
         <div class="divProduct">
             <div class="page"></div>
@@ -69,20 +70,22 @@
 </body>
 <script type="text/javascript">
     $('.START_DATE').datepicker({
+        language: "zh-CN",
         format: "yyyy-mm-dd"
     });
 
     $('.END_DATE').datepicker({
+        language: "zh-CN",
         format: "yyyy-mm-dd"
     });
     var bSearchToggle = false;
     $(".btnSearchToggle").unbind('click').click(function(){
         if (!bSearchToggle) {
-            $(".btnSearchToggle").text('收缩');
+            $(".btnSearchToggle").text('展开');
             $(".divSearch").toggle("fast");
             bSearchToggle = true;
         } else {
-            $(".btnSearchToggle").text('展开');
+            $(".btnSearchToggle").text('收缩');
             $(".divSearch").toggle("fast");
             bSearchToggle = false;
         }

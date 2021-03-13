@@ -42,9 +42,12 @@
                 ,ROW_NUMBER() OVER(ORDER BY CREATETIME DESC) AS RN
         FROM    TB_USER_INFO T1
         WHERE   1 = 1
-        AND 	(IFNULL(#{USE_YN},'') = ''		OR 	T1.USE_YN = #{USE_YN})
+        AND 	(IFNULL(#{USE_YN},'') = '' OR 	T1.USE_YN = #{USE_YN})
+        AND 	(IFNULL(#{COMPANY},'') = '' OR 	T1.COMPANY LIKE CONCAT('%',#{COMPANY},'%'))
+        AND 	(IFNULL(#{DEVICE_SERIAL},'') = ''   OR 	T1.DEVICE_SERIAL LIKE CONCAT('%',#{DEVICE_SERIAL},'%'))
         ]]>
     </select>
+
 
     <select id="selectTB_USER_INFOForLogin" parameterType="TB_USER_INFO" resultType="TB_USER_INFO">
         <![CDATA[

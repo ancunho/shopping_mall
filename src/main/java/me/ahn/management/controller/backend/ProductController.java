@@ -74,15 +74,7 @@ public class ProductController {
 
     @UserLoginToken
     @RequestMapping(value = "list", method = RequestMethod.POST)
-    public ServerResponse selectTB_PRODUCT(HttpServletRequest request,
-                                           @RequestParam(value = "PAGE_NUM", defaultValue = "1") int PAGE_NUM,
-                                           @RequestParam(value = "PAGE_SIZE", defaultValue = "10") int PAGE_SIZE) {
-        Box box = HttpUtility.getBox(request);
-        TB_PRODUCT tbProduct = new TB_PRODUCT();
-        box.copyToEntity(tbProduct);
-        tbProduct.setPAGE_NUM(PAGE_NUM);
-        tbProduct.setPAGE_SIZE(PAGE_SIZE);
-
+    public ServerResponse selectTB_PRODUCT(HttpServletRequest request, @RequestBody TB_PRODUCT tbProduct) {
         try {
             PageInfo pageResult = productService.selectTB_PRODUCT(tbProduct);
             return ServerResponse.createBySuccess(pageResult);
