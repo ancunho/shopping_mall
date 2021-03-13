@@ -20,6 +20,7 @@ public interface ProductService {
     public void updateTB_SPECByPk(TB_SPEC tbSpec) throws Exception;
     public List<TB_SPEC> selectTB_SPECByPRODUCT_SEQ(TB_PRODUCT tbProduct) throws Exception;
     public TB_SPEC selectTB_SPECByPk(Integer SPEC_SEQ) throws Exception;
+    public void deleteTB_SPECByPk(TB_SPEC tbSpec) throws Exception;
 
     /************
      * Wechat

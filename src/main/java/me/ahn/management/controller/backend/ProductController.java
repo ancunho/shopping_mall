@@ -111,4 +111,19 @@ public class ProductController {
         }
     }
 
+    @UserLoginToken
+    @RequestMapping(value = "delete/spec", method = RequestMethod.POST)
+    public ServerResponse deleteTB_SPECByPk(HttpServletRequest request, @RequestBody TB_SPEC tbSpec) {
+        try {
+            if (tbSpec.getSPEC_SEQ() == null) {
+                return ServerResponse.createByErrorMessage(Const.Message.PARAMETER_ERROR);
+            }
+            productService.deleteTB_SPECByPk(tbSpec);
+            return ServerResponse.createBySuccessMessage(Const.Message.DELETE_OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ServerResponse.createByErrorMessage(Const.Message.DELETE_ERROR);
+        }
+    }
+
 }

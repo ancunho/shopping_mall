@@ -246,6 +246,7 @@ label { border-bottom:1px dashed #398BFD; color: #9494a3; }
     <!-- //Contents End   -->
 </div>
 <div class="spec_popup" style="display: none;">
+    <input type="hidden" class="action_type" value="01" />
     <h2>请输入规格信息</h2>
     <input type="hidden" value="" id="SPEC_SEQ" />
     <div class="form-group"><label for="WEIGHT">重量</label><input type="number" class="form-control" id="WEIGHT" placeholder="输入重量（数字）" value="" /></div>
@@ -266,7 +267,7 @@ label { border-bottom:1px dashed #398BFD; color: #9494a3; }
     </div>
     <div class="row">
         <div class="col-md-6 text-center" style="padding:0 30px;"><button type="button" class="btn btn-danger btn-block btnClose">关闭</button></div>
-        <div class="col-md-6 text-center" style="padding:0 30px;"><button type="button" class="btn btn-primary btn-block btnAddSpec">保存</button></div>
+        <div class="col-md-6 text-center" style="padding:0 30px;"><button type="button" class="btn btn-primary btn-block btnSaveSpec">保存</button></div>
     </div>
 </div>
 <div th:replace="backend/include/popup::popup"></div>
@@ -746,10 +747,12 @@ label { border-bottom:1px dashed #398BFD; color: #9494a3; }
             WEIGHT: $(".spec_popup #WEIGHT"),
             PRICE: $(".spec_popup #PRICE"),
             PACKAGE_CODE: $(".spec_popup #PACKAGE_CODE"),
-            DELIVERY_TYPE: $(".spec_popup #DELIVERY_TYPE")
+            DELIVERY_TYPE: $(".spec_popup #DELIVERY_TYPE"),
+            action_type: $(".spec_popup .action_type")
         }
 
         $(document).on('click', '.btnSpecPopup', function() {
+            SpecNewObject.action_type.val('01'); //新增action
             $(".spec_popup").bPopup({
                 modalClose: false,
                 closeClass: 'btnClose',
@@ -764,31 +767,112 @@ label { border-bottom:1px dashed #398BFD; color: #9494a3; }
         });
 
         //Add Spec ()
-        $(document).on('click', '.btnAddSpec', function() {
-            var addObject = new Object();
-            addObject.SPEC_SEQ = SpecNewObject.SPEC_SEQ.val();
-            addObject.WEIGHT = SpecNewObject.WEIGHT.val();
-            addObject.PRICE = SpecNewObject.PRICE.val();
-            addObject.PACKAGE_CODE = SpecNewObject.PACKAGE_CODE.val();
-            addObject.DELIVERY_TYPE = SpecNewObject.DELIVERY_TYPE.val();
+        $(document).on('click', '.btnSaveSpec', function() {
+            if (SpecNewObject.action_type.val() === "01") {
+                var addObject = new Object();
+                addObject.SPEC_SEQ = SpecNewObject.SPEC_SEQ.val();
+                addObject.WEIGHT = SpecNewObject.WEIGHT.val();
+                addObject.PRICE = SpecNewObject.PRICE.val();
+                addObject.PACKAGE_CODE = SpecNewObject.PACKAGE_CODE.val();
+                addObject.DELIVERY_TYPE = SpecNewObject.DELIVERY_TYPE.val();
 
-            if(addObject.WEIGHT === "" || addObject.PRICE === "") {
-                alert("输入框值不能为空");
+                if(addObject.WEIGHT === "" || addObject.PRICE === "") {
+                    swal("输入框值不能为空", "", "error");
+                    return;
+                }
+
+                var sbSpec = new StringBuffer();
+                sbSpec.append("<div class='boxSpec'>");
+                sbSpec.append("     <input type='hidden' class='SPEC_SEQ' value='' />");
+                sbSpec.append("     <button type='button' class='close' aria-label='关闭'><span aria-hidden='true'>&times;</span></button>");
+                sbSpec.append("     <h3><span class='title'>重量</span><span class='WEIGHT'>" + addObject.WEIGHT + "</span>kg</h3>");
+                sbSpec.append("     <h3><span class='title'>单价</span><span class='PRICE'>" + addObject.PRICE + "</span>元</h3>");
+                sbSpec.append("     <h3><span class='title'>打包方式</span><span class='PACKAGE_CODE'><input type='hidden' value='" + addObject.PACKAGE_CODE + "'>" + (addObject.PACKAGE_CODE === "01" ? "散装" : "整袋") + "</span></h3>");
+                sbSpec.append("     <h3><span class='title'>发货方式</span><span class='DELIVERY_TYPE'><input type='hidden' value='" + addObject.DELIVERY_TYPE + "'>" + (addObject.DELIVERY_TYPE === "01" ? "快递" : "物流") + "</span></h3>");
+                sbSpec.append("</div>");
+                $(".divSpec").append(sbSpec.toString());
+                $(".spec_popup").bPopup().close();
+            } else if (SpecNewObject.action_type.val() === "02") {
+                $(".containerTab01 .boxSpec").each(function(idx, elem){
+                    if($(elem).find('.SPEC_SEQ').val() === SpecNewObject.SPEC_SEQ.val()) {
+                        $(elem).find('.WEIGHT').text(SpecNewObject.WEIGHT.val());
+                        $(elem).find('.PRICE').text(SpecNewObject.PRICE.val());
+                        $(elem).find('.PACKAGE_CODE').text(SpecNewObject.PACKAGE_CODE.val() === "01" ? "散装" : "整袋");
+                        $(elem).find('.PACKAGE_CODE input').val(SpecNewObject.PACKAGE_CODE.val());
+                        $(elem).find('.DELIVERY_TYPE').text(SpecNewObject.DELIVERY_TYPE.val() === "01" ? "快递" : "物流");
+                        $(elem).find('.DELIVERY_TYPE input').val(SpecNewObject.DELIVERY_TYPE.val());
+                    }
+                });
+                $(".spec_popup").bPopup().close();
+            }
+
+        });
+
+        //Delete spec start
+        $(document).on('click', '.boxSpec .close', function(e){
+            e.stopPropagation();
+            var _this = $(this);
+            var params = {
+                SPEC_SEQ : _this.parent(".boxSpec").find('.SPEC_SEQ').val()
+            }
+            if(params.SPEC_SEQ == null) {
+                swal("数据错误， 请刷新页面", "", "error");
                 return;
             }
 
-            var sbSpec = new StringBuffer();
-            sbSpec.append("<div class='boxSpec'>");
-            sbSpec.append("     <input type='hidden' class='SPEC_SEQ' value='' />");
-            sbSpec.append("     <button type='button' class='close' aria-label='关闭'><span aria-hidden='true'>&times;</span></button>");
-            sbSpec.append("     <h3><span class='title'>重量</span><span class='WEIGHT'>" + addObject.WEIGHT + "</span>kg</h3>");
-            sbSpec.append("     <h3><span class='title'>单价</span><span class='PRICE'>" + addObject.PRICE + "</span>元</h3>");
-            sbSpec.append("     <h3><span class='title'>打包方式</span><span class='PACKAGE_CODE'><input type='hidden' value='" + addObject.PACKAGE_CODE + "'>" + (addObject.PACKAGE_CODE === "01" ? "散装" : "整袋") + "</span></h3>");
-            sbSpec.append("     <h3><span class='title'>发货方式</span><span class='DELIVERY_TYPE'><input type='hidden' value='" + addObject.DELIVERY_TYPE + "'>" + (addObject.DELIVERY_TYPE === "01" ? "快递" : "物流") + "</span></h3>");
-            sbSpec.append("</div>");
-            $(".divSpec").append(sbSpec.toString());
-            $(".spec_popup").bPopup().close();
+            swal({
+                title: "确定删除规格吗？",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            }).then(function(willDelete){
+                if(willDelete) {
+                    new AjaxRequest({
+                        url: '/api/product/delete/spec',
+                        contentType: 'application/json',
+                        params: JSON.stringify(params),
+                        callBack: function(res) {
+                            if(res.status === 0) {
+                                swal(res.msg, "", "success").then(function(){
+                                    window.location.reload();
+                                });
+                            } else {
+                                swal(res.msg, "", "error");
+                            }
+                        }
+                    });
+                } else {
+
+                }
+            });
+
         });
+        //Delete spec end
+
+        //Edit Spec Start
+        $(document).on('click', '.boxSpec', function() {
+            var _this = $(this);
+            var editSpecObj = new Object();
+            editSpecObj.SPEC_SEQ = SpecNewObject.SPEC_SEQ.val(_this.find('.SPEC_SEQ').val());
+            editSpecObj.WEIGHT = SpecNewObject.WEIGHT.val(_this.find('.WEIGHT').text());
+            editSpecObj.PRICE = SpecNewObject.PRICE.val(_this.find('.PRICE').text());
+            editSpecObj.PACKAGE_CODE = SpecNewObject.PACKAGE_CODE.val(_this.find('.PACKAGE_CODE input').val());
+            editSpecObj.DELIVERY_TYPE = SpecNewObject.DELIVERY_TYPE.val(_this.find('.DELIVERY_TYPE input').val());
+            SpecNewObject.action_type.val('02'); //新增action
+
+            if(editSpecObj.SPEC_SEQ == null) {
+                swal("参数错误", "", "error");
+                return;
+            }
+
+            $(".spec_popup").bPopup({
+                modalClose: false,
+                closeClass: 'btnClose',
+                onOpen: function() {
+                }
+            });
+        });
+        //Edit Spec End
 
     });
 

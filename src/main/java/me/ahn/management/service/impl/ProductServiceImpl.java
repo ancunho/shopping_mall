@@ -61,6 +61,11 @@ public class ProductServiceImpl implements ProductService {
         return sqlSession.selectList("AHNSTUDIO.product.selectTB_SPECByPRODUCT_SEQ", tbProduct);
     }
 
+    @Transactional
+    public void deleteTB_SPECByPk(TB_SPEC tbSpec) throws Exception {
+        sqlSession.delete("AHNSTUDIO.product.deleteTB_SPECByPk", tbSpec);
+    }
+
 
     /*********************************************
      * Wechat

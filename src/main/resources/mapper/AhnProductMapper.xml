@@ -374,5 +374,11 @@
         ]]>
     </select>
 
+    <delete id="deleteTB_SPECByPk" parameterType="TB_SPEC">
+        <![CDATA[
+        DELETE FROM TB_SPEC WHERE SPEC_SEQ = #{SPEC_SEQ}
+        ]]>
+    </delete>
+
 
 </mapper>
