@@ -24,6 +24,17 @@
         ]]>
     </select>
 
+    <select id="dashboard_info" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+        <![CDATA[
+        SELECT	(SELECT COUNT(1) FROM TB_USER_INFO) AS TOTAL_CUSTOMER
+                 ,(SELECT COUNT(1) FROM TB_PRODUCT WHERE ATTRIBUTE = '01') AS TOTAL_COFFEE
+                 ,(SELECT COUNT(1) FROM TB_PRODUCT WHERE ATTRIBUTE = '02') AS TOTAL_SERVICE
+                 ,(SELECT COUNT(1) FROM TB_ORDER WHERE STATUS = 20) AS TOTAL_UNPROCESS_ORDER
+                 ,(SELECT SUM(PAYMENT) FROM TB_ORDER WHERE STATUS > 10) AS TOTAL_PAYMENT
+                 ,'23,345' AS TOTAL_WEIGHT
+        ]]>
+    </select>
+
 
 
 

@@ -32,9 +32,10 @@ public class PageURLController {
 
     @UserLoginToken
     @RequestMapping(value = PageConstants.URL_BACKEND_HOME)
-    public String to_backend_home(HttpSession session) {
+    public String to_backend_home(HttpSession session, Model model) {
         TB_USER_INFO currentUser = (TB_USER_INFO) session.getAttribute("currentUser");
         if (currentUser != null) {
+            model.addAttribute("activeURL", PageConstants.TEMPLATE_BACKEND_HOME);
             return PageConstants.TEMPLATE_BACKEND_HOME;
         } else {
             return "redirect:" + PageConstants.URL_BACKEND_LOGIN;

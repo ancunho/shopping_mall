@@ -5,7 +5,7 @@
         .navbar-light .navbar-nav .nav-link { transition: color 0.5s; }
         .navbar-light .navbar-nav .nav-link:hover { color:#0C0C0C; }
     </style>
-    <div class="container header_container">
+    <div class="container header_container" style="box-shadow: 0 0.2em 0.2em rgba(0,0,0,0.1)">
         <header>
             <nav class="navbar navbar-expand navbar-light">
                 <a class="navbar-brand" href="#">Stronghold China</a>
@@ -15,7 +15,7 @@
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav mr-auto">
-                        <li class="nav-item" th:class="${activeURL == '/backend/home' ? 'nav-item active' : 'nav-item'}">
+                        <li class="nav-item" th:class="${activeURL == '/backend/Dashboard' ? 'nav-item active' : 'nav-item'}">
                             <a class="nav-link" href="/" th:href="@{/backend/home}">Dashboard <span class="sr-only">(current)</span></a>
                         </li>
                         <li class="nav-item" th:class="${activeURL == '/backend/user/list' ? 'nav-item active' : 'nav-item'}">
@@ -48,7 +48,7 @@
 <!--                        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">-->
 <!--                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>-->
                         <ul class="navbar-nav mr-auto">
-                            <li class="nav-item">
+                            <li class="nav-item" style="border-bottom:2px solid #fff;">
                                 <a class="nav-link btnLogout" href="#this">退出</a>
                             </li>
                         </ul>

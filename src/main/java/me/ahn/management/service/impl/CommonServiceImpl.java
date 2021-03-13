@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Service
@@ -22,5 +23,9 @@ public class CommonServiceImpl implements CommonService {
 
     public List<TB_COMMON_CODE> selectTB_COMMON_CODEByOPTION01(TB_COMMON_CODE tbCommonCode) {
         return sqlSession.selectList("AHNSTUDIO.common.selectTB_COMMON_CODEByOPTION01", tbCommonCode);
+    }
+
+    public Map<String, Object> dashbaord_info(Map<String, Object> paramsMap) throws Exception {
+        return sqlSession.selectOne("AHNSTUDIO.common.dashboard_info", paramsMap);
     }
 }

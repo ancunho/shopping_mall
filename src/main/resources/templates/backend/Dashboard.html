@@ -1,18 +1,64 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="https://www.thymeleaf.org">
 <div th:replace="backend/include/top::head_meta"></div>
-<title>headerererer</title>
-
+<title>Dahsboard - Stronghold</title>
+<style>
+    .dashboard-info {display:flex;}
+    .dashboard-info div.dashboard-info-box { text-align: center; border-radius:30px; background:#fafafa; margin:0 10px; padding:10px 0; width:13.55555555%; border:1px solid #fafafa;}
+    .dashboard-info div.dashboard-info-box:hover { transition: 0.2s; border:1px solid #eee; box-shadow: 0 0.1em 0.6em rgba(0,0,0,0.2); }
+    .dashboard-info div.dashboard-info-box i.bi { font-size:45px; color:#495057}
+    .dashboard-info div.dashboard-info-box .dashboard-info-box-title { line-height: 1.5em; font-size:0.825rem; color:#6c757d;}
+    .dashboard-info div.dashboard-info-box .dashboard-info-box-txt { font-weight: bold; font-size:1.5rem; color:#495057}
+</style>
 <body>
 <div id="wrap">
     <!--  Header Start  -->
     <div th:replace="backend/include/header::header_html"></div>
     <!--  //Header End  -->
     <!-- Contents Start   -->
-    <div class="container" id="con">
-        <h2>Dashboard</h2>
-        <div class="contents">
-            asdf
+    <div class="container container-lg container-md con" style="">
+        <div class="conTop">
+            <h2>Dashboard</h2>
+        </div>
+        <div class="contents" style="padding:30px 0;">
+            <div class="row dashboard-info d-flex justify-content-center">
+                <!-- 客户数量-->
+                <div class="dashboard-info-box">
+                    <p><i class="bi bi-people" style=""></i></p>
+                    <p class="dashboard-info-box-title">客户数量</p>
+                    <p class="dashboard-info-box-txt TOTAL_CUSTOMER">-</p>
+                </div>
+                <!-- 咖啡商品数量-->
+                <div class="dashboard-info-box">
+                    <p><i class="bi bi-droplet" style=""></i></p>
+                    <p class="dashboard-info-box-title">咖啡类商品</p>
+                    <p class="dashboard-info-box-txt TOTAL_COFFEE">-</p>
+                </div>
+                <!-- 售后服务商品数量-->
+                <div class="dashboard-info-box">
+                    <p><i class="bi bi-wrench" style=""></i></p>
+                    <p class="dashboard-info-box-title">售后服务类商品</p>
+                    <p class="dashboard-info-box-txt TOTAL_SERVICE">-</p>
+                </div>
+                <!-- 未处理订单 (总订单数)-->
+                <div class="dashboard-info-box">
+                    <p><i class="bi bi-cart-dash" style=""></i></p>
+                    <p class="dashboard-info-box-title">未处理订单</p>
+                    <p class="dashboard-info-box-txt TOTAL_UNPROCESS_ORDER">-</p>
+                </div>
+                <!-- 总收入-->
+                <div class="dashboard-info-box">
+                    <p><i class="bi bi-briefcase" style=""></i></p>
+                    <p class="dashboard-info-box-title">总收入</p>
+                    <p class="dashboard-info-box-txt TOTAL_PAYMENT">-</p>
+                </div>
+                <!-- 总销售公斤量-->
+                <div class="dashboard-info-box">
+                    <p><i class="bi bi-trash" style=""></i></p>
+                    <p class="dashboard-info-box-title">总销售公斤量</p>
+                    <p class="dashboard-info-box-txt TOTAL_WEIGHT">-</p>
+                </div>
+            </div>
         </div>
     </div>
     <!-- //Contents End   -->
@@ -20,5 +66,34 @@
 <div th:replace="backend/include/popup::popup"></div>
 <div th:replace="backend/include/bottom::scripts"></div>
 <script th:src="@{/static/_scripts/echarts.min.js}" type="text/javascript"></script>
+<script type="text/javascript">
+    $(document).ready(function(){
+        var lfn_dashboard_info = function(){
+            var params = {
+
+            }
+            new AjaxRequest({
+                url: '/api/common/dashboard_info',
+                async: false,
+                params: params,
+                callBack: function(res) {
+                    if(res.status === 0) {
+                        var DashboardInfoBox = $(".dashboard-info-box");
+                        DashboardInfoBox.find(".TOTAL_CUSTOMER").text(res.data.TOTAL_CUSTOMER);
+                        DashboardInfoBox.find(".TOTAL_COFFEE").text(res.data.TOTAL_COFFEE);
+                        DashboardInfoBox.find(".TOTAL_SERVICE").text(res.data.TOTAL_SERVICE);
+                        DashboardInfoBox.find(".TOTAL_UNPROCESS_ORDER").text(res.data.TOTAL_UNPROCESS_ORDER);
+                        DashboardInfoBox.find(".TOTAL_PAYMENT").text(res.data.TOTAL_PAYMENT);
+                        DashboardInfoBox.find(".TOTAL_WEIGHT").text(res.data.TOTAL_WEIGHT);
+                    } else {
+                        swal(res.msg, "", "error");
+                    }
+                }
+            })
+        }
+
+        lfn_dashboard_info();
+    });
+</script>
 </body>
 </html>

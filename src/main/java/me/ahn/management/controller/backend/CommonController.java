@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import me.ahn.management.annotation.PassToken;
+import me.ahn.management.annotation.UserLoginToken;
 import me.ahn.management.common.Const;
 import me.ahn.management.common.ServerResponse;
 import me.ahn.management.model.TB_COMMON_CODE;
@@ -11,12 +12,15 @@ import me.ahn.management.service.CommonService;
 import me.ahn.management.util.Box;
 import me.ahn.management.util.HttpUtility;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Getter
@@ -54,6 +58,22 @@ public class CommonController {
         try {
             List<TB_COMMON_CODE> lstTB_COMMON_CODE = commonService.selectTB_COMMON_CODEByOPTION01(tbCommonCode);
             return ServerResponse.createBySuccess(lstTB_COMMON_CODE);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ServerResponse.createByErrorMessage(Const.Message.SELECT_ERROR);
+        }
+    }
+
+    @UserLoginToken
+    @RequestMapping(value = "dashboard_info", method = RequestMethod.POST)
+    public ServerResponse dashboard_info(HttpServletRequest request, Model model) {
+        Box box = HttpUtility.getBox(request);
+        Map<String, Object> params = new HashMap<>();
+        box.copyToEntityMap(params);
+
+        try {
+            Map<String, Object> dashboardInfoResult = commonService.dashbaord_info(params);
+            return ServerResponse.createBySuccess(dashboardInfoResult);
         } catch (Exception e) {
             e.printStackTrace();
             return ServerResponse.createByErrorMessage(Const.Message.SELECT_ERROR);
